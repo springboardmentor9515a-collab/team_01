@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'  // <-- make sure this is here
 import civixLogo from './assets/Civix Technology Consultancy Logo.png'
+import { BrowserRouter } from 'react-router-dom'
 
 // Set favicon to CIVIX logo
 (() => {
@@ -22,6 +23,8 @@ import civixLogo from './assets/Civix Technology Consultancy Logo.png'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
 )

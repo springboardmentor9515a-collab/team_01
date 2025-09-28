@@ -1,14 +1,15 @@
 import { useState, useRef } from 'react';
-import communityImg from "./assets/community2-removebg-preview.png";
-import twitterIcon from "./assets/twitter.svg";
-import googleIcon from "./assets/google.svg";
-import facebookIcon from "./assets/facebook.svg";
-import eyeOpenIcon from "./assets/eye-open.svg";
-import eyeClosedIcon from "./assets/eye-closed.svg";
-import mailIcon from "./assets/mail.svg";
-import civixLogo from "./assets/civix-logo.png";
+import { Link } from 'react-router-dom';
+import communityImg from "../assets/community2-removebg-preview.png";
+import twitterIcon from "../assets/twitter.svg";
+import googleIcon from "../assets/google.svg";
+import facebookIcon from "../assets/facebook.svg";
+import eyeOpenIcon from "../assets/eye-open.svg";
+import eyeClosedIcon from "../assets/eye-closed.svg";
+import mailIcon from "../assets/mail.svg";
+import civixLogo from "../assets/civix-logo.png";
 
-export default function App() {
+export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const emailInputRef = useRef(null);
   return (
@@ -156,7 +157,7 @@ export default function App() {
       {/* Log-in button */}
       <button
         type="button"
-        className="absolute left-[826px] top-[579px] w-[167px] h-[52px] rounded-[30px] bg-[#2B4D4A] flex items-center justify-center"
+        className="absolute left-[826px] top-[579px] w-[167px] h-[52px] rounded-[30px] bg-[#407470] flex items-center justify-center"
         style={{ fontFamily: '"Jacques Francois", serif' }}
         onClick={() => alert('Log-in clicked')}
       >
@@ -194,20 +195,19 @@ export default function App() {
         <img src={twitterIcon} alt="Twitter" className="w-[24px] h-[24px]" />
       </button>
 
-      {/* New to CIVIX? Create an Account (single line; only 'Create an Account' is a link) */}
+      {/* New to CIVIX? Create an Account */}
       <div
         className="absolute left-[775px] top-[761px] h-[20px] flex items-center justify-center whitespace-nowrap"
         style={{ fontFamily: '"Protest Strike", sans-serif' }}
       >
         <span className="text-[17px] leading-[19px] text-black">New to CIVIX?&nbsp;</span>
-        <a
-          href="#"
-          className="text-[17px] leading-[19px] text-[#2B4D4A] hover:text-[#2B4D4A] focus:text-[#2B4D4A] underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-[#2B4D4A] cursor-pointer"
+        <Link
+          to="/signup"
+          className="text-[17px] leading-[19px] text-[#2B4D4A] underline focus:outline-none focus:ring-2 focus:ring-[#2B4D4A]"
           aria-label="Create an Account"
-          onClick={(e) => { e.preventDefault(); console.log('Create an Account link clicked'); }}
         >
           Create an Account
-        </a>
+        </Link>
       </div>
 
       {/* Decorative ellipses */}
