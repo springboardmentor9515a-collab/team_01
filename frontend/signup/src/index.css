@@ -1,0 +1,20 @@
+/* Import Google Fonts first */
+@import url('https://fonts.googleapis.com/css2?family=Jacques+Francois&family=Perpetua:wght@400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #ffffff;
+  font-family: 'Perpetua', serif;
+}
