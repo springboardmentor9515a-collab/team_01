@@ -2,24 +2,26 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 
-// GET /api/users - Get all users
+// GET /civix/users - Get all users
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find().select('-password');
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// POST /api/users - Create new user
-router.post('/', async (req, res) => {
+// GET /civix/users/:id - Get user by ID
+router.get('/:id', async (req, res) => {
   try {
-    const user = new User(req.body);
-    await user.save();
-    res.status(201).json(user);
+    const user = await User.findById(req.params.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(user);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 

@@ -1,10 +1,15 @@
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Login from './pages/Login.jsx';
+import SignUp from './pages/SignUp.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+
 export default function App() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <h1 className="text-5xl font-bold text-blue-600">Hello React + Vite + Tailwind 🚀</h1>
-      <button className="mt-6 px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600">
-        Click Me
-      </button>
-    </div>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
   );
 }

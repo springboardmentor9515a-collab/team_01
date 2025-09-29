@@ -12,7 +12,9 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use('/api/users', require('./routes/users'));
+app.use('/civix/auth', require('./routes/auth'));//For Authentication
+
+app.use('/civix/users', require('./routes/users'));//For Users Info
 
 
 
