@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node index.js",
+    "dev:both": "concurrently \"npm run dev\" \"cd ../frontend && npm run dev\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -18,5 +19,8 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }
