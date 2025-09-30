@@ -14,8 +14,6 @@ app.get("/", (req, res) => {
 // Routes
 app.use('/civix/auth', require('./routes/auth'));//For Authentication
 
-app.use('/civix/users', require('./routes/users'));//For Users Info
-
 
 
 // For the database Connection -  @thesushpatil
@@ -24,10 +22,10 @@ const connectDB = require('./config/database');
 const User = require('./models/User');
 
 // Connect to MongoDB
-
-connectDB();
-
-
+connectDB().catch(err => {
+  console.error('Database connection failed:', err);
+  process.exit(1);
+});
 
 
 
