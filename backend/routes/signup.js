@@ -6,11 +6,15 @@ const User = require('../models/User');
 // POST /civix/auth/signup - User signup
 router.post('/', async (req, res) => {
   try {
-    const { name, email, password, location } = req.body;
+    const { name, email, password, location, role } = req.body;
     
     // Input validation
-    if (!name || !email || !password) {
-      return res.status(400).json({ error: 'Name, email, and password are required' });
+    if (!name || !email || !password || !role) {
+      return res.status(400).json({ error: 'Name, email, password, and role are required' });
+    }
+    
+    if (!['citizen', 'official'].includes(role)) {
+      return res.status(400).json({ error: 'Role must be either "citizen" or "official"' });
     }
     
     if (typeof email !== 'string' || typeof password !== 'string') {
@@ -29,7 +33,7 @@ router.post('/', async (req, res) => {
       email,
       password: hashedPassword,
       location,
-      role: 'citizen'
+      role
     });
     
     await user.save();
