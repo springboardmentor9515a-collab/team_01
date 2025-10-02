@@ -3,36 +3,20 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const User = require('../models/User');
+const { loginValidation, handleValidationErrors } = require('../middleware/validation');
+const { authLimiter } = require('../middleware/rateLimiter');
 
 // POST /civix/auth/login - User login
-router.post('/', async (req, res) => {
+router.post('/', authLimiter, loginValidation, handleValidationErrors, async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password } = req.body;
     
-    // Input validation
-    if (!email || !password || !role) {
-      return res.status(400).json({ error: 'Email, password, and role are required' });
-    }
-    
-    if (!['citizen', 'official'].includes(role)) {
-      return res.status(400).json({ error: 'Role must be either "citizen" or "official"' });
-    }
-    
-    if (typeof email !== 'string' || typeof password !== 'string') {
-      return res.status(400).json({ error: 'Invalid input format' });
-    }
-    
-    const user = await User.findOne({ email: String(email) });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ error: 'Invalid credentials' });
     }
     
-    console.log('User from DB:', { email: user.email, role: user.role, requestedRole: role });
-    
-    // Check if user role matches requested role
-    if (user.role !== role) {
-      return res.status(400).json({ error: 'Invalid credentials for this role' });
-    }
+
     
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
@@ -44,9 +28,9 @@ router.post('/', async (req, res) => {
     }
     
     const token = jwt.sign(
-      { userId: user._id, email: user.email, role: user.role },
+      { userId: user._id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: '24h' }
+      { expiresIn: '2h' }
     );
     
     const { password: _, ...userResponse } = user.toObject();

@@ -2,26 +2,16 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
 const User = require('../models/User');
+const { signupValidation, handleValidationErrors } = require('../middleware/validation');
+const { authLimiter } = require('../middleware/rateLimiter');
+const { validateLocation } = require('../middleware/locationValidator');
 
 // POST /civix/auth/signup - User signup
-router.post('/', async (req, res) => {
+router.post('/', authLimiter, signupValidation, handleValidationErrors, validateLocation, async (req, res) => {
   try {
-    const { name, email, password, location, role } = req.body;
+    const { name, email, password, location } = req.body;
     
-    // Input validation
-    if (!name || !email || !password || !role) {
-      return res.status(400).json({ error: 'Name, email, password, and role are required' });
-    }
-    
-    if (!['citizen', 'official'].includes(role)) {
-      return res.status(400).json({ error: 'Role must be either "citizen" or "official"' });
-    }
-    
-    if (typeof email !== 'string' || typeof password !== 'string') {
-      return res.status(400).json({ error: 'Invalid input format' });
-    }
-    
-    const existingUser = await User.findOne({ email: String(email) });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: 'User already exists with this email' });
     }
@@ -33,7 +23,7 @@ router.post('/', async (req, res) => {
       email,
       password: hashedPassword,
       location,
-      role
+      role: 'citizen'
     });
     
     await user.save();
