@@ -11,6 +11,25 @@ app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
 
+// Routes
+app.use('/civix/auth', require('./routes/auth'));//For Authentication
+
+
+
+// For the database Connection -  @thesushpatil
+
+const connectDB = require('./config/database');
+const User = require('./models/User');
+
+// Connect to MongoDB
+connectDB().catch(err => {
+  console.error('Database connection failed:', err);
+  process.exit(1);
+});
+
+
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
