@@ -16,7 +16,7 @@ export default function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} /> {/* ✅ route */}
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
-<ResetPassword/>
+
   </div>
   );
 }
