@@ -1,10 +1,14 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+
 const handleResponse = async (response) => {
+  const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || 'Something went wrong');
+    const err = new Error(data.message || data.error || 'Something went wrong');
+    // attach validation details if present
+    if (data.details) err.details = data.details;
+    throw err;
   }
-  return response.json();
+  return data;
 };
 
 // The backend in this repo mounts the auth routes under /civix/auth
@@ -14,7 +18,7 @@ export const signupUser = async (userData) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData),
   });
-  return response.json();
+  return handleResponse(response);
 };
 
 export const loginUser = async (credentials) => {
@@ -23,7 +27,7 @@ export const loginUser = async (credentials) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials),
   });
-  return response.json();
+  return handleResponse(response);
 };
 
 export default { signupUser, loginUser };

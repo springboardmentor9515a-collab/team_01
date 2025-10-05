@@ -50,12 +50,15 @@ export default function SignUp() {
 
     setLoading(true);
     try {
-      // Build payload matching backend expected shape
+      // Build payload matching backend expected shape (include optional fields)
       const payload = {
         name: formData.name,
         email: formData.email,
         password: formData.password,
       };
+      if (formData.location) payload.location = formData.location;
+      if (formData.role) payload.role = formData.role;
+
       const data = await signupUser(payload);
       if (data && (data.message || data.user)) {
         setMessage(data.message || 'Account created successfully!');
@@ -64,7 +67,12 @@ export default function SignUp() {
         setMessage(data.error || 'Signup failed');
       }
     } catch (error) {
-      setMessage('Network error. Please try again.');
+      // If validation details are present, show the first message
+      if (error.details && Array.isArray(error.details) && error.details.length > 0) {
+        setMessage(error.details.map(d => d.msg).join(', '));
+      } else {
+        setMessage(error.message || 'Network error. Please try again.');
+      }
       console.error(error);
     } finally {
       setLoading(false);
