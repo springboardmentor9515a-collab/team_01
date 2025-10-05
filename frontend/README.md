@@ -1,16 +1,105 @@
-# React + Vite
+# Sign-Up Form with Tailwind CSS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive sign-up form built with React and Tailwind CSS, converted from vanilla HTML/CSS/JavaScript.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ✨ **Modern Design**: Beautiful UI with custom colors and typography
+- 🔒 **Password Visibility Toggle**: Click eye icons to show/hide passwords
+- 📍 **Location Picker**: Interactive location icon with fallback handling
+- 🔗 **Social Login**: Google, Facebook, and Twitter integration buttons
+- ♿ **Accessible**: Full keyboard navigation and ARIA labels
+- 📱 **Responsive**: Built with Tailwind CSS for consistent styling
+- 🎨 **Custom Styling**: Custom color palette and typography
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
 
-## Expanding the ESLint configuration
+- Node.js (version 14 or higher)
+- npm or yarn
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Installation
+
+1. Clone or download this project
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
+
+```bash
+npm run dev
+```
+
+4. Open your browser and navigate to `http://localhost:5173`
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+## Project Structure
+
+```
+├── src/
+│   ├── SignUp.jsx          # Main React component
+│   ├── main.jsx           # React entry point
+│   └── index.css          # Tailwind CSS imports
+├── tailwind.config.js     # Tailwind configuration
+├── postcss.config.js      # PostCSS configuration
+├── vite.config.js         # Vite configuration
+└── package.json           # Dependencies and scripts
+```
+
+## Key Features Implemented
+
+### Password Visibility Toggle
+- Click the eye icons to toggle password visibility
+- Supports both password and confirm password fields
+- Automatic icon switching (open/closed eye)
+- Keyboard accessible (Enter/Space keys)
+
+### Interactive Elements
+- **Sign-Up Button**: Click to submit form
+- **Log-in Link**: Navigate to login page
+- **Location Icon**: Click to open location picker
+- **Social Buttons**: Google, Facebook, Twitter login
+
+### Image Fallback System
+- Automatic fallback for location icon
+- SVG fallback if no images are found
+- Graceful degradation for missing assets
+
+## Customization
+
+### Colors
+The design uses a custom color palette defined in `tailwind.config.js`:
+- `civix-primary`: #2B4D4A
+- `civix-secondary`: #64B3AD
+- `civix-accent`: #407470
+- `civix-light`: #D7E9ED
+- `civix-bg-light`: #CBDEEC
+
+### Typography
+Custom fonts are configured:
+- **Perpetua**: Main body text
+- **Jacques Francois**: Headings and buttons
+- **Copperplate Gothic Light**: Alternative sign-in text
+
+### Sizing
+All dimensions are preserved from the original design using custom Tailwind utilities.
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## License
+
+This project is open source and available under the MIT License.
