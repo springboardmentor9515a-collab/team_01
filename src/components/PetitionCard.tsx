@@ -23,13 +23,7 @@ const PetitionCard = ({
 }: PetitionCardProps) => {
   const getCategoryColor = (cat: string) => {
     const colors: Record<string, string> = {
-      Environment: "bg-success/10 text-success hover:bg-success/20",
-      Infrastructure: "bg-warning/10 text-warning hover:bg-warning/20",
-      Education: "bg-info/10 text-info hover:bg-info/20",
-      "Public Safety": "bg-destructive/10 text-destructive hover:bg-destructive/20",
-      Transportation: "bg-primary/10 text-primary hover:bg-primary/20",
-      Healthcare: "bg-accent/10 text-accent hover:bg-accent/20",
-      Housing: "bg-secondary hover:bg-secondary/80",
+      
     };
     return colors[cat] || "bg-secondary";
   };

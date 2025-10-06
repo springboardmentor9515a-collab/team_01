@@ -10,6 +10,7 @@ import {
   Home
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import civixLogo from "@/assets/civix-logo.png";
 
 interface LayoutProps {
   children: ReactNode;
@@ -24,7 +25,6 @@ const Layout = ({ children, userType }: LayoutProps) => {
     { icon: LayoutDashboard, label: "Dashboard", path: "/citizen" },
     { icon: FileText, label: "Petitions", path: "/petitions" },
     { icon: BarChart3, label: "Polls", path: "/polls" },
-    { icon: Users, label: "Officials", path: "/officials" },
     { icon: TrendingUp, label: "Reports", path: "/reports" },
     { icon: Settings, label: "Settings", path: "/settings" },
   ];
@@ -42,18 +42,26 @@ const Layout = ({ children, userType }: LayoutProps) => {
   const navItems = userType === "official" ? officialNavItems : citizenNavItems;
 
   return (
-    <div className="flex min-h-screen w-full">
+    <div 
+      className="flex min-h-screen w-full 
+      bg-gradient-to-br from-[#E3F2F9] via-[#F0F7F4] to-[#DCEEF4]"
+    >
       {/* Sidebar */}
-      <aside className="w-64 bg-card border-r border-border flex flex-col">
-        <div className="p-6 border-b border-border">
-          <h1 className="text-2xl font-bold gradient-primary bg-clip-text text-transparent">
-            CivicHub
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col shadow-md">
+        
+        {/* Logo Section */}
+        <div className="p-6 border-b border-gray-200 flex flex-col items-center">
+          <img 
+            src={civixLogo} 
+            alt="Civix Logo" 
+            className="h-20 w-auto mb-3 object-contain drop-shadow-md"
+          />
+          <p className="text-sm font-semibold text-[#0F4C5C] tracking-wide">
             {userType === "official" ? "Official Portal" : "Citizen Portal"}
           </p>
         </div>
 
+        {/* Navigation */}
         <nav className="flex-1 p-4 space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -63,29 +71,30 @@ const Layout = ({ children, userType }: LayoutProps) => {
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200",
+                  "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 font-medium",
                   isActive
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "text-foreground hover:bg-secondary"
+                    ? "bg-[#0F4C5C] text-white shadow-md"
+                    : "text-[#0F4C5C] hover:bg-[#DCEEF4] hover:text-[#0F4C5C] hover:shadow-sm"
                 )}
               >
-                <Icon className="w-5 h-5" />
-                <span className="font-medium">{item.label}</span>
+                <Icon className="w-5 h-5 shrink-0" />
+                <span>{item.label}</span>
               </Link>
             );
           })}
         </nav>
 
-        <div className="p-4 border-t border-border">
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary">
-            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold">
+        {/* User Info */}
+        <div className="p-4 border-t border-gray-200">
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-[#E3F2F9] hover:bg-[#DCEEF4] transition">
+            <div className="w-10 h-10 rounded-full bg-[#0F4C5C] flex items-center justify-center text-white font-semibold shadow">
               {userType === "official" ? "A" : "J"}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-sm truncate">
+              <p className="font-semibold text-sm truncate text-[#0F4C5C]">
                 {userType === "official" ? "Admin User" : "John Doe"}
               </p>
-              <p className="text-xs text-muted-foreground truncate">
+              <p className="text-xs text-gray-500 truncate">
                 {userType === "official" ? "City Official" : "Verified Citizen"}
               </p>
             </div>
