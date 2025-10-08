@@ -43,7 +43,7 @@ export const loginUser = async (credentials) => {
 };
 
 export const forgotPassword = async (email) => {
-  return apiCall('/api/auth/forgot-password', {
+  return apiCall('/civix/auth/forgot-password', {
     method: 'POST',
     body: JSON.stringify({ email }),
   });
