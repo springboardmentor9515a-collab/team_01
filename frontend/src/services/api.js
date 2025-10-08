@@ -1,33 +1,64 @@
+// API Service Layer - Centralized API calls
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
+// Enhanced response handler with better error handling
 const handleResponse = async (response) => {
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    const err = new Error(data.message || data.error || 'Something went wrong');
-    // attach validation details if present
+    const err = new Error(data.message || data.error || `HTTP error! status: ${response.status}`);
     if (data.details) err.details = data.details;
     throw err;
   }
   return data;
 };
 
-// The backend in this repo mounts the auth routes under /civix/auth
+// Helper function for API calls
+const apiCall = async (endpoint, options = {}) => {
+  const url = `${API_BASE_URL}${endpoint}`;
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+    ...options,
+  };
+
+  const response = await fetch(url, config);
+  return handleResponse(response);
+};
+
+// Authentication API calls - using existing backend routes
 export const signupUser = async (userData) => {
-  const response = await fetch(`${API_BASE_URL}/civix/auth/signup`, {
+  return apiCall('/civix/auth/signup', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData),
   });
-  return handleResponse(response);
 };
 
 export const loginUser = async (credentials) => {
-  const response = await fetch(`${API_BASE_URL}/civix/auth/login`, {
+  return apiCall('/civix/auth/login', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials),
   });
-  return handleResponse(response);
 };
 
-export default { signupUser, loginUser };
+export const forgotPassword = async (email) => {
+  return apiCall('/api/auth/forgot-password', {
+    method: 'POST',
+    body: JSON.stringify({ email }),
+  });
+};
+
+// Add token to requests (for protected routes)
+export const apiCallWithAuth = async (endpoint, options = {}) => {
+  const token = localStorage.getItem('token');
+  return apiCall(endpoint, {
+    ...options,
+    headers: {
+      ...options.headers,
+      Authorization: token ? `Bearer ${token}` : '',
+    },
+  });
+};
+
+export default { signupUser, loginUser, forgotPassword, apiCallWithAuth };
