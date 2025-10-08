@@ -24,7 +24,8 @@ const userSchema = new mongoose.Schema({
   },
   location: {
     type: String,
-    maxlength: 100
+    maxlength: 100,
+    required:true
   },
   verifiedLocation: {
     latitude: {

@@ -9,7 +9,12 @@ const { validateLocation } = require('../middleware/locationValidator');
 // POST /civix/auth/signup - User signup
 router.post('/', authLimiter, signupValidation, handleValidationErrors, validateLocation, async (req, res) => {
   try {
-    const { name, email, password, location } = req.body;
+    const { name, email, password, location, role } = req.body;
+    
+    // Validate role if provided
+    if (role && !['citizen', 'official'].includes(role)) {
+      return res.status(400).json({ error: 'Invalid role. Must be citizen or official' });
+    }
     
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -23,7 +28,7 @@ router.post('/', authLimiter, signupValidation, handleValidationErrors, validate
       email,
       password: hashedPassword,
       location,
-      role: 'citizen'
+      role: role || 'citizen'
     });
     
     await user.save();
