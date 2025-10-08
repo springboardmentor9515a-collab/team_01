@@ -1,0 +1,104 @@
+.login-root { position: relative; width: 1350px; height: 1024px; background: #D7E9ED; border-radius: 30px; overflow: hidden; margin: 1rem auto; }
+.ellipse1 { position: absolute; width: 1463px; height: 1294px; left: 555px; top: -307px; background: #CBDEEC; border-radius: 9999px; }
+.rectangle1 { position: absolute; width: 97px; height: 514px; left: 1280px; top: 0; }
+.rectangle2 { position: absolute; width: 97px; height: 514px; left: 1280px; top: 514px; }
+.ellipse4 { position: absolute; width: 163px; height: 156px; left: 46px; top: 423px; border-radius: 9999px; }
+.main-panel { position: absolute; left: 136px; top: 148px; width: 1088px; height: 702px; background: #D9D9D9; opacity: 0.6; border: 1px solid #407470; border-radius: 40px; }
+.civix-logo { position: absolute; width: 450px; height: 450px; left: -119px; top: -176px; z-index: 50; pointer-events: none; }
+.community-img { position: absolute; left: 128px; top: 286px; width: 576px; height: 383px; }
+.welcome-back { position: absolute; left: 618px; top: 192px; width: 168px; height: 25px; display: flex; align-items: center; justify-content: center; }
+.welcome-back-text { font-size: 25px; line-height: 25px; color: #000; }
+.subheading { position: absolute; left: 459px; top: 217px; width: 487px; height: 12px; display: flex; align-items: center; justify-content: center; }
+.subheading-text { font-size: 14px; line-height: 17px; color: #000; }
+.login-title { position: absolute; left: 865px; top: 279px; width: 81px; height: 33px; display: flex; align-items: center; justify-content: center; }
+.login-title-text { font-size: 25px; line-height: 33px; color: #000; }
+/* Fields */
+.login-field {
+  position: absolute;
+  width: 459px;
+  height: 63px;
+}
+.login-field-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  background-color: rgba(43,108,99,0.1);
+}
+.login-field-icon {
+  position: absolute;
+  left: 415px;
+  top: 20px;
+  width: 24px;
+  object-fit: contain;
+}
+.login-field-eye {
+  position: absolute;
+  left: 415px;
+  top: 20px;
+  width: 24px;
+  cursor: pointer;
+}
+.login-input {
+  position: absolute;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #000;
+  font-family: 'Phetsarath OT', 'Phetsarath', sans-serif;
+}
+
+/* Override browser autofill styles */
+.login-input:-webkit-autofill,
+.login-input:-webkit-autofill:hover,
+.login-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #000;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(43, 108, 99, 0) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.login-field-email { left: 680px; top: 340px; }
+.login-field-email .login-input { left: 20px; top: 16px; width: 370px; }
+.login-field-password { left: 680px; top: 451px; }
+.login-field-password .login-input { left: 20px; top: 16px; width: 370px; }
+.forgot-password-link { position: absolute; left: 1013px; top: 542px; display: inline-flex; align-items: center; justify-content: center; color: #000; cursor: pointer; text-decoration: none; }
+.forgot-password-link:hover { text-decoration: underline; }
+.forgot-password-text { font-size: 12px; line-height: 13px; color: #000; }
+.message-display { position: absolute; left: 680px; top: 550px; width: 459px; height: 20px; display: flex; align-items: center; justify-content: center; text-align: center; }
+.login-btn { position: absolute; left: 826px; top: 579px; width: 167px; height: 52px; border-radius: 30px; background: #407470; display: flex; align-items: center; justify-content: center; }
+.login-btn-text { font-size: 20px; line-height: 26px; color: #D7E9ED; }
+.divider { position: absolute; left: 688px; top: 643px; width: 452px; border: 1px solid #000; }
+.alternative-login { position: absolute; left: 775px; top: 660px; width: 280px; height: 20px; display: flex; align-items: center; justify-content: center; }
+.alternative-login-text { font-size: 12px; line-height: 13px; color: #000; font-family: 'Copperplate Gothic Light', serif; }
+.social-btn { 
+  position: absolute; 
+  width: 120px; 
+  height: 41px; 
+  border-radius: 20px; 
+  background: rgba(43,108,99,0.1); 
+  cursor: pointer; 
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  border: none;
+  transition: background-color 0.3s;
+}
+.social-btn:hover {
+  background: rgba(43,108,99,0.2);
+}
+.google-btn { left: 704px; top: 693px; }
+.facebook-btn { left: 845px; top: 693px; }
+.twitter-btn { left: 986px; top: 693px; }
+.social-btn-img { 
+  width: 24px; 
+  height: 24px;
+  margin-right: 8px;
+}
+.social-btn-text {
+  font-family: 'Phetsarath OT', 'Phetsarath', sans-serif;
+  font-size: 14px;
+  color: #2B4D4A;
+}
+.create-account { position: absolute; left: 775px; top: 761px; height: 20px; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+.create-account-text { font-size: 17px; line-height: 19px; color: #000; }
+.create-account-link { font-size: 17px; line-height: 19px; color: #2B4D4A; text-decoration: underline; }
