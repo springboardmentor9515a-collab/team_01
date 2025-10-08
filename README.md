@@ -25,13 +25,7 @@ cd frontend
 npm install
 ```
 
-### 4. Environment Variables
-Create `.env` file in `backend/` directory:
-```
-MONGODB_URI=mongodb://localhost:27017/team01
-PORT=5000
-JWT_SECRET=your_jwt_secret_key
-```
+
 
 ## Running the Application
 
