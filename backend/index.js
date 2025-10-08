@@ -13,6 +13,8 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use('/civix/auth', require('./routes/auth'));//For Authentication
+app.use('/civix/complaints', require('./routes/complaint_route/createComplaint'));//For Creating Complaints
+app.use('/civix/complaints', require('./routes/complaint_route/getAllComplaints'));//For Admin Getting All Complaints
 
 
 
