@@ -19,7 +19,11 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
+<<<<<<< HEAD
     enum: ['citizen', 'official', 'admin', 'volunteer'],
+=======
+    enum: ['citizen', 'official'],
+>>>>>>> origin/main
     required: true
   },
   location: {
@@ -56,6 +60,7 @@ const userSchema = new mongoose.Schema({
   passwordResetExpires: {
     type: Date,
     default: null
+<<<<<<< HEAD
   },
   idVerification: {
     idNumber: {
@@ -80,6 +85,8 @@ const userSchema = new mongoose.Schema({
       enum: ['pending', 'approved', 'rejected', 'not_submitted'],
       default: 'not_submitted'
     }
+=======
+>>>>>>> origin/main
   }
 }, {
   timestamps: true // Adds createdAt and updatedAt

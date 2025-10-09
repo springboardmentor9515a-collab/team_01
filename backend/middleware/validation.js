@@ -20,12 +20,16 @@ const signupValidation = [
   body('location')
     .optional()
     .isLength({ max: 100 })
+<<<<<<< HEAD
     .withMessage('Location must not exceed 100 characters'),
   
   body('role')
     .optional()
     .isIn(['citizen', 'official'])
     .withMessage('Role must be one of: citizen, official')
+=======
+    .withMessage('Location must not exceed 100 characters')
+>>>>>>> origin/main
 ];
 
 // Validation rules for login

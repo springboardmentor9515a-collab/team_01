@@ -11,7 +11,14 @@ router.post('/', authLimiter, signupValidation, handleValidationErrors, validate
   try {
     const { name, email, password, location, role } = req.body;
     
+<<<<<<< HEAD
 
+=======
+    // Validate role if provided
+    if (role && !['citizen', 'official'].includes(role)) {
+      return res.status(400).json({ error: 'Invalid role. Must be citizen or official' });
+    }
+>>>>>>> origin/main
     
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -20,20 +27,30 @@ router.post('/', authLimiter, signupValidation, handleValidationErrors, validate
     
     const hashedPassword = await bcrypt.hash(password, 10);
     
+<<<<<<< HEAD
     const finalRole = role || 'citizen';
     
+=======
+>>>>>>> origin/main
     const user = new User({
       name,
       email,
       password: hashedPassword,
       location,
+<<<<<<< HEAD
       role: finalRole
+=======
+      role: role || 'citizen'
+>>>>>>> origin/main
     });
     
     await user.save();
     
     const { password: _, ...userResponse } = user.toObject();
+<<<<<<< HEAD
     
+=======
+>>>>>>> origin/main
     res.status(201).json({ message: 'User created successfully', user: userResponse });
   } catch (error) {
     res.status(400).json({ error: error.message });

@@ -3,10 +3,13 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
+<<<<<<< HEAD
 // Debug: Check if environment variables are loaded
 console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'Loaded' : 'Not found');
 console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Loaded' : 'Not found');
 
+=======
+>>>>>>> origin/main
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -17,6 +20,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use('/civix/auth', require('./routes/auth'));//For Authentication
+<<<<<<< HEAD
 
 try {
   const petitionRoutes = require('./routes/petitions');
@@ -69,6 +73,10 @@ try {
 }
 
 
+=======
+app.use('/civix/complaints', require('./routes/complaint_route/createComplaint'));//For Creating Complaints
+app.use('/civix/complaints', require('./routes/complaint_route/getAllComplaints'));//For Admin Getting All Complaints
+>>>>>>> origin/main
 
 
 
@@ -78,6 +86,7 @@ const connectDB = require('./config/database');
 const User = require('./models/User');
 
 // Connect to MongoDB
+<<<<<<< HEAD
 connectDB()
   .then(() => {
     console.log('✅ Database connection established');
@@ -87,6 +96,12 @@ connectDB()
     console.log('⚠️ Server will continue without database connection');
     // Don't exit, let server run without DB for debugging
   });
+=======
+connectDB().catch(err => {
+  console.error('Database connection failed:', err);
+  process.exit(1);
+});
+>>>>>>> origin/main
 
 
 

@@ -3,9 +3,14 @@ node_modules/
 npm-debug.log*
 
 # Environment variables
+<<<<<<< HEAD
 .env
 .env.local
 .env.production
+=======
+#.env
+
+>>>>>>> origin/main
 
 # Logs
 logs/

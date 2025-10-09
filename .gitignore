@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Dependencies
 node_modules/
 npm-debug.log*
@@ -33,3 +34,7 @@ Thumbs.db
 # Build files
 dist/
 build/
+=======
+node_modules/
+.idea/
+>>>>>>> origin/main
