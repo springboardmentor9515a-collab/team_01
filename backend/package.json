@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
+    "dev": "node index.js",
     "dev:both": "concurrently \"npm run dev\" \"cd ../frontend && npm run dev\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,7 +28,6 @@
     "nodemailer": "^7.0.6"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
-    "nodemon": "^3.0.2"
+    "concurrently": "^8.2.2"
   }
 }
