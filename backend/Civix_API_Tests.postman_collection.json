@@ -1,0 +1,492 @@
+{
+	"info": {
+		"_postman_id": "civix-api-collection",
+		"name": "Civix API Complete Tests",
+		"description": "Complete API testing for Civix platform - Authentication, Petitions, and Complaints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "1. Create Citizen User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Citizen\",\n  \"email\": \"citizen@civix.com\",\n  \"password\": \"citizen123456\",\n  \"location\": \"Downtown Area\",\n  \"role\": \"citizen\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/civix/auth/signup",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "auth", "signup"]
+						}
+					}
+				},
+				{
+					"name": "2. Create Admin User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Admin User\",\n  \"email\": \"admin@civix.com\",\n  \"password\": \"admin123456\",\n  \"location\": \"Admin Office\",\n  \"role\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/civix/auth/signup",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "auth", "signup"]
+						}
+					}
+				},
+				{
+					"name": "3. Create Volunteer User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Volunteer User\",\n  \"email\": \"volunteer@civix.com\",\n  \"password\": \"volunteer123456\",\n  \"location\": \"Field Office\",\n  \"role\": \"volunteer\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/civix/auth/signup",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "auth", "signup"]
+						}
+					}
+				},
+				{
+					"name": "4. Login as Citizen",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"citizen@civix.com\",\n  \"password\": \"citizen123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/civix/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "5. Login as Admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@civix.com\",\n  \"password\": \"admin123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/civix/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "6. Login as Volunteer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"volunteer@civix.com\",\n  \"password\": \"volunteer123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/civix/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "auth", "login"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Petitions",
+			"item": [
+				{
+					"name": "1. Create Petition (Citizen)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{citizenToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Fix Road Infrastructure in Downtown\",\n  \"description\": \"The roads in downtown area need urgent repair due to potholes and poor drainage system.\",\n  \"category\": \"infrastructure\",\n  \"targetSignatures\": 100,\n  \"location\": \"Downtown Area\",\n  \"expiryDate\": \"2025-12-31\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/civix/petitions",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "petitions"]
+						}
+					}
+				},
+				{
+					"name": "2. Get All Petitions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/civix/petitions",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "petitions"]
+						}
+					}
+				},
+				{
+					"name": "3. Update Petition (Citizen)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{citizenToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated: Fix Road Infrastructure in Downtown\",\n  \"description\": \"Updated description with more details about the road conditions.\",\n  \"targetSignatures\": 150\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/civix/petitions/{{petitionId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "petitions", "{{petitionId}}"]
+						}
+					}
+				},
+				{
+					"name": "4. Delete Petition (Citizen)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{citizenToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/civix/petitions/{{petitionId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "petitions", "{{petitionId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Complaints",
+			"item": [
+				{
+					"name": "1. Create Complaint (Citizen)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{citizenToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Broken Street Light on Main Road\",\n  \"description\": \"The street light near the bus stop has been broken for 2 weeks, making it unsafe for pedestrians at night.\",\n  \"category\": \"public_safety\",\n  \"location\": \"Main Road, Bus Stop Area\",\n  \"photo_url\": \"https://example.com/photo.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/civix/complaints",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "complaints"]
+						}
+					}
+				},
+				{
+					"name": "2. Create Another Complaint (Citizen)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{citizenToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Water Supply Issue in Residential Area\",\n  \"description\": \"No water supply since morning in the entire residential block. Residents are facing severe inconvenience.\",\n  \"category\": \"water_supply\",\n  \"location\": \"Residential Block A\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/civix/complaints",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "complaints"]
+						}
+					}
+				},
+				{
+					"name": "3. Get All Complaints (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/civix/complaints",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "complaints"]
+						}
+					}
+				},
+				{
+					"name": "4. Filter Complaints by Status - Received (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/civix/complaints?status=received",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "complaints"],
+							"query": [
+								{
+									"key": "status",
+									"value": "received"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "5. Filter Complaints by Category (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/civix/complaints?category=public_safety",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "complaints"],
+							"query": [
+								{
+									"key": "category",
+									"value": "public_safety"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "6. Assign Complaint to Volunteer (Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"volunteerId\": \"{{volunteerId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/civix/complaints/{{complaintId}}/assign",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "complaints", "{{complaintId}}", "assign"]
+						}
+					}
+				},
+				{
+					"name": "7. Get Assigned Complaints (Volunteer)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{volunteerToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/civix/complaints/volunteers/me/complaints",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "complaints", "volunteers", "me", "complaints"]
+						}
+					}
+				},
+				{
+					"name": "8. Update Complaint Status to Resolved (Volunteer)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{volunteerToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"resolved\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/civix/complaints/{{complaintId}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "complaints", "{{complaintId}}", "status"]
+						}
+					}
+				},
+				{
+					"name": "9. Filter Complaints by Status - Resolved (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/civix/complaints?status=resolved",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "complaints"],
+							"query": [
+								{
+									"key": "status",
+									"value": "resolved"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin Management (Testing Only)",
+			"item": [
+				{
+					"name": "List All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/civix/admin-management/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "admin-management", "users"]
+						}
+					}
+				},
+				{
+					"name": "Delete User by Email",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/civix/admin-management/delete-user/test@example.com",
+							"host": ["{{baseUrl}}"],
+							"path": ["civix", "admin-management", "delete-user", "test@example.com"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000"
+		},
+		{
+			"key": "citizenToken",
+			"value": "PASTE_CITIZEN_JWT_TOKEN_HERE"
+		},
+		{
+			"key": "adminToken",
+			"value": "PASTE_ADMIN_JWT_TOKEN_HERE"
+		},
+		{
+			"key": "volunteerToken",
+			"value": "PASTE_VOLUNTEER_JWT_TOKEN_HERE"
+		},
+		{
+			"key": "petitionId",
+			"value": "PASTE_PETITION_ID_HERE"
+		},
+		{
+			"key": "complaintId",
+			"value": "PASTE_COMPLAINT_ID_HERE"
+		},
+		{
+			"key": "volunteerId",
+			"value": "PASTE_VOLUNTEER_USER_ID_HERE"
+		}
+	]
+}
