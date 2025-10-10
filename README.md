@@ -25,7 +25,17 @@ cd frontend
 npm install
 ```
 
+<<<<<<< HEAD
+### 4. Environment Variables
+Create `.env` file in `backend/` directory:
+```
+MONGODB_URI=mongodb://localhost:27017/team01
+PORT=5000
+JWT_SECRET=your_jwt_secret_key
+```
+=======
 
+>>>>>>> origin/main
 
 ## Running the Application
 
@@ -86,4 +96,8 @@ team_01/
 ## Troubleshooting
 - Ensure MongoDB is running
 - Check if ports 5000 and 5173 are available
+<<<<<<< HEAD
 - Run `npm install` in both directories if dependencies are missing
+=======
+- Run `npm install` in both directories if dependencies are missing
+>>>>>>> origin/main

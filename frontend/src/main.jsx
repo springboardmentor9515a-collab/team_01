@@ -1,6 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
+<<<<<<< HEAD
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)
+=======
 import './index.css'  // <-- make sure this is here
 import civixLogo from './assets/Civix Technology Consultancy Logo.png'
 import { BrowserRouter } from 'react-router-dom'
@@ -31,3 +40,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </React.StrictMode>,
 )
+>>>>>>> origin/main
