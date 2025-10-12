@@ -5,8 +5,8 @@ const adminAuth = async (req, res, next) => {
   authenticateToken(req, res, (err) => {
     if (err) return next(err);
     
-    // Check if user is admin/official
-    if (req.user.role !== 'official') {
+    // Check if user is admin
+    if (req.user.role !== 'admin') {
       return res.status(403).json({ error: 'Access denied. Admin privileges required.' });
     }
     

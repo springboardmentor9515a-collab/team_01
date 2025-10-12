@@ -1,6 +1,24 @@
 // API Service Layer - Centralized API calls
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
+// Valid roles for client-side validation
+const VALID_ROLES = ['citizen', 'admin', 'volunteer'];
+
+// Role validation helper
+export const isValidRole = (role) => {
+  return VALID_ROLES.includes(role);
+};
+
+// Get role display name
+export const getRoleDisplayName = (role) => {
+  const roleMap = {
+    citizen: 'Citizen',
+    admin: 'Administrator', 
+    volunteer: 'Volunteer'
+  };
+  return roleMap[role] || 'User';
+};
+
 // Enhanced response handler with better error handling
 const handleResponse = async (response) => {
   const data = await response.json().catch(() => ({}));
@@ -61,4 +79,48 @@ export const apiCallWithAuth = async (endpoint, options = {}) => {
   });
 };
 
-export default { signupUser, loginUser, forgotPassword, apiCallWithAuth };
+// Complaint API calls
+export const createComplaint = async (complaintData) => {
+  return apiCallWithAuth('/civix/complaints/', {
+    method: 'POST',
+    body: JSON.stringify(complaintData),
+  });
+};
+
+export const getAssignedComplaints = async (params = {}) => {
+  const queryString = new URLSearchParams(params).toString();
+  return apiCallWithAuth(`/civix/volunteer/complaints${queryString ? '?' + queryString : ''}`);
+};
+
+export const getAllComplaints = async (params = {}) => {
+  const queryString = new URLSearchParams(params).toString();
+  return apiCallWithAuth(`/civix/admin/complaints${queryString ? '?' + queryString : ''}`);
+};
+
+export const assignComplaint = async (complaintId, officialId) => {
+  return apiCallWithAuth('/civix/admin/complaints/assign', {
+    method: 'PUT',
+    body: JSON.stringify({ complaintId, officialId }),
+  });
+};
+
+export const updateComplaintStatus = async (complaintId, status) => {
+  return apiCallWithAuth('/civix/volunteer/complaints/update-status', {
+    method: 'PUT',
+    body: JSON.stringify({ complaintId, status }),
+  });
+};
+
+export default { 
+  signupUser, 
+  loginUser, 
+  forgotPassword, 
+  apiCallWithAuth,
+  createComplaint,
+  getAssignedComplaints,
+  getAllComplaints,
+  assignComplaint,
+  updateComplaintStatus,
+  isValidRole,
+  getRoleDisplayName
+};

@@ -8,25 +8,30 @@ const complaintSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
+    maxlength: 200,
     trim: true
   },
   description: {
     type: String,
     required: true,
+    maxlength: 2000,
     trim: true
   },
   category: {
     type: String,
     required: true,
+    enum: ['infrastructure', 'sanitation', 'water_supply', 'electricity', 'roads', 'public_safety', 'education', 'healthcare', 'environment', 'transportation', 'safety', 'other'],
     trim: true
   },
   photo_url: {
     type: String,
+    default: null,
     trim: true
   },
   location: {
     type: String,
     required: true,
+    maxlength: 200,
     trim: true
   },
   created_by: {
@@ -36,7 +41,8 @@ const complaintSchema = new mongoose.Schema({
   },
   assigned_to: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    default: null
   },
   status: {
     type: String,
@@ -60,7 +66,7 @@ complaintSchema.pre('save', async function(next) {
   next();
 });
 
-// Create indexes
+// Create indexes for better performance
 complaintSchema.index({ category: 1 });
 complaintSchema.index({ status: 1 });
 complaintSchema.index({ assigned_to: 1 });
