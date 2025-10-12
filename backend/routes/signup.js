@@ -12,8 +12,8 @@ router.post('/', authLimiter, signupValidation, handleValidationErrors, validate
     const { name, email, password, location, role } = req.body;
     
     // Validate role if provided
-    if (role && !['citizen', 'official'].includes(role)) {
-      return res.status(400).json({ error: 'Invalid role. Must be citizen or official' });
+    if (role && !['citizen', 'admin', 'volunteer'].includes(role)) {
+      return res.status(400).json({ error: 'Invalid role. Must be citizen, admin, or volunteer' });
     }
     
     const existingUser = await User.findOne({ email });

@@ -14,7 +14,17 @@ app.get("/", (req, res) => {
 // Routes
 app.use('/civix/auth', require('./routes/auth'));//For Authentication
 app.use('/civix/complaints', require('./routes/complaint_route/createComplaint'));//For Creating Complaints
-app.use('/civix/complaints', require('./routes/complaint_route/getAllComplaints'));//For Admin Getting All Complaints
+app.use('/civix/complaints/my-complaints', require('./routes/complaint_route/getMyComplaints'));//For Citizens to View Own Complaints
+app.use('/civix/upload', require('./routes/upload'));//For File Uploads
+
+// Admin Routes - Separated
+app.use('/civix/admin/complaints', require('./routes/admin/getAllComplaints'));//Get All Complaints Basic
+app.use('/civix/admin/complaints/all', require('./routes/admin/getAllComplaintsAdvanced'));//Get All Complaints Advanced
+app.use('/civix/admin/complaints/assign', require('./routes/admin/assignComplaint'));//Assign Complaint
+
+// Volunteer Routes - Separated
+app.use('/civix/volunteer/complaints', require('./routes/volunteer/getAssignedComplaints'));//Get Assigned Complaints
+app.use('/civix/volunteer/complaints/update-status', require('./routes/volunteer/updateComplaintStatus'));//Update Complaint Status
 
 
 

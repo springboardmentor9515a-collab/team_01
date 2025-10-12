@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { signupUser } from '../services/api.js';
+import { signupUser, isValidRole } from '../services/api.js';
 import { Link } from 'react-router-dom';
 import civixLogo from '../assets/civix-logo.png';
 import communityImg from '../assets/community.png';
@@ -45,6 +45,10 @@ export default function SignUp() {
     }
     if (formData.password !== formData.confirmPassword) {
       setMessage('Passwords do not match');
+      return;
+    }
+    if (!isValidRole(formData.role)) {
+      setMessage('Please select a valid role');
       return;
     }
 
@@ -154,7 +158,8 @@ export default function SignUp() {
           >
             <option value="">Select Role</option>
             <option value="citizen">Citizen</option>
-            <option value="official">Official</option>
+            <option value="admin">Admin</option>
+            <option value="volunteer">Volunteer</option>
           </select>
         </div>
 
