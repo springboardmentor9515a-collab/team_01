@@ -4,8 +4,7 @@ const cloudinary = require('../../config/cloudinary');
 const Complaint = require('../../models/Complaint');
 const { authenticateToken } = require('../../middleware/auth');
 const { requireCitizen } = require('../../middleware/roleAuth');
-const { createComplaintValidation, handleValidationErrors } = require('../../middleware/complaintValidation');
-const { createComplaintFormValidation, handleFormValidationErrors } = require('../../middleware/complaintFormValidation');
+const { createComplaintValidation, createComplaintFormValidation, handleValidationErrors } = require('../../middleware/complaintValidation');
 const { upload, handleUploadError } = require('../../middleware/uploadValidation');
 const notificationService = require('../../services/notificationService');
 
@@ -52,7 +51,7 @@ router.post('/', authenticateToken, requireCitizen, createComplaintValidation, h
 });
 
 // POST /complaints/upload - Citizen submits complaint with image (Form-data)
-router.post('/upload', authenticateToken, requireCitizen, upload, handleUploadError, createComplaintFormValidation, handleFormValidationErrors, async (req, res) => {
+router.post('/upload', authenticateToken, requireCitizen, upload, handleUploadError, createComplaintFormValidation, handleValidationErrors, async (req, res) => {
   try {
     const { title, description, category, location } = req.body;
     let photo_url = null;

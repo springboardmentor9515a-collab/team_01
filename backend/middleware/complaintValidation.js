@@ -1,7 +1,7 @@
 const { body, param, query, validationResult } = require('express-validator');
 
-// Complaint creation validation
-const createComplaintValidation = [
+// Base complaint validation rules (shared between JSON and form-data)
+const baseComplaintValidation = [
   body('title')
     .trim()
     .isLength({ min: 5, max: 200 })
@@ -11,17 +11,25 @@ const createComplaintValidation = [
     .isLength({ min: 10, max: 2000 })
     .withMessage('Description must be 10-2000 characters'),
   body('category')
-    .isIn(['infrastructure', 'sanitation', 'water_supply', 'electricity', 'roads', 'public_safety', 'other'])
+    .isIn(['infrastructure', 'sanitation', 'water_supply', 'electricity', 'roads', 'public_safety', 'education', 'healthcare', 'environment', 'transportation', 'safety', 'other'])
     .withMessage('Invalid category'),
   body('location')
     .trim()
     .isLength({ min: 3, max: 200 })
-    .withMessage('Location must be 3-200 characters'),
+    .withMessage('Location must be 3-200 characters')
+];
+
+// JSON complaint validation (with photo_url)
+const createComplaintValidation = [
+  ...baseComplaintValidation,
   body('photo_url')
     .optional()
     .isURL()
     .withMessage('Photo URL must be valid')
 ];
+
+// Form-data complaint validation (no photo_url - handled by file upload)
+const createComplaintFormValidation = baseComplaintValidation;
 
 // Complaint assignment validation
 const assignComplaintValidation = [
@@ -59,7 +67,7 @@ const queryValidation = [
     .withMessage('Invalid status'),
   query('category')
     .optional()
-    .isIn(['infrastructure', 'sanitation', 'water_supply', 'electricity', 'roads', 'public_safety', 'other'])
+    .isIn(['infrastructure', 'sanitation', 'water_supply', 'electricity', 'roads', 'public_safety', 'education', 'healthcare', 'environment', 'transportation', 'safety', 'other'])
     .withMessage('Invalid category')
 ];
 
@@ -77,6 +85,7 @@ const handleValidationErrors = (req, res, next) => {
 
 module.exports = {
   createComplaintValidation,
+  createComplaintFormValidation,
   assignComplaintValidation,
   updateStatusValidation,
   queryValidation,
