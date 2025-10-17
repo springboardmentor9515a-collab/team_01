@@ -1,0 +1,692 @@
+.CreatePetition-ellipse {
+  position: absolute;
+  border-radius: 9999px;
+  width: 1463px;
+  height: 1294px;
+  left: 555px;
+  top: -307px;
+  background-color: #cbdeec;
+}
+.CreatePetition-rect1 {
+  position: absolute;
+  width: 97px;
+  height: 514px;
+  left: 1290px;
+  top: 0px;
+  background: linear-gradient(
+    182.37deg,
+    #64b3ad 5.78%,
+    #407470 38.95%,
+    #2b4d4a 94.22%
+  );
+}
+.CreatePetition-rect2 {
+  position: absolute;
+  width: 97px;
+  height: 514px;
+  left: 1290px;
+  top: 514px;
+  background: linear-gradient(178.33deg, #33556e 0.26%, #64b3ad 84.92%);
+}
+.signup-panel {
+  position: absolute;
+  left: 136px;
+  top: 148px;
+  width: 1088px;
+  height: 780px;
+  background: #d9d9d9;
+  opacity: 0.6;
+  border: 1px solid #407470;
+  border-radius: 40px;
+  box-shadow: 0px 4px 50px 15px rgba(0, 0, 0, 0.25);
+}
+
+.location-interactive-icon {
+  transition: filter 0.2s;
+  cursor: pointer;
+}
+.location-interactive-icon:hover {
+  filter: brightness(0.7) drop-shadow(0 0 2px #64b3ad);
+}
+/* Location input wrapper and icon for Figma match */
+.input-location-wrapper {
+  position: absolute;
+  left: 125px;
+  top: 550px;
+  width: 384px;
+  height: 63px;
+  background: rgb(255, 255, 255);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  box-sizing: border-box;
+}
+.input-location-wrapper input.input-location {
+  border: none;
+  outline: none;
+  font-size: 20px;
+  width: 100%;
+  background: transparent;
+}
+.input-location-wrapper img {
+  width: 40px;
+  height: 35px;
+  margin-left: 319px;
+  opacity: 5.7;
+}
+/* Main container */
+.create-petition-container {
+  position: relative;
+  /* width: 1521px;
+  height: 1024px; */
+  width: 1350px;
+  height: 977px;
+  background: #d7e9ed;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+/* Decorative shapes */
+.ellipse-bg {
+  position: absolute;
+  width: 1463px;
+  height: 1294px;
+  left: 555px;
+  top: -307px;
+  background: #cbdeec;
+  border-radius: 50%;
+  z-index: 0;
+}
+.ellipse-bg2 {
+  position: absolute;
+  width: 316px;
+  height: 279px;
+  left: -92px;
+  top: 835px;
+  background: #cbdeec;
+  border-radius: 50%;
+  z-index: 0;
+}
+.ellipse-bg3 {
+  position: absolute;
+  width: 163px;
+  height: 156px;
+  left: -57px;
+  top: -56px;
+  background: linear-gradient(180deg, #2b4d4a 0%, #64b3ac 100%);
+  box-shadow: 0px 4px 80px rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+  z-index: 0;
+}
+.ellipse-bg4 {
+  position: absolute;
+  width: 163px;
+  height: 156px;
+  left: 46px;
+  top: 423px;
+  background: linear-gradient(180deg, #4ba49c 0%, #64b3ac 100%);
+  filter: blur(40px);
+  border-radius: 50%;
+  z-index: 0;
+}
+.ellipse-bg5 {
+  position: absolute;
+  width: 163px;
+  height: 156px;
+  left: 702px;
+  top: 950px;
+  background: linear-gradient(180deg, #2b4d4a 0%, #64b3ac 100%);
+  box-shadow: 0px 4px 80px rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* Side rectangles */
+.side-rect1 {
+  position: absolute;
+  width: 97px;
+  height: 514px;
+  left: 1424px;
+  top: 0px;
+  background: linear-gradient(
+    182.37deg,
+    #64b3ad 5.78%,
+    #407470 38.95%,
+    #2b4d4a 94.22%
+  );
+  border-radius: 12px;
+  z-index: 1;
+}
+.side-rect2 {
+  position: absolute;
+  width: 97px;
+  height: 514px;
+  left: 1424px;
+  top: 514px;
+  background: linear-gradient(178.33deg, #33556e 0.26%, #64b3ad 84.92%);
+  border-radius: 12px;
+  z-index: 1;
+}
+
+/* Main form card */
+.petition-card {
+  position: absolute;
+  box-sizing: border-box;
+  width: 1088px;
+  height: 835px;
+  left: 136px;
+  top: 100px;
+  background: #d9d9d9;
+  color: black;
+  border: 1px solid #407470;
+  box-shadow: 0px 4px 50px 15px rgba(0, 0, 0, 0.25);
+  border-radius: 40px;
+  z-index: 2;
+}
+
+/* Form fields */
+.petition-title {
+  position: absolute;
+  width: 250px;
+  height: 33px;
+  left: 500px;
+  top: 40px;
+  font-family: "Belanosima", sans-serif;
+  font-size: 30px;
+  color: #2b4d4a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+.petition-subtitle {
+  position: absolute;
+  width: 220px;
+  height: 17px;
+  left: 500px;
+  top: 85px;
+  font-family: "Beiruti", sans-serif;
+  font-size: 18px;
+  color: #33556e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.form-label {
+  position: absolute;
+  font-family: "Copse", serif;
+  font-size: 18px;
+  color: #73787d;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+}
+.label-title {
+  left: 90px;
+  top: 165px;
+  width: 110px;
+}
+.label-category {
+  left: 690px;
+  top: 160px;
+  width: 61px;
+}
+.label-contact {
+  left: 690px;
+  top: 300px;
+  width: 145px;
+}
+.label-mail {
+  left: 690px;
+  top: 420px;
+  width: 68px;
+}
+.label-description {
+  left: 90px;
+  top: 300px;
+  width: 81px;
+}
+.label-location {
+  left: 90px;
+  top: 555px;
+  width: 60px;
+}
+.label-map {
+  left: 600px;
+  top: 530px;
+  width: 31px;
+}
+
+/* Input fields */
+.input-title {
+  width: 500px;
+  height: 63px;
+  left: 90px;
+  top: 190px;
+  position: absolute;
+
+  background: #fff;
+  color: #000;
+  border-radius: 12px;
+  border: none;
+  padding: 0 20px;
+  font-size: 20px;
+  z-index: 3;
+}
+.input-category {
+  width: 340px;
+  height: 63px;
+  left: 690px;
+  top: 190px;
+  position: absolute;
+  background: #fff;
+  color: #000;
+  border-radius: 12px;
+  border: none;
+  padding: 0 20px;
+  font-size: 20px;
+  z-index: 3;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.input-category:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #64b3ad;
+}
+.input-signatureGoal {
+  width: 300px;
+  height: 63px;
+  left: 690px;
+  top: 318px;
+  position: absolute;
+  background: #fff;
+  color: #000;
+  border-radius: 12px;
+  border: none;
+  padding: 0 20px;
+  font-size: 20px;
+  z-index: 3;
+}
+.input-signatureGoal:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #64b3ad;
+}
+.label-signatureGoal {
+  left: 690px;
+  top: 291px;
+  width: 140px;
+  position: absolute;
+}
+.input-contact {
+  width: 340px;
+  height: 63px;
+  left: 690px;
+  top: 330px;
+  position: absolute;
+  color: #000;
+  background: #fff;
+  border-radius: 12px;
+  border: none;
+  padding: 0 20px;
+  font-size: 20px;
+  z-index: 3;
+}
+.input-mail {
+  position: absolute;
+  width: 340px;
+  height: 63px;
+  left: 690px;
+  top: 450px;
+  background: #fff;
+  color: #000;
+  border-radius: 12px;
+  border: none;
+  padding: 0 20px;
+  font-size: 20px;
+  z-index: 3;
+}
+.input-description {
+  width: 500px;
+  height: 158px;
+  left: 90px;
+  top: 330px;
+  position: absolute;
+  background: #fff;
+  border-radius: 12px;
+  color: #000;
+  border: none;
+  padding: 20px;
+  font-size: 18px;
+  resize: none;
+  z-index: 3;
+}
+.input-location {
+  position: absolute;
+  width: 500px;
+  height: 63px;
+  left: 90px;
+  top: 583px;
+  background: #fff;
+  border-radius: 12px;
+  color: #000;
+  border: none;
+  padding: 0 20px;
+  font-size: 20px;
+  z-index: 3;
+}
+.input-map {
+  position: absolute;
+  width: 500px;
+  height: 169px;
+  left: 600px;
+  top: 560px;
+  color: #000;
+  background: #fff;
+  border-radius: 12px;
+  border: none;
+  z-index: 3;
+}
+
+/* Submit button */
+.submit-btn {
+  position: absolute;
+  width: 200px;
+  height: 52px;
+  left: 550px;
+  top: 730px;
+  background: #2b4d4a;
+  border-radius: 30px;
+  border: none;
+  color: #d7e9ed;
+  font-family: "Jockey One", sans-serif;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 4;
+  transition: background 0.2s;
+}
+.submit-btn:hover {
+  background: #407470;
+}
+
+/* Top bar icons and profile */
+.top-bar {
+  position: absolute;
+  width: 238px;
+  height: 59px;
+  left: 1105px;
+  top: 22px;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+.top-bar-ellipse {
+  width: 40px;
+  height: 40px;
+  background: #64b3ad;
+  border-radius: 50%;
+  margin: 0 8px;
+  /* Top Navigation - copied from CreatePoll.css */
+  border: 1px solid #000;
+}
+.top-bar-label {
+  position: absolute;
+  font-family: "Cabin", sans-serif;
+  font-size: 10px;
+  color: #000;
+  text-align: center;
+  width: 52px;
+  height: 7px;
+  z-index: 11;
+}
+.label-user {
+  left: 1226px;
+  top: 74px;
+}
+.label-notification {
+  left: 1164px;
+  top: 74px;
+}
+.label-home {
+  left: 1105px;
+  top: 74px;
+}
+.label-dashboard {
+  left: 1291px;
+  top: 74px;
+}
+
+/* Profile image */
+.profile-img {
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  left: 1226px;
+  top: 22px;
+  object-fit: cover;
+  border-radius: 50%;
+  transform: scaleX(-1);
+  z-index: 12;
+}
+
+/* Notification icon */
+.notification-img {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  left: 1174px;
+  top: 33px;
+  z-index: 12;
+}
+
+/* Dashboard icon */
+.dashboard-img {
+  position: absolute;
+  width: 31px;
+  height: 31px;
+  left: 1300px;
+  top: 33px;
+  z-index: 12;
+}
+
+/* Home icon */
+.home-img {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  left: 1115px;
+  top: 33px;
+  z-index: 12;
+}
+
+/* .top-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: #d7e9ed; 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 0 40px;
+}
+.nav-logo-left {
+  display: flex;
+  align-items: center;
+}
+.nav-civix-logo {
+  height: 50px;
+}
+.nav-items-right {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.nav-ellipse {
+  width: 40px;
+  height: 40px;
+  background: #d7e9ed;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+.nav-icon {
+  width: 24px;
+  height: 24px;
+}
+.nav-label {
+  font-size: 14px;
+  color: #33556e;
+} */
+
+/* Image upload label */
+.label-image {
+  position: absolute;
+  left: 690px; /* adjust to match design */
+  top: 415px;
+  width: 115px;
+  font-family: "Copse", serif;
+  font-size: 18px;
+  color: #73787d;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+}
+
+/* File input field */
+.input-image {
+  position: absolute;
+  width: 300px;
+  height: 35px;
+  left: 690px;
+  top: 442px;
+  background: #fff;
+  border-radius: 12px;
+  color: #000;
+  border: 1px solid #407470;
+  padding: 10px 20px;
+  font-size: 16px;
+  z-index: 3;
+  cursor: pointer;
+}
+
+/* Image preview */
+.image-preview {
+  position: absolute;
+  width: 350px;
+  height: 150px;
+  left: 690px;
+  top: 530px;
+  border-radius: 12px;
+  -o-object-fit: contain;
+  object-fit: fill;
+  border: 2px solid #407470;
+  z-index: 3;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background: #fff;
+}
+
+/* Add hover effect on file input (optional) */
+.input-image:hover {
+  border-color: #64b3ad;
+  box-shadow: 0 0 5px #64b3ad;
+}
+
+/* Adjust submit button position if needed */
+.submit-btn {
+  top: 750px; /* adjust to match design */
+}
+
+
+.location-buttons {
+  position: absolute;
+  left: 560px;
+  top: 585px;
+  display: flex;
+  gap: 10px;
+  z-index: 4;
+}
+.use-location-btn,
+.pick-map-btn {
+      height: 40px;
+    padding: 0px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #64b3ad;
+    color: white;
+    font-size: 14px;
+    display: inline-flex
+;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 69px;
+    left: -215px;
+}
+.use-location-btn:hover,
+.pick-map-btn:hover {
+  background: #407470;
+}
+
+/* Map modal */
+.map-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.45);
+  z-index: 9999;
+}
+.map-modal-content {
+  width: 800px;
+  height: 600px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.map-close-btn {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  border: none;
+  background: #2b4d4a;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 10;
+}
+.map-container {
+  flex: 1;
+  border-radius: 8px;
+  margin-top: 40px;
+}
+/* hint text under map */
+.map-hint {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #555;
+  text-align: center;
+}
