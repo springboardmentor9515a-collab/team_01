@@ -1,7 +1,7 @@
 const express = require('express');
 const NotificationLog = require('../models/NotificationLog');
-const auth = require('../middleware/auth');
-const adminAuth = require('../middleware/adminAuth');
+const { authenticateToken } = require('../middleware/auth');
+const { adminAuth } = require('../middleware/adminAuth');
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.get('/', adminAuth, async (req, res) => {
 });
 
 // Get user's notification logs
-router.get('/my-notifications', auth, async (req, res) => {
+router.get('/my-notifications', authenticateToken, async (req, res) => {
   try {
     const logs = await NotificationLog.find({ recipient: req.user.email }).sort({ sentAt: -1 });
     res.json(logs);
