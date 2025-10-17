@@ -4,6 +4,7 @@ import App from './App.jsx'
 import './index.css'  // <-- make sure this is here
 import civixLogo from './assets/Civix Technology Consultancy Logo.png'
 import { BrowserRouter } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext.jsx'
 
 // Set favicon to CIVIX logo
 (() => {
@@ -24,7 +25,9 @@ import { BrowserRouter } from 'react-router-dom'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,
 )

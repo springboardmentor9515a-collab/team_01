@@ -16,12 +16,16 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedToken = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user');
-    
-    if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(JSON.parse(savedUser));
+    try {
+      const savedToken = localStorage.getItem('token');
+      const savedUser = localStorage.getItem('user');
+      
+      if (savedToken && savedUser) {
+        setToken(savedToken);
+        setUser(JSON.parse(savedUser));
+      }
+    } catch (e) {
+      console.warn('Failed to load auth data:', e);
     }
     setLoading(false);
   }, []);
@@ -29,15 +33,23 @@ export const AuthProvider = ({ children }) => {
   const login = (userData, authToken) => {
     setUser(userData);
     setToken(authToken);
-    localStorage.setItem('token', authToken);
-    localStorage.setItem('user', JSON.stringify(userData));
+    try {
+      localStorage.setItem('token', authToken);
+      localStorage.setItem('user', JSON.stringify(userData));
+    } catch (e) {
+      console.warn('Failed to save auth data:', e);
+    }
   };
 
   const logout = () => {
     setUser(null);
     setToken(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    try {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    } catch (e) {
+      console.warn('Failed to clear auth data:', e);
+    }
   };
 
   const isAuthenticated = () => {
@@ -59,3 +71,5 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+export default AuthContext;
