@@ -1,35 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import Login from "./pages/Login.jsx";
+import SignUp from "./pages/SignUp.jsx";
+import CitizenDashboard from "./pages/CitizenDashboard.jsx";
+import VolunteerDashboard from "./pages/VolunteerDashboard.jsx";
+import OfficialDashboard from "./pages/OfficialDashboard.jsx";
+import DashboardRedirect from "./pages/DashboardRedirect.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
+import CreatePetition from "./pages/CreatePetition.jsx";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
+    <AuthProvider>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <Routes>
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardRedirect />
+              </ProtectedRoute>
+            }
+          />
+          {/* Role-specific dashboards */}
+          <Route
+            path="/dashboard/citizen"
+            element={
+              <ProtectedRoute allowedRoles={["citizen"]}>
+                <CitizenDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/volunteer"
+            element={
+              <ProtectedRoute allowedRoles={["volunteer"]}>
+                <VolunteerDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/official"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "official"]}>
+                <OfficialDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create-petition"
+            element={
+              <ProtectedRoute>
+                <CreatePetition />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </AuthProvider>
+  );
 }
-
-export default App
