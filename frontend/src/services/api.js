@@ -123,6 +123,14 @@ export const getAssignedComplaints = async (params = {}) => {
   );
 };
 
+// Citizen: fetch complaints created by the authenticated user
+export const getMyComplaints = async (params = {}) => {
+  const queryString = new URLSearchParams(params).toString();
+  return apiCallWithAuth(
+    `/civix/complaints/my-complaints${queryString ? "?" + queryString : ""}`
+  );
+};
+
 export const getAllComplaints = async (params = {}) => {
   const queryString = new URLSearchParams(params).toString();
   return apiCallWithAuth(
@@ -144,6 +152,16 @@ export const updateComplaintStatus = async (complaintId, status) => {
   });
 };
 
+export const getVolunteers = async () => {
+  return apiCallWithAuth("/civix/admin/volunteers");
+};
+
+export const deleteComplaint = async (complaintId) => {
+  return apiCallWithAuth(`/civix/complaints/${complaintId}`, {
+    method: "DELETE",
+  });
+};
+
 export default {
   signupUser,
   loginUser,
@@ -151,9 +169,12 @@ export default {
   apiCallWithAuth,
   createComplaint,
   getAssignedComplaints,
+  getMyComplaints,
   getAllComplaints,
   assignComplaint,
   updateComplaintStatus,
+  getVolunteers,
+  deleteComplaint,
   isValidRole,
   getRoleDisplayName,
 };
