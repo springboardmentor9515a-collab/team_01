@@ -85,6 +85,7 @@
   background: #d7e9ed;
   border-radius: 30px;
   overflow: hidden;
+  left: 100px;
 }
 
 /* Decorative shapes */
@@ -196,7 +197,7 @@
   font-size: 30px;
   color: #2b4d4a;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   z-index: 3;
 }
@@ -298,7 +299,7 @@
   box-shadow: 0 0 0 2px #64b3ad;
 }
 .input-signatureGoal {
-  width: 300px;
+  width: 340px;
   height: 63px;
   left: 690px;
   top: 318px;
@@ -394,7 +395,7 @@
 /* Submit button */
 .submit-btn {
   position: absolute;
-  width: 200px;
+  width: 235px;
   height: 52px;
   left: 550px;
   top: 730px;
@@ -572,8 +573,8 @@
 /* File input field */
 .input-image {
   position: absolute;
-  width: 300px;
-  height: 35px;
+  width: 340px;
+  height: 63px;
   left: 690px;
   top: 442px;
   background: #fff;
@@ -613,10 +614,9 @@
   top: 750px; /* adjust to match design */
 }
 
-
 .location-buttons {
   position: absolute;
-  left: 560px;
+  left: 520px;
   top: 585px;
   display: flex;
   gap: 10px;
@@ -624,21 +624,20 @@
 }
 .use-location-btn,
 .pick-map-btn {
-      height: 40px;
-    padding: 0px 12px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    background: #64b3ad;
-    color: white;
-    font-size: 14px;
-    display: inline-flex
-;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    top: 69px;
-    left: -215px;
+  height: 40px;
+  padding: 0px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #64b3ad;
+  color: white;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 69px;
+  left: -215px;
 }
 .use-location-btn:hover,
 .pick-map-btn:hover {
@@ -652,7 +651,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0, 0, 0, 0.45);
   z-index: 9999;
 }
 .map-modal-content {
@@ -661,7 +660,7 @@
   background: #fff;
   border-radius: 12px;
   padding: 12px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
   position: relative;
   display: flex;
   flex-direction: column;
