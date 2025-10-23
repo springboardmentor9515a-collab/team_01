@@ -3,7 +3,10 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
+import CitizenDashboard from "./pages/CitizenDashboard.jsx";
+import VolunteerDashboard from "./pages/VolunteerDashboard.jsx";
+import OfficialDashboard from "./pages/OfficialDashboard.jsx";
+import DashboardRedirect from "./pages/DashboardRedirect.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import CreatePetition from "./pages/CreatePetition.jsx";
@@ -19,7 +22,32 @@ export default function App() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <DashboardRedirect />
+              </ProtectedRoute>
+            }
+          />
+          {/* Role-specific dashboards */}
+          <Route
+            path="/dashboard/citizen"
+            element={
+              <ProtectedRoute allowedRoles={["citizen"]}>
+                <CitizenDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/volunteer"
+            element={
+              <ProtectedRoute allowedRoles={["volunteer"]}>
+                <VolunteerDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/official"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "official"]}>
+                <OfficialDashboard />
               </ProtectedRoute>
             }
           />

@@ -26,6 +26,9 @@ app.use('/civix/admin/complaints/assign', require('./routes/admin/assignComplain
 app.use('/civix/volunteer/complaints', require('./routes/volunteer/getAssignedComplaints'));//Get Assigned Complaints
 app.use('/civix/volunteer/complaints/update-status', require('./routes/volunteer/updateComplaintStatus'));//Update Complaint Status
 
+// Admin Volunteer Management
+app.use('/civix/admin/volunteers', require('./routes/admin/getVolunteers'));//Get All Volunteers
+
 // Notification Logs Routes
 app.use('/civix/notifications', require('./routes/notificationLogs'));//Notification Logs
 
