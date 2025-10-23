@@ -1,0 +1,29 @@
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  cursor: default;
+}
+
+.badge[role="button"] {
+  cursor: pointer;
+}
+
+.badge-secondary {
+  background-color: rgba(99, 102, 241, 0.1);
+  color: #4f46e5;
+}
+.badge-warning {
+  background-color: rgba(250, 204, 21, 0.12);
+  color: #b45309;
+}
+.badge-success {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+.badge-destructive {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+}

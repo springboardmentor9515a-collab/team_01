@@ -1,0 +1,368 @@
+/* Main Container */
+.volunteer-page {
+  padding: 2rem 0;
+  min-height: 100vh;
+  background: transparent; /* moved to layout.main */
+}
+
+.volunteer-page > .page-container {
+  padding: 0 1.25rem;
+}
+
+/* Header Section */
+.volunteer-header {
+  margin-bottom: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.volunteer-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: #004d40;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.5rem;
+}
+
+.volunteer-subtitle {
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+.logout-btn {
+  border-color: #ef4444;
+  color: #dc2626;
+}
+
+.logout-btn:hover {
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
+
+/* Stats Grid */
+.volunteer-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: white;
+  padding: 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
+}
+
+.stat-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(2, 6, 23, 0.04);
+}
+
+/* Volunteer Code Card */
+.volunteer-code-card {
+  margin-bottom: 1.5rem;
+}
+
+.volunteer-code-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.06);
+}
+
+.volunteer-code-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.volunteer-code-icon {
+  padding: 0.75rem;
+  background-color: #b2dfdb;
+  border-radius: 0.5rem;
+}
+
+.volunteer-code-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #004d40;
+}
+
+.volunteer-code-text {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.volunteer-code-btn {
+  background-color: #004d40;
+  color: white;
+}
+
+.volunteer-code-btn:hover {
+  background-color: #00796b;
+}
+
+/* Alerts Section */
+.volunteer-alerts {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(2, 6, 23, 0.04);
+  margin-bottom: 1.5rem;
+  background: white;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.alert-icon {
+  padding: 0.75rem;
+  background-color: #fef3c7;
+  border-radius: 0.5rem;
+}
+
+.alert-content {
+  flex: 1;
+}
+
+.alert-title {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-bottom: 0.25rem;
+  color: #e65100;
+}
+
+.alert-text {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+.alert-btn {
+  background-color: #e65100;
+  color: white;
+}
+
+.alert-btn:hover {
+  background-color: #bf360c;
+}
+
+/* Main Grid Layout */
+.volunteer-main-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+.volunteer-main-col {
+  padding: 0;
+}
+
+.volunteer-main-inner {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+}
+
+/* Section Header */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #004d40;
+}
+
+.view-all-btn {
+  border-color: #004d40;
+  color: #004d40;
+}
+
+.view-all-btn:hover {
+  background-color: #004d40;
+  color: white;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 0;
+  color: #6b7280;
+}
+
+.empty-text {
+  font-size: 0.875rem;
+}
+
+/* Task Cards */
+.task-card {
+  background: #fff;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s;
+}
+
+.task-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.task-title {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: #004d40;
+}
+
+.task-description {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.task-location {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin-top: 0.25rem;
+}
+
+/* Sidebar */
+.volunteer-sidebar {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Activities Card */
+.activities-card {
+  padding: 1rem;
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(2, 6, 23, 0.04);
+}
+
+.sidebar-title {
+  font-weight: bold;
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #004d40;
+}
+
+.empty-activities {
+  text-align: center;
+  padding: 1.5rem 0;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+/* Performance Card */
+.performance-card {
+  padding: 1rem;
+  background: linear-gradient(to bottom right, #e8f5e9, #c8e6c9);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(2, 6, 23, 0.04);
+}
+
+.performance-title {
+  font-weight: bold;
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+  color: #004d40;
+}
+
+.performance-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.performance-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+.performance-item:last-child {
+  border-bottom: none;
+}
+
+.performance-name {
+  color: #6b7280;
+}
+
+.performance-value {
+  font-weight: bold;
+  color: #004d40;
+}
+
+.performance-trend {
+  font-size: 0.75rem;
+  color: #16a34a;
+  margin-left: 0.25rem;
+}
+
+/* Icon Sizes */
+.icon-size {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.icon-small {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .volunteer-main-grid {
+    grid-template-columns: 1fr;
+  }
+  .volunteer-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .volunteer-page {
+    padding: 1rem;
+  }
+
+  .volunteer-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .volunteer-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .volunteer-code-inner {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .volunteer-alerts {
+    flex-direction: column;
+  }
+}
