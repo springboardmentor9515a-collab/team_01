@@ -10,6 +10,7 @@ import DashboardRedirect from "./pages/DashboardRedirect.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import CreatePetition from "./pages/CreatePetition.jsx";
+import UserInfo from "./pages/UserInfo.jsx";
 
 export default function App() {
   return (
@@ -56,6 +57,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <CreatePetition />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user-info"
+            element={
+              <ProtectedRoute>
+                <UserInfo />
               </ProtectedRoute>
             }
           />
