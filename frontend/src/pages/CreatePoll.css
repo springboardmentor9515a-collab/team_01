@@ -1,0 +1,439 @@
+@import url("https://fonts.googleapis.com/css2?family=Copse&family=Jockey+One&family=Belanosima&family=Beiruti&family=Cabin&display=swap");
+
+.create-poll-root {
+  position: relative;
+  width: 1350px;
+  height: 977px;
+  background: #d7e9ed !important;
+  border-radius: 30px;
+  overflow: hidden;
+  margin: 0 auto;
+  box-sizing: border-box !important;
+}
+
+/* Ellipses (Background) */
+.ellipse {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ellipse-bg-main {
+  width: 1463px;
+  height: 1294px;
+  left: 555px;
+  top: -307px;
+  background: #cbdeec !important;
+  z-index: 0;
+}
+
+.ellipse-bg-bottom {
+  width: 316px;
+  height: 279px;
+  left: -92px;
+  top: 835px;
+  background: #cbdeec !important;
+  z-index: 0;
+}
+
+.ellipse-bg-top-left {
+  width: 163px;
+  height: 156px;
+  left: -57px;
+  top: -56px;
+  background: linear-gradient(180deg, #2b4d4a 0%, #64b3ac 100%);
+  box-shadow: 0px 4px 80px rgba(0, 0, 0, 0.25);
+  z-index: 0;
+}
+
+.ellipse-bg-bottom-right {
+  width: 163px;
+  height: 156px;
+  left: 702px;
+  top: 950px;
+  background: linear-gradient(180deg, #2b4d4a 0%, #64b3ac 100%);
+  box-shadow: 0px 4px 80px rgba(0, 0, 0, 0.25);
+  z-index: 0;
+}
+
+.ellipse-bg-blur {
+  width: 163px;
+  height: 156px;
+  left: 46px;
+  top: 423px;
+  background: linear-gradient(180deg, #4ba49c 0%, #64b3ac 100%);
+  filter: blur(40px);
+  z-index: 0;
+}
+
+/* Side Rectangles  */
+.rect {
+  position: absolute;
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.rect-gradient-1 {
+  width: 97px;
+  height: 514px;
+  left: 1290px;
+  top: 0px;
+  background: linear-gradient(
+    182.37deg,
+    #64b3ad 5.78%,
+    #407470 38.95%,
+    #2b4d4a 94.22%
+  );
+  z-index: 1;
+}
+
+.rect-gradient-2 {
+  width: 97px;
+  height: 514px;
+  left: 1290px;
+  top: 514px;
+  background: linear-gradient(178.33deg, #33556e 0.26%, #64b3ad 84.92%);
+  z-index: 1;
+}
+
+/* Main Card Container */
+.rect-main {
+  position: absolute;
+  box-sizing: border-box;
+  width: 1088px;
+  height: 835px;
+  left: 136px;
+  top: 100px;
+  background: #d9d9d9 !important;
+  opacity: 0.6;
+  border: 1px solid #407470 !important;
+  box-shadow: 0px 4px 50px 15px rgba(0, 0, 0, 0.25) !important;
+  border-radius: 40px;
+  z-index: 2;
+}
+
+/* Main Content */
+.create-poll-content {
+  position: absolute;
+  left: 136px;
+  top: 100px;
+  width: 1088px;
+  height: 835px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.create-poll-title {
+  position: absolute;
+  width: 250px;
+  height: 33px;
+  left: 420px;
+  top: 40px;
+  font-family: "Belanosima", sans-serif;
+  font-size: 30px;
+  color: #2b4d4a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.create-poll-subtitle {
+  position: absolute;
+  width: 220px;
+  height: 17px;
+  left: 435px;
+  top: 85px;
+  font-family: "Beiruti", sans-serif;
+  font-size: 18px;
+  color: #33556e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.poll-form {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.poll-label {
+  position: absolute;
+  font-family: "Copse", serif;
+  font-size: 18px;
+  color: #73787d;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+}
+
+.title-label {
+  left: 90px;
+  top: 165px;
+}
+
+.context-label {
+  left: 90px;
+  top: 300px;
+}
+
+.type-label {
+  left: 690px;
+  top: 160px;
+}
+
+.location-label {
+  left: 690px;
+  top: 300px;
+}
+
+.options-title {
+  position: absolute;
+  left: 480px;
+  top: 500px;
+  font-size: 18px;
+  color: #2b4d4a;
+  font-weight: bold;
+  font-family: "Copse", serif;
+  z-index: 3;
+}
+
+/* Input Fields  */
+.poll-input.title {
+  position: absolute;
+  width: 500px;
+  height: 63px;
+  left: 90px;
+  top: 190px;
+  background: #fff !important;
+  color: #000;
+  border-radius: 12px;
+  border: none !important;
+  padding: 0 20px;
+  font-size: 20px;
+  font-family: "Copse", serif;
+  box-sizing: border-box !important;
+  z-index: 3;
+}
+
+.poll-input.type {
+  position: absolute;
+  width: 340px;
+  height: 63px;
+  left: 690px;
+  top: 190px;
+  background: #fff !important;
+  color: #000;
+  border-radius: 12px;
+  border: none !important;
+  padding: 0 20px;
+  font-size: 20px;
+  font-family: "Copse", serif;
+  box-sizing: border-box !important;
+  z-index: 3;
+}
+
+.poll-input.location {
+  position: absolute;
+  width: 340px;
+  height: 63px;
+  left: 690px;
+  top: 330px;
+  background: #fff !important;
+  color: #000;
+  border-radius: 12px;
+  border: none !important;
+  padding: 0 20px;
+  font-size: 20px;
+  font-family: "Copse", serif;
+  box-sizing: border-box !important;
+  z-index: 3;
+}
+
+.poll-textarea.context {
+  position: absolute;
+  width: 500px;
+  height: 158px;
+  left: 90px;
+  top: 330px;
+  background: #fff !important;
+  color: #000;
+  border-radius: 12px;
+  border: none !important;
+  padding: 20px;
+  font-size: 18px;
+  font-family: "Copse", serif;
+  resize: none;
+  box-sizing: border-box !important;
+  z-index: 3;
+}
+
+/* Poll Options Section */
+.poll-options {
+  position: absolute;
+  left: 200px;
+  top: 520px;
+  width: 700px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 3;
+}
+
+.options-label {
+  position: absolute;
+  left: 480px;
+  top: 500px;
+  font-size: 18px;
+  color: #2b4d4a;
+  font-weight: bold;
+  font-family: "Copse", serif;
+  z-index: 3;
+}
+
+.option-row {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+  gap: 25px;
+  justify-content: center;
+  top: 20px;
+}
+
+.option-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 15px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  border: 2px solid #64b3ad;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-width: 160px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.option-item:hover {
+  background: rgba(100, 179, 173, 0.15);
+  border-color: #407470;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.vote-btn {
+  width: 130px;
+  height: 45px;
+  background: transparent !important;
+  border-radius: 10px;
+  border: none !important;
+  color: #2b4d4a;
+  font-size: 18px;
+  font-family: "Copse", serif;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-sizing: border-box !important;
+}
+
+.option-item:hover .vote-btn {
+  color: #407470;
+  transform: scale(1.05);
+}
+
+.vote-count {
+  font-family: "Copse", serif;
+  font-size: 14px;
+  color: #2b4d4a;
+  font-weight: bold;
+  background: rgba(203, 222, 236, 0.8);
+  padding: 6px 12px;
+  border-radius: 15px;
+  border: 1px solid #64b3ad;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Submit Button */
+.submit-poll-btn {
+  position: absolute;
+  width: 235px;
+  height: 52px;
+  left: 426px;
+  top: 730px;
+  background: #2b4d4a !important;
+  border-radius: 30px;
+  border: none !important;
+  color: #d7e9ed !important;
+  font-family: "Jockey One", sans-serif;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-sizing: border-box !important;
+  z-index: 4;
+}
+
+.submit-poll-btn:hover {
+  background: #407470 !important;
+}
+
+/* Focus states for inputs */
+.poll-input.title:focus,
+.poll-input.type:focus,
+.poll-input.location:focus,
+.poll-textarea.context:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #64b3ad;
+}
+
+/* Utility: Hide scrollbars for textarea */
+.poll-textarea.context::-webkit-scrollbar {
+  display: none;
+}
+
+.poll-textarea.context {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Top Navigation Icons - if needed */
+.top-bar {
+  position: absolute;
+  width: 238px;
+  height: 59px;
+  left: 1105px;
+  top: 22px;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+
+.top-bar-ellipse {
+  width: 40px;
+  height: 40px;
+  background: #64b3ad;
+  border-radius: 50%;
+  border: 1px solid #000;
+  margin: 0 8px;
+}
+
+.top-bar-label {
+  position: absolute;
+  font-family: "Cabin", sans-serif;
+  font-size: 10px;
+  color: #000;
+  text-align: center;
+  width: 52px;
+  height: 7px;
+  z-index: 11;
+}
