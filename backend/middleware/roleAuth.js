@@ -19,4 +19,5 @@ const requireVolunteer = (req, res, next) => {
   next();
 };
 
-module.exports = { requireCitizen, requireAdmin, requireVolunteer };
+module.exports = { requireCitizen, requireAdmin, requireVolunteer,requireAdminForPolls,
+  requireCitizenForVoting };
