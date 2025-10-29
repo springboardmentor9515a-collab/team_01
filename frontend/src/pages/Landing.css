@@ -166,27 +166,6 @@
   margin-right: 4px;
   font-size: 18px;
 }
-.navbar-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.navbar-logo {
-  width: 317px;
-  height: auto;
-  margin-top: 8px;
-  position: relative;
-  left: -297px;
-  top: 27px;
-}
-
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-
 .icon {
   width: 18px;
   height: 18px;

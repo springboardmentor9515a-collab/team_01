@@ -21,16 +21,16 @@ const LandingPage = () => {
       {/* NAVBAR (Figma order) */}
       <header className="landing-header">
         <div className="navbar-left">
-          
-        </div>
         <div className="navbar-center">
           <img src={logoCivix} alt="Civix Logo" className="navbar-logo" />
+        </div>
+          
         </div>
         <div className="navbar-right">
           
           
-          <button className="login-btn">Log-in</button>
-          <button className="signup-btn">Sign-Up</button>
+          <button className="login-btn2">Log-in</button>
+          <button className="signup-btn2">Sign-Up</button>
         </div>
       </header>
 

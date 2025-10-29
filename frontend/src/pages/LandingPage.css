@@ -52,13 +52,7 @@
   justify-content: center;
   align-items: center;
 }
-.navbar-logo {
-  width: 317px;
-  height: 100px;
-  margin-top: 8px;
-  position: relative;
-  left: 500px;
-}
+
 .navbar-right {
   display: flex;
   align-items: center;
@@ -103,9 +97,8 @@
 .icon.linkedin { background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg"); }
 .icon.youtube  { background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg"); }
 
-.login-btn {
+.login-btn2 {
   background: #e6f0f3;
-  position: relative;
   bottom: -15px;
   left: -40px;
   color: #33584b;
@@ -119,7 +112,7 @@
   cursor: pointer;
   transition: background 0.2s;
 }
-.signup-btn {
+.signup-btn2 {
   background: #23b0a4;
   color: #fff;
   border: none;
