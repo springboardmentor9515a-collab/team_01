@@ -18,7 +18,6 @@ import PollDetail from "./pages/PollDetail.jsx";
 
 export default function App() {
   return (
-    <AuthProvider>
       <div>
         <Routes>
           <Route path="/signup" element={<SignUp />} />
@@ -105,6 +104,5 @@ export default function App() {
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </div>
-    </AuthProvider>
   );
 }
