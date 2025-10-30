@@ -1,0 +1,170 @@
+/* Layout and Sidebar styles - compact sidebar matching the reference screenshot */
+
+/* App sidebar container */
+.app-sidebar {
+  background: #ffffff;
+  border-right: 1px solid #e6eef2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.5rem;
+}
+
+/* Logo area */
+.sidebar-logo {
+  padding: 1.25rem 0.75rem 1rem 0.75rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+}
+.logo-img {
+  max-width: 355px;
+  height: auto;
+  display: block;
+  margin: -129px 0 -108px 0;
+}
+.sidebar-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0e4f52;
+  margin: 0;
+}
+
+/* Navigation */
+.sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.6rem 0.6rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px;
+  color: #0f4c5c;
+  font-size: 0.98rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.12s ease;
+}
+
+.nav-item:hover {
+  background-color: rgba(15, 76, 92, 0.04);
+}
+
+.nav-active {
+  background-color: #0e4f52;
+  color: white;
+  box-shadow: 0 8px 24px rgba(14, 79, 82, 0.12);
+}
+
+.nav-active .nav-icon {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.nav-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  color: #0e6160;
+}
+
+.nav-label {
+  flex: 1;
+  text-align: left;
+  line-height: 1;
+  color: inherit;
+}
+
+
+
+/* Compact user card at bottom */
+.sidebar-user {
+  padding: 1rem 0.9rem 1.25rem 0.9rem;
+  border-top: 1px solid #eef6f6;
+}
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem;
+  border-radius: 12px;
+  background: rgba(227, 242, 249, 0.55);
+}
+.avatar {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background-color: #0e4f52;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.sidebar-user-info {
+  flex: 1;
+  min-width: 0;
+}
+.sidebar-user-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #0f4c5c;
+  margin-bottom: 0.06rem;
+}
+.sidebar-user-role {
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+/* Main/content area */
+.main {
+  flex: 1;
+  overflow: auto;
+  padding: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(246, 253, 255, 0.35),
+    rgba(255, 255, 255, 0.2)
+  );
+}
+
+/* Centering container used by pages */
+.page-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+}
+
+/* explicit helpers used by Layout.jsx */
+.w-48 {
+  width: 216px !important;
+}
+.w-64 {
+  width: 260px !important;
+}
+
+/* small responsive adjustments */
+@media (max-width: 768px) {
+  .w-48 {
+    width: 120px !important;
+  }
+  .logo-img {
+    max-width: 90px;
+  }
+  .nav-label {
+    display: none;
+  }
+}
