@@ -156,11 +156,7 @@ export const getVolunteers = async () => {
   return apiCallWithAuth("/civix/admin/volunteers");
 };
 
-export const deleteComplaint = async (complaintId) => {
-  return apiCallWithAuth(`/civix/complaints/${complaintId}`, {
-    method: "DELETE",
-  });
-};
+
 
 // Poll API calls
 export const createPoll = async (pollData) => {
