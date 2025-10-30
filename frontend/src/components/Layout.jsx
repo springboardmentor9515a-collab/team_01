@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import {
@@ -10,6 +10,7 @@ import {
   Settings,
   Home,
   QrCode,
+  Vote,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import civixLogo from "@/assets/civix-logo.png";
@@ -17,31 +18,34 @@ import "./Layout.css";
 
 const Layout = ({ children, userType }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [userName, setUserName] = useState("User");
   const [userRole, setUserRole] = useState("");
   const [userInitials, setUserInitials] = useState("U");
 
   // Navigation items based on user type
   const citizenNavItems = [
-    { icon: LayoutDashboard, label: "Dashboard", path: "/citizen" },
+    { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard/citizen" },
     { icon: FileText, label: "Petitions", path: "/petitions" },
-    { icon: BarChart3, label: "Polls", path: "/polls" },
+    { icon: Vote, label: "Polls", path: "/polls" },
+    { icon: BarChart3, label: "Poll Results", path: "/poll-results", isSpecial: true },
     { icon: TrendingUp, label: "Reports", path: "/reports" },
     { icon: Settings, label: "Settings", path: "/settings" },
   ];
 
   const officialNavItems = [
-    { icon: LayoutDashboard, label: "Dashboard", path: "/official" },
+    { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard/official" },
     { icon: FileText, label: "Review Petitions", path: "/review" },
-    { icon: BarChart3, label: "Analytics", path: "/analytics" },
+    { icon: BarChart3, label: "Poll Results", path: "/poll-results", isSpecial: true },
     { icon: Users, label: "Community", path: "/community" },
     { icon: TrendingUp, label: "Insights", path: "/insights" },
     { icon: Settings, label: "Settings", path: "/settings" },
   ];
 
   const volunteerNavItems = [
-    { icon: LayoutDashboard, label: "Dashboard", path: "/volunteer" },
+    { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard/volunteer" },
     { icon: FileText, label: "Projects", path: "/projects" },
+    { icon: BarChart3, label: "Poll Results", path: "/poll-results", isSpecial: true },
     { icon: Users, label: "Teams", path: "/teams" },
     { icon: QrCode, label: "Volunteer Code", path: "/volunteer-code" },
     { icon: Settings, label: "Settings", path: "/settings" },
@@ -121,7 +125,7 @@ const Layout = ({ children, userType }) => {
 
         {/* User Info */}
         <div className="sidebar-user">
-          <div className="user-card">
+          <div className="user-card" onClick={() => navigate('/user-info')} style={{ cursor: 'pointer' }}>
             <div className="avatar">{userInitials}</div>
             <div className="sidebar-user-info">
               <p className="sidebar-user-name">{userName}</p>

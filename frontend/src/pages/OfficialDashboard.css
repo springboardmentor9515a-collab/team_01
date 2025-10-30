@@ -39,6 +39,41 @@
   color: #b91c1c;
 }
 
+/* Create Poll Button */
+.create-poll-btn {
+  background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%) !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 4px 12px rgba(26, 35, 126, 0.3) !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+}
+
+.create-poll-btn:hover {
+  background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(26, 35, 126, 0.4) !important;
+  color: white !important;
+}
+
+.create-poll-btn:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(26, 35, 126, 0.3) !important;
+}
+
+/* Header Button Group */
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 /* Stats Grid */
 .official-stats {
   display: grid;

@@ -18,17 +18,37 @@ import {
 
 const CitizenDashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
-  const [location, setLocation] = useState("San Diego, CA");
-  const [isEditingLocation, setIsEditingLocation] = useState(false);
-  const [locationInput, setLocationInput] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("All Status");
   const [userName, setUserName] = useState("Citizen");
   const [petitions, setPetitions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalPetitions, setTotalPetitions] = useState(0);
   const [error, setError] = useState(null);
+  const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
 
-  const categories = ["All Categories"];
+  const categories = [
+    "All Categories",
+    "Infrastructure", 
+    "Sanitation", 
+    "Water Supply", 
+    "Electricity", 
+    "Roads", 
+    "Public Safety", 
+    "Education", 
+    "Healthcare", 
+    "Environment", 
+    "Transportation", 
+    "Safety", 
+    "Other"
+  ];
+
+  const statusOptions = [
+    "All Status",
+    "Received",
+    "In Review", 
+    "Resolved"
+  ];
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -37,7 +57,6 @@ const CitizenDashboard = () => {
         const parsedUser = JSON.parse(storedUser);
         if (parsedUser.name) setUserName(parsedUser.name);
         else if (parsedUser.fullName) setUserName(parsedUser.fullName);
-        if (parsedUser.location) setLocation(parsedUser.location);
         // fetch citizen's petitions
         fetchMyPetitions();
       } catch (err) {
@@ -48,42 +67,32 @@ const CitizenDashboard = () => {
     }
   }, [navigate]);
 
-  const handleChangeLocation = () => {
-    // toggle inline edit mode
-    setLocationInput(location || "");
-    setIsEditingLocation(true);
-  };
-
-  const saveLocation = () => {
-    const newLoc = locationInput && locationInput.trim();
-    if (newLoc) {
-      setLocation(newLoc);
-      try {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-          const parsed = JSON.parse(storedUser);
-          parsed.location = newLoc;
-          localStorage.setItem("user", JSON.stringify(parsed));
-        }
-      } catch (e) {
-        console.warn("Failed to persist location in localStorage", e);
-      }
+  // Refetch when filters change
+  useEffect(() => {
+    if (userName !== "Citizen") { // Only fetch if user is loaded
       fetchMyPetitions();
     }
-    setIsEditingLocation(false);
-  };
+  }, [selectedCategory, selectedStatus]);
 
-  const cancelEditLocation = () => {
-    setIsEditingLocation(false);
-    setLocationInput("");
-  };
+
 
   const fetchMyPetitions = async () => {
     setLoading(true);
     setError(null);
     try {
-      // getMyComplaints returns { complaints, pagination }
-      const resp = await getMyComplaints({ page: 1, limit: 20 });
+      const params = { page: 1, limit: 20 };
+      
+      // Add category filter if not "All Categories"
+      if (selectedCategory !== "All Categories") {
+        params.category = selectedCategory.toLowerCase().replace(/ /g, '_');
+      }
+      
+      // Add status filter if not "All Status"
+      if (selectedStatus !== "All Status") {
+        params.status = selectedStatus.toLowerCase().replace(/ /g, '_');
+      }
+      
+      const resp = await getMyComplaints(params);
       const complaints = resp && resp.complaints ? resp.complaints : [];
       const pagination = resp && resp.pagination ? resp.pagination : null;
       setPetitions(complaints);
@@ -105,6 +114,13 @@ const CitizenDashboard = () => {
     localStorage.removeItem("user");
     navigate("/login");
   };
+
+  const clearFilters = () => {
+    setSelectedCategory("All Categories");
+    setSelectedStatus("All Status");
+  };
+
+  const hasActiveFilters = selectedCategory !== "All Categories" || selectedStatus !== "All Status";
 
   return (
     <Layout userType="citizen">
@@ -143,13 +159,6 @@ const CitizenDashboard = () => {
             icon={CheckCircle2}
             iconColor="bg-green-100 text-green-600"
           />
-          <StatCard
-            title="Polls Created"
-            value="0"
-            subtitle="polls"
-            icon={BarChart3}
-            iconColor="bg-teal-100 text-teal-600"
-          />
         </div>
 
         {/* Quick Actions */}
@@ -167,20 +176,6 @@ const CitizenDashboard = () => {
               </div>
             </div>
           </Button>
-
-          <Button
-            size="lg"
-            variant="outline"
-            className="quick-action-btn-secondary"
-          >
-            <BarChart3 className="quick-action-icon" />
-            <div className="quick-action-content">
-              <div className="quick-action-title">Create New Poll</div>
-              <div className="quick-action-subtitle">
-                Get community feedback on issues
-              </div>
-            </div>
-          </Button>
         </div>
 
         {/* Active Petitions */}
@@ -188,49 +183,8 @@ const CitizenDashboard = () => {
           <div className="citizen-active-petitions-header">
             <div>
               <h2 className="active-petitions-title">
-                Active Petitions Near You
+                My Complaints
               </h2>
-              <div className="location-info">
-                <MapPin className="location-icon" />
-                {isEditingLocation ? (
-                  <div
-                    style={{ display: "flex", gap: 8, alignItems: "center" }}
-                  >
-                    <input
-                      value={locationInput}
-                      onChange={(e) => setLocationInput(e.target.value)}
-                      placeholder="Enter city"
-                      style={{
-                        padding: "6px 10px",
-                        borderRadius: 6,
-                        border: "1px solid #d1d5db",
-                      }}
-                    />
-                    <Button size="sm" onClick={saveLocation}>
-                      Save
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={cancelEditLocation}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                ) : (
-                  <>
-                    <span>Showing for: {location}</span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="change-location-btn"
-                      onClick={() => handleChangeLocation()}
-                    >
-                      Change
-                    </Button>
-                  </>
-                )}
-              </div>
             </div>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
               <Button
@@ -240,9 +194,14 @@ const CitizenDashboard = () => {
               >
                 Refresh
               </Button>
-              <Button variant="outline" size="sm" className="filter-btn">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className={`filter-btn ${showFilters ? 'active' : ''}`}
+                onClick={() => setShowFilters(!showFilters)}
+              >
                 <Filter className="filter-icon" />
-                Filters
+                Filters {hasActiveFilters && `(${(selectedCategory !== "All Categories" ? 1 : 0) + (selectedStatus !== "All Status" ? 1 : 0)})`} {showFilters ? '▲' : '▼'}
               </Button>
             </div>
           </div>
@@ -263,6 +222,41 @@ const CitizenDashboard = () => {
               </Badge>
             ))}
           </div>
+
+          {/* Status Filter - Show when filters are toggled */}
+          {showFilters && (
+            <div className="citizen-status-filter" style={{ marginTop: '1rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <h4 style={{ color: '#374151', fontSize: '0.9rem', fontWeight: '600', margin: 0 }}>Filter by Status:</h4>
+                {hasActiveFilters && (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={clearFilters}
+                    style={{ fontSize: '0.8rem', padding: '0.25rem 0.5rem' }}
+                  >
+                    Clear Filters
+                  </Button>
+                )}
+              </div>
+              <div className="citizen-category-list">
+                {statusOptions.map((status) => (
+                  <Badge
+                    key={status}
+                    variant={selectedStatus === status ? "default" : "outline"}
+                    className={`category-badge ${
+                      selectedStatus === status
+                        ? "category-badge-active"
+                        : "category-badge-inactive"
+                    }`}
+                    onClick={() => setSelectedStatus(status)}
+                  >
+                    {status}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Petitions Grid */}
@@ -297,24 +291,23 @@ const CitizenDashboard = () => {
                     {/* <h4 className="petition-title">{petition.title}</h4> */}
                     <p className="petition-desc">{petition.description}</p>
                     <div className="petition-meta">
-                      <span className="meta-item">{petition.category}</span>
-                      <span className="meta-item">{petition.location}</span>
                       <span className="meta-item">
-                        Status: {petition.status}
+                        Category: {petition.category?.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                      </span>
+                      <span className="meta-item">📍 {petition.location}</span>
+                      <span className="meta-item">
+                        Status: <Badge 
+                          variant="outline" 
+                          className={`status-badge status-${petition.status}`}
+                        >
+                          {petition.status?.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                        </Badge>
                       </span>
                       <span className="meta-item">
-                        Assigned To:{" "}
-                        {petition.assigned_to?.name || "Unassigned"}
+                        Assigned To: {petition.assigned_to?.name || "Unassigned"}
                       </span>
                     </div>
-                    <div className="petition-actions" style={{ marginTop: 12, display: 'flex', gap: 8 }}>
-                      <Button
-                        variant="outline"
-                        onClick={() => navigate(`/complaints/${petition._id}`)}
-                      >
-                        View Details
-                      </Button>
-                    </div>
+
                   </div>
                 </div>
               </div>
@@ -324,19 +317,19 @@ const CitizenDashboard = () => {
 
         {/* Community Insights */}
         <div className="citizen-community-insights">
-          <h3 className="community-insights-title">Community Impact</h3>
+          <h3 className="community-insights-title">My Impact</h3>
           <div className="community-insights-grid">
             <div className="insight-item">
-              <div className="insight-value insight-value-primary">0</div>
-              <div className="insight-label">Total Signatures This Month</div>
+              <div className="insight-value insight-value-primary">{totalPetitions}</div>
+              <div className="insight-label">Total Complaints Submitted</div>
             </div>
             <div className="insight-item">
-              <div className="insight-value insight-value-success">0</div>
-              <div className="insight-label">Petitions Approved</div>
+              <div className="insight-value insight-value-success">{petitions.filter(p => p.status === 'resolved').length}</div>
+              <div className="insight-label">Complaints Resolved</div>
             </div>
             <div className="insight-item">
-              <div className="insight-value insight-value-teal">0%</div>
-              <div className="insight-label">Community Engagement</div>
+              <div className="insight-value insight-value-teal">{totalPetitions > 0 ? Math.round((petitions.filter(p => p.status === 'resolved').length / totalPetitions) * 100) : 0}%</div>
+              <div className="insight-label">Success Rate</div>
             </div>
           </div>
         </div>

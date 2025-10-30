@@ -158,6 +158,30 @@ export const getVolunteers = async () => {
 
 
 
+// Poll API calls
+export const createPoll = async (pollData) => {
+  return apiCallWithAuth("/civix/polls", {
+    method: "POST",
+    body: JSON.stringify(pollData),
+  });
+};
+
+export const getAllPolls = async (params = {}) => {
+  const queryString = new URLSearchParams(params).toString();
+  return apiCallWithAuth(`/civix/polls${queryString ? "?" + queryString : ""}`);
+};
+
+export const votePoll = async (pollId, option) => {
+  return apiCallWithAuth(`/civix/polls/${pollId}/vote`, {
+    method: "POST",
+    body: JSON.stringify({ selected_option: option }),
+  });
+};
+
+export const getPollResults = async (pollId) => {
+  return apiCallWithAuth(`/civix/polls/${pollId}/results`);
+};
+
 export default {
   signupUser,
   loginUser,
@@ -170,6 +194,11 @@ export default {
   assignComplaint,
   updateComplaintStatus,
   getVolunteers,
+  deleteComplaint,
+  createPoll,
+  getAllPolls,
+  votePoll,
+  getPollResults,
   isValidRole,
   getRoleDisplayName,
 };
