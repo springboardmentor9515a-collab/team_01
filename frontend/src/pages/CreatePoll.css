@@ -276,13 +276,14 @@
 .poll-options {
   position: absolute;
   left: 200px;
-  top: 520px;
+  top: 540px;
   width: 700px;
-  height: 120px;
+  max-height: 200px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
   z-index: 3;
+  overflow-y: auto;
 }
 
 .options-label {
@@ -296,69 +297,71 @@
   z-index: 3;
 }
 
-.option-row {
+/* Option Input Rows */
+.option-input-row {
   display: flex;
-  flex-direction: row;
-  position: relative;
-  align-items: center;
-  gap: 25px;
-  justify-content: center;
-  top: 20px;
-}
-
-.option-item {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 20px 15px;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 15px;
-  border: 2px solid #64b3ad;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  min-width: 160px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 
-.option-item:hover {
-  background: rgba(100, 179, 173, 0.15);
-  border-color: #407470;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-.vote-btn {
-  width: 130px;
+.option-input {
+  flex: 1;
   height: 45px;
-  background: transparent !important;
+  background: #fff !important;
+  color: #000;
   border-radius: 10px;
-  border: none !important;
-  color: #2b4d4a;
-  font-size: 18px;
+  border: 2px solid #64b3ad !important;
+  padding: 0 15px;
+  font-size: 16px;
   font-family: "Copse", serif;
+  box-sizing: border-box !important;
+  transition: border-color 0.2s ease;
+}
+
+.option-input:focus {
+  outline: none;
+  border-color: #407470 !important;
+  box-shadow: 0 0 0 2px rgba(100, 179, 173, 0.2);
+}
+
+.remove-option-btn {
+  width: 35px;
+  height: 35px;
+  background: #ef4444 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 50%;
+  font-size: 20px;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-sizing: border-box !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
 }
 
-.option-item:hover .vote-btn {
-  color: #407470;
-  transform: scale(1.05);
+.remove-option-btn:hover {
+  background: #dc2626 !important;
 }
 
-.vote-count {
+.add-option-btn {
+  width: 100%;
+  height: 40px;
+  background: transparent !important;
+  color: #2b4d4a !important;
+  border: 2px dashed #64b3ad !important;
+  border-radius: 10px;
+  font-size: 16px;
   font-family: "Copse", serif;
-  font-size: 14px;
-  color: #2b4d4a;
-  font-weight: bold;
-  background: rgba(203, 222, 236, 0.8);
-  padding: 6px 12px;
-  border-radius: 15px;
-  border: 1px solid #64b3ad;
-  min-width: 60px;
-  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+}
+
+.add-option-btn:hover {
+  background: rgba(100, 179, 173, 0.1) !important;
+  border-color: #407470 !important;
 }
 
 /* Submit Button */

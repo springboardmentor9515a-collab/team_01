@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./CreatePoll.css";
 import { createPoll } from "../services/api";
 
 const CreatePoll = () => {
+  const navigate = useNavigate();
+  
   // State for form data
   const [formData, setFormData] = useState({
     title: "",
@@ -11,12 +14,8 @@ const CreatePoll = () => {
     createdTime: new Date().toLocaleString(),
   });
 
-  // Vote counts for fixed options
-  const [voteCounts, setVoteCounts] = useState({
-    yes: 0,
-    no: 0,
-    maybe: 0,
-  });
+  // State for custom options
+  const [options, setOptions] = useState(["", ""]);
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -27,15 +26,45 @@ const CreatePoll = () => {
     }));
   };
 
+  // Handle option changes
+  const handleOptionChange = (index, value) => {
+    const newOptions = [...options];
+    newOptions[index] = value;
+    setOptions(newOptions);
+  };
+
+  // Add new option
+  const addOption = () => {
+    if (options.length < 6) {
+      setOptions([...options, ""]);
+    }
+  };
+
+  // Remove option
+  const removeOption = (index) => {
+    if (options.length > 2) {
+      const newOptions = options.filter((_, i) => i !== index);
+      setOptions(newOptions);
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Filter out empty options
+    const validOptions = options.filter(option => option.trim() !== "");
+    
+    if (validOptions.length < 2) {
+      alert("Please provide at least 2 options for the poll.");
+      return;
+    }
+
     const pollData = {
       title: formData.title,
       description: formData.description,
       target_location: formData.targetLocation,
-      options: ["Yes", "No", "Maybe"]
+      options: validOptions
     };
 
     try {
@@ -43,27 +72,21 @@ const CreatePoll = () => {
       console.log("Poll created:", response);
       alert("Poll created successfully!");
       
-      // Reset form
-      setFormData({
-        title: "",
-        description: "",
-        targetLocation: "",
-        createdTime: new Date().toLocaleString(),
-      });
-      setVoteCounts({ yes: 0, no: 0, maybe: 0 });
+      // Redirect to dashboard based on user role
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      const userRole = user.role || "citizen";
+      
+      if (userRole === "admin" || userRole === "official") {
+        navigate("/dashboard/official");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error("Error creating poll:", error);
       alert("Failed to create poll. Please try again.");
     }
   };
 
-  // Handle vote increment
-  const handleVote = (option) => {
-    setVoteCounts((prev) => ({
-      ...prev,
-      [option]: prev[option] + 1,
-    }));
-  };
   return (
     <div className="create-poll-root">
       <div className="ellipse ellipse-bg-main" />
@@ -82,7 +105,7 @@ const CreatePoll = () => {
       {/* Main Content */}
       <div className="create-poll-content">
         <div className="create-poll-title">Create Poll</div>
-        <div className="create-poll-subtitle">Take Vote From Other's</div>
+        <div className="create-poll-subtitle">Create Custom Poll Options</div>
         <form className="poll-form" onSubmit={handleSubmit}>
           <label className="poll-label title-label">Title</label>
           <input
@@ -125,30 +148,41 @@ const CreatePoll = () => {
             readOnly
           />
 
-          <label className="poll-label options-title">Vote Options</label>
+          <label className="poll-label options-title">Poll Options</label>
 
-          {/* Fixed Options with Vote Counts */}
+          {/* Custom Options Input */}
           <div className="poll-options">
-            <div className="option-row">
-              <div className="option-item" onClick={() => handleVote("yes")}>
-                <button type="button" className="vote-btn">
-                  Yes
-                </button>
-                <span className="vote-count">{voteCounts.yes} votes</span>
+            {options.map((option, index) => (
+              <div key={index} className="option-input-row">
+                <input
+                  className="option-input"
+                  type="text"
+                  value={option}
+                  onChange={(e) => handleOptionChange(index, e.target.value)}
+                  placeholder={`Option ${index + 1}`}
+                  required
+                />
+                {options.length > 2 && (
+                  <button
+                    type="button"
+                    className="remove-option-btn"
+                    onClick={() => removeOption(index)}
+                  >
+                    ×
+                  </button>
+                )}
               </div>
-              <div className="option-item" onClick={() => handleVote("no")}>
-                <button type="button" className="vote-btn">
-                  No
-                </button>
-                <span className="vote-count">{voteCounts.no} votes</span>
-              </div>
-              <div className="option-item" onClick={() => handleVote("maybe")}>
-                <button type="button" className="vote-btn">
-                  Maybe
-                </button>
-                <span className="vote-count">{voteCounts.maybe} votes</span>
-              </div>
-            </div>
+            ))}
+            
+            {options.length < 6 && (
+              <button
+                type="button"
+                className="add-option-btn"
+                onClick={addOption}
+              >
+                + Add Option
+              </button>
+            )}
           </div>
 
           {/* Submit Button */}

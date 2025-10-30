@@ -12,6 +12,7 @@ import ResetPassword from "./pages/ResetPassword.jsx";
 import CreatePetition from "./pages/CreatePetition.jsx";
 import UserInfo from "./pages/UserInfo.jsx";
 import CreatePoll from "./pages/CreatePoll.jsx";
+import Polls from "./pages/Polls.jsx";
 
 export default function App() {
   return (
@@ -71,7 +72,14 @@ export default function App() {
           />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route
+            path="/polls"
+            element={
+              <ProtectedRoute>
+                <Polls />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/create-poll"
             element={
@@ -80,6 +88,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </div>
     </AuthProvider>
