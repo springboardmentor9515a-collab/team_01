@@ -13,6 +13,8 @@ import CreatePetition from "./pages/CreatePetition.jsx";
 import UserInfo from "./pages/UserInfo.jsx";
 import CreatePoll from "./pages/CreatePoll.jsx";
 import Polls from "./pages/Polls.jsx";
+import PollDetail from "./pages/PollDetail.jsx";
+
 
 export default function App() {
   return (
@@ -85,6 +87,18 @@ export default function App() {
             element={
               <ProtectedRoute allowedRoles={["admin", "official"]}>
                 <CreatePoll />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/polls/new"
+            element={<Navigate to="/create-poll" replace />}
+          />
+          <Route
+            path="/polls/:id"
+            element={
+              <ProtectedRoute>
+                <PollDetail />
               </ProtectedRoute>
             }
           />

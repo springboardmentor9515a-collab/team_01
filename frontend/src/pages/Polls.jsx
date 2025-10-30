@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
-import { getAllPolls, votePoll } from "../services/api";
+import { getAllPolls } from "../services/api";
 import { MapPin, User, Calendar, Vote } from "lucide-react";
 import "./Polls.css";
 
@@ -12,9 +12,7 @@ const Polls = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState("All Locations");
-  const [votingPoll, setVotingPoll] = useState(null);
   const [user, setUser] = useState(null);
-  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
   const locations = ["All Locations", ...new Set(polls.map(poll => poll.target_location))];
@@ -60,25 +58,8 @@ const Polls = () => {
     }
   };
 
-  const handleVote = async (pollId, option) => {
-    setVotingPoll(pollId);
-    setError(null);
-    setSuccessMessage("");
-    try {
-      await votePoll(pollId, option);
-      setSuccessMessage(`Successfully voted for "${option}"!`);
-      setTimeout(() => setSuccessMessage(""), 4000);
-      fetchPolls(); // Refresh polls to show updated results
-    } catch (err) {
-      console.error("Error voting:", err);
-      if (err.message.includes("already voted")) {
-        setError("You have already voted on this poll");
-      } else {
-        setError("Failed to vote. Please try again.");
-      }
-    } finally {
-      setVotingPoll(null);
-    }
+  const handleViewPoll = (pollId) => {
+    navigate(`/polls/${pollId}`);
   };
 
   const formatDate = (dateString) => {
@@ -93,12 +74,6 @@ const Polls = () => {
     <Layout userType={user?.role || "citizen"}>
       <div className="polls-container">
         {/* Alert Messages */}
-        {successMessage && (
-          <div className="alert alert-success">
-            <Vote size={20} />
-            {successMessage}
-          </div>
-        )}
         {error && (
           <div className="alert alert-error">
             {error}
@@ -171,21 +146,17 @@ const Polls = () => {
                   </div>
                 </div>
 
-                <div className="voting-section">
-                  <div className="voting-options">
-                    {poll.options?.map((option, index) => (
-                      <button
-                        key={index}
-                        className={`vote-btn ${votingPoll === poll._id ? "voting" : ""}`}
-                        onClick={() => handleVote(poll._id, option)}
-                        disabled={votingPoll === poll._id}
-                      >
-                        <span className="vote-text">
-                          {votingPoll === poll._id ? "Submitting..." : option}
-                        </span>
-                      </button>
-                    ))}
+                <div className="poll-actions">
+                  <div className="poll-stats">
+                    <span className="options-count">{poll.options?.length || 0} options</span>
                   </div>
+                  <Button 
+                    onClick={() => handleViewPoll(poll._id)}
+                    className="vote-button"
+                  >
+                    <Vote size={16} />
+                    Vote Now
+                  </Button>
                 </div>
               </div>
             ))

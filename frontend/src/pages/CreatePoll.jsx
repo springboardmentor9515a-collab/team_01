@@ -72,15 +72,8 @@ const CreatePoll = () => {
       console.log("Poll created:", response);
       alert("Poll created successfully!");
       
-      // Redirect to dashboard based on user role
-      const user = JSON.parse(localStorage.getItem("user") || "{}");
-      const userRole = user.role || "citizen";
-      
-      if (userRole === "admin" || userRole === "official") {
-        navigate("/dashboard/official");
-      } else {
-        navigate("/dashboard");
-      }
+      // Redirect to polls list as specified in checklist
+      navigate("/polls");
     } catch (error) {
       console.error("Error creating poll:", error);
       alert("Failed to create poll. Please try again.");

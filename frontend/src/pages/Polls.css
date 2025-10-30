@@ -168,69 +168,44 @@
   font-weight: 500;
 }
 
-/* Voting Section */
-.voting-section {
+/* Poll Actions Section */
+.poll-actions {
   border-top: 1px solid #f1f5f9;
   padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.voting-options {
+.poll-stats {
   display: flex;
-  flex-direction: column;
   gap: 1rem;
 }
 
-/* Vote Buttons */
-.vote-btn {
-  width: 100%;
-  padding: 1rem 1.5rem;
-  border: 2px solid #e2e8f0;
-  background: white;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 1rem;
+.options-count {
+  color: #64748b;
+  font-size: 0.875rem;
   font-weight: 500;
-  color: #374151;
+}
+
+.vote-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #0f4c5c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  position: relative;
 }
 
-.vote-btn:hover:not(:disabled) {
-  border-color: #0f4c5c;
-  background: #0f4c5c !important;
-  color: white !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(15, 76, 92, 0.2);
-}
-
-.vote-btn:hover:not(:disabled) .vote-text {
-  color: white !important;
-}
-
-.vote-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  background: #f1f5f9 !important;
-  color: #94a3b8 !important;
-}
-
-.vote-btn.voting {
-  background: #0f4c5c !important;
-  color: white !important;
-  border-color: #0f4c5c;
-}
-
-.vote-btn.voting .vote-text {
-  color: white !important;
-}
-
-.vote-text {
-  display: block;
-  width: 100%;
-  font-family: inherit;
-  font-weight: inherit;
-  transition: color 0.2s ease;
+.vote-button:hover {
+  background: #1e7490;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 76, 92, 0.3);
 }
 
 /* State Messages */
@@ -290,6 +265,16 @@
   .poll-metadata {
     flex-direction: column;
     gap: 0.75rem;
+  }
+  
+  .poll-actions {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .vote-button {
+    justify-content: center;
   }
   
   .filter-badges {
