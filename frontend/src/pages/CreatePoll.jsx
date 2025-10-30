@@ -5,7 +5,7 @@ import { createPoll } from "../services/api";
 
 const CreatePoll = () => {
   const navigate = useNavigate();
-  
+
   // State for form data
   const [formData, setFormData] = useState({
     title: "",
@@ -51,10 +51,10 @@ const CreatePoll = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Filter out empty options
-    const validOptions = options.filter(option => option.trim() !== "");
-    
+    const validOptions = options.filter((option) => option.trim() !== "");
+
     if (validOptions.length < 2) {
       alert("Please provide at least 2 options for the poll.");
       return;
@@ -64,16 +64,16 @@ const CreatePoll = () => {
       title: formData.title,
       description: formData.description,
       target_location: formData.targetLocation,
-      options: validOptions
+      options: validOptions,
     };
 
     try {
       const response = await createPoll(pollData);
       console.log("Poll created:", response);
       alert("Poll created successfully!");
-      
-      // Redirect to polls list as specified in checklist
-      navigate("/polls");
+
+      // Redirect to official dashboard after creating poll
+      navigate("/dashboard/official");
     } catch (error) {
       console.error("Error creating poll:", error);
       alert("Failed to create poll. Please try again.");
@@ -166,7 +166,7 @@ const CreatePoll = () => {
                 )}
               </div>
             ))}
-            
+
             {options.length < 6 && (
               <button
                 type="button"
