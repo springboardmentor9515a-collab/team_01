@@ -194,7 +194,7 @@ export default {
   assignComplaint,
   updateComplaintStatus,
   getVolunteers,
-  deleteComplaint,
+  // deleteComplaint,
   createPoll,
   getAllPolls,
   votePoll,
