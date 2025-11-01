@@ -59,18 +59,24 @@
 /* Stats Grid */
 .citizen-stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
   margin-bottom: 1.5rem;
 }
 
 .stat-card {
   background: white;
-  padding: 1.5rem;
+  padding: 2rem;
   border-radius: 0.75rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid #f3f4f6;
   position: relative;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .stat-card-header {
@@ -92,7 +98,7 @@
 }
 
 .stat-card-value {
-  font-size: 2.25rem;
+  font-size: 3rem;
   font-weight: 700;
   color: #111827;
   line-height: 1;
@@ -100,9 +106,9 @@
 }
 
 .stat-card-icon {
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 0.625rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -135,16 +141,15 @@
 
 /* Quick Actions */
 .citizen-quick-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
+  display: flex;
+  justify-content: center;
   margin-bottom: 2rem;
 }
 
 .quick-action-btn-primary {
-  width: 100%;
+  width: auto;
   height: auto;
-  padding: 1.25rem 1.5rem;
+  padding: 1.5rem 2rem;
   display: flex;
   align-items: center;
   gap: 1.25rem;
@@ -152,10 +157,11 @@
   background-color: #0f4c5c;
   color: white;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   transition: all 0.2s ease;
   cursor: pointer;
   text-align: left;
+  min-width: 300px;
 }
 
 .quick-action-btn-primary:hover {
@@ -303,6 +309,17 @@
   background-color: #f9fafb;
 }
 
+.filter-btn.active {
+  background-color: #0f4c5c;
+  color: white;
+  border-color: #0f4c5c;
+}
+
+.filter-btn.active:hover {
+  background-color: #16697a;
+  border-color: #16697a;
+}
+
 .filter-icon {
   width: 1.125rem;
   height: 1.125rem;
@@ -431,6 +448,39 @@
   gap: 0.5rem 1rem;
   color: #6b7280;
   font-size: 0.9rem;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-received {
+  background-color: #fef3c7;
+  color: #92400e;
+  border-color: #fbbf24;
+}
+
+.status-in_review {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border-color: #3b82f6;
+}
+
+.status-resolved {
+  background-color: #d1fae5;
+  color: #065f46;
+  border-color: #10b981;
+}
+
+.citizen-status-filter {
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
 }
 
 @keyframes slideUp {

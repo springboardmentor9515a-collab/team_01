@@ -27,7 +27,11 @@ const OfficialDashboard = () => {
   const [selectedComplaint, setSelectedComplaint] = useState(null);
   const [showComplaintModal, setShowComplaintModal] = useState(false);
   const [showAssignModal, setShowAssignModal] = useState(false);
-  const [filters, setFilters] = useState({ status: '', category: '', location: '' });
+  const [filters, setFilters] = useState({
+    status: "",
+    category: "",
+    location: "",
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -67,17 +71,17 @@ const OfficialDashboard = () => {
   const handleFilterChange = (key, value) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
-    
+
     // Remove empty filters
     const activeFilters = Object.fromEntries(
-      Object.entries(newFilters).filter(([_, v]) => v !== '')
+      Object.entries(newFilters).filter(([_, v]) => v !== "")
     );
-    
+
     fetchComplaints(activeFilters);
   };
 
   const clearFilters = () => {
-    setFilters({ status: '', category: '', location: '' });
+    setFilters({ status: "", category: "", location: "" });
     fetchComplaints();
   };
 
@@ -108,17 +112,22 @@ const OfficialDashboard = () => {
   };
 
   // Calculate stats from real data
-  const pendingComplaints = complaints.filter(c => c.status === 'pending');
-  const approvedComplaints = complaints.filter(c => c.status === 'resolved');
-  const inReviewComplaints = complaints.filter(c => c.status === 'in_review');
-  
-  const recentActions = complaints.slice(0, 5).map(c => ({
+  const pendingComplaints = complaints.filter((c) => c.status === "pending");
+  const approvedComplaints = complaints.filter((c) => c.status === "resolved");
+  const inReviewComplaints = complaints.filter((c) => c.status === "in_review");
+
+  const recentActions = complaints.slice(0, 5).map((c) => ({
     action: `Complaint "${c.title}" ${c.status}`,
-    time: new Date(c.createdAt).toLocaleDateString()
+    time: new Date(c.createdAt).toLocaleDateString(),
   }));
-  
+
   const departmentMetrics = [
-    { name: "Public Works", pending: pendingComplaints.length, approved: approvedComplaints.length, avgTime: "2 days" },
+    {
+      name: "Public Works",
+      pending: pendingComplaints.length,
+      approved: approvedComplaints.length,
+      avgTime: "2 days",
+    },
     { name: "Education", pending: 0, approved: 0, avgTime: "0 days" },
     { name: "Public Safety", pending: 0, approved: 0, avgTime: "0 days" },
     { name: "Transportation", pending: 0, approved: 0, avgTime: "0 days" },
@@ -136,13 +145,21 @@ const OfficialDashboard = () => {
               engagement efficiently.
             </p>
           </div>
-          <Button
-            variant="outline"
-            className="logout-btn"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
+          <div className="header-buttons">
+            <Button
+              className="create-poll-btn"
+              onClick={() => navigate("/create-poll")}
+            >
+              📊 Create Poll
+            </Button>
+            <Button
+              variant="outline"
+              className="logout-btn"
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          </div>
         </div>
 
         {/* Stats */}
@@ -153,7 +170,10 @@ const OfficialDashboard = () => {
             subtitle="complaints awaiting review"
             icon={Clock}
             iconColor="bg-yellow-100 text-yellow-700"
-            trend={{ value: `${pendingComplaints.length} new`, isPositive: false }}
+            trend={{
+              value: `${pendingComplaints.length} new`,
+              isPositive: false,
+            }}
           />
           <StatCard
             title="Resolved This Month"
@@ -188,17 +208,22 @@ const OfficialDashboard = () => {
           </div>
           <div className="alert-content">
             <h3 className="alert-title">
-              {pendingComplaints.length > 0 ? `${pendingComplaints.length} Pending Complaints` : "No Priority Items"}
+              {pendingComplaints.length > 0
+                ? `${pendingComplaints.length} Pending Complaints`
+                : "No Priority Items"}
             </h3>
             <p className="alert-text">
-              {pendingComplaints.length > 0 
+              {pendingComplaints.length > 0
                 ? "There are complaints requiring your attention and assignment."
-                : "There are currently no complaints requiring urgent attention."
-              }
+                : "There are currently no complaints requiring urgent attention."}
             </p>
-            <Button 
-              size="sm" 
-              className={pendingComplaints.length > 0 ? "alert-btn" : "alert-btn-disabled"} 
+            <Button
+              size="sm"
+              className={
+                pendingComplaints.length > 0
+                  ? "alert-btn"
+                  : "alert-btn-disabled"
+              }
               disabled={pendingComplaints.length === 0}
             >
               Review Priority Items
@@ -219,99 +244,133 @@ const OfficialDashboard = () => {
                   Total: {complaints.length}
                 </Button>
               </div>
-              
+
               {/* Filter Buttons */}
               <div className="mb-4 space-y-2">
                 <div className="flex flex-wrap gap-2">
-                  <span className="text-xs font-medium text-gray-600 self-center">Status:</span>
+                  <span className="text-xs font-medium text-gray-600 self-center">
+                    Status:
+                  </span>
                   <button
-                    onClick={() => handleFilterChange('status', '')}
+                    onClick={() => handleFilterChange("status", "")}
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.status === '' ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.status === ""
+                        ? "bg-blue-500 text-white border-blue-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     All
                   </button>
                   <button
-                    onClick={() => handleFilterChange('status', 'pending')}
+                    onClick={() => handleFilterChange("status", "pending")}
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.status === 'pending' ? 'bg-yellow-500 text-white border-yellow-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.status === "pending"
+                        ? "bg-yellow-500 text-white border-yellow-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Pending
                   </button>
                   <button
-                    onClick={() => handleFilterChange('status', 'in_review')}
+                    onClick={() => handleFilterChange("status", "in_review")}
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.status === 'in_review' ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.status === "in_review"
+                        ? "bg-blue-500 text-white border-blue-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     In Review
                   </button>
                   <button
-                    onClick={() => handleFilterChange('status', 'resolved')}
+                    onClick={() => handleFilterChange("status", "resolved")}
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.status === 'resolved' ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.status === "resolved"
+                        ? "bg-green-500 text-white border-green-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Resolved
                   </button>
                   <button
-                    onClick={() => handleFilterChange('status', 'rejected')}
+                    onClick={() => handleFilterChange("status", "rejected")}
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.status === 'rejected' ? 'bg-red-500 text-white border-red-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.status === "rejected"
+                        ? "bg-red-500 text-white border-red-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Rejected
                   </button>
                 </div>
-                
+
                 <div className="flex flex-wrap gap-2">
-                  <span className="text-xs font-medium text-gray-600 self-center">Category:</span>
+                  <span className="text-xs font-medium text-gray-600 self-center">
+                    Category:
+                  </span>
                   <button
-                    onClick={() => handleFilterChange('category', '')}
+                    onClick={() => handleFilterChange("category", "")}
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.category === '' ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.category === ""
+                        ? "bg-blue-500 text-white border-blue-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     All
                   </button>
                   <button
-                    onClick={() => handleFilterChange('category', 'infrastructure')}
+                    onClick={() =>
+                      handleFilterChange("category", "infrastructure")
+                    }
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.category === 'infrastructure' ? 'bg-purple-500 text-white border-purple-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.category === "infrastructure"
+                        ? "bg-purple-500 text-white border-purple-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Infrastructure
                   </button>
                   <button
-                    onClick={() => handleFilterChange('category', 'public_safety')}
+                    onClick={() =>
+                      handleFilterChange("category", "public_safety")
+                    }
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.category === 'public_safety' ? 'bg-red-500 text-white border-red-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.category === "public_safety"
+                        ? "bg-red-500 text-white border-red-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Public Safety
                   </button>
                   <button
-                    onClick={() => handleFilterChange('category', 'environment')}
+                    onClick={() =>
+                      handleFilterChange("category", "environment")
+                    }
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.category === 'environment' ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.category === "environment"
+                        ? "bg-green-500 text-white border-green-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Environment
                   </button>
                   <button
-                    onClick={() => handleFilterChange('category', 'transportation')}
+                    onClick={() =>
+                      handleFilterChange("category", "transportation")
+                    }
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.category === 'transportation' ? 'bg-indigo-500 text-white border-indigo-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.category === "transportation"
+                        ? "bg-indigo-500 text-white border-indigo-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Transportation
                   </button>
                   <button
-                    onClick={() => handleFilterChange('category', 'other')}
+                    onClick={() => handleFilterChange("category", "other")}
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.category === 'other' ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.category === "other"
+                        ? "bg-gray-500 text-white border-gray-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Other
@@ -325,37 +384,44 @@ const OfficialDashboard = () => {
               ) : complaints.length === 0 ? (
                 <div className="empty-state">
                   <p className="empty-text">
-                    {Object.values(filters).some(f => f !== '') 
-                      ? "No complaints match your filters." 
-                      : "✅ No complaints available for review right now."
-                    }
+                    {Object.values(filters).some((f) => f !== "")
+                      ? "No complaints match your filters."
+                      : "✅ No complaints available for review right now."}
                   </p>
                 </div>
               ) : (
                 <div className="space-y-3">
                   {complaints.slice(0, 5).map((complaint) => (
-                    <div key={complaint._id} className="p-4 border rounded-lg hover:bg-gray-50">
+                    <div
+                      key={complaint._id}
+                      className="p-4 border rounded-lg hover:bg-gray-50"
+                    >
                       <div className="flex justify-between items-start">
                         <div className="flex-1">
-                          <h4 className="font-medium text-sm">{complaint.title}</h4>
-                          <p className="text-xs text-gray-600 mt-1">{complaint.location}</p>
+                          <h4 className="font-medium text-sm">
+                            {complaint.title}
+                          </h4>
+                          <p className="text-xs text-gray-600 mt-1">
+                            {complaint.location}
+                          </p>
                           <p className="text-xs text-gray-500 mt-1">
-                            Status: {complaint.status?.replace('_', ' ').toUpperCase()}
+                            Status:{" "}
+                            {complaint.status?.replace("_", " ").toUpperCase()}
                           </p>
                         </div>
                         <div className="flex gap-2">
-                          <Button 
-                            size="sm" 
+                          <Button
+                            size="sm"
                             variant="outline"
                             onClick={() => handleViewComplaint(complaint)}
                           >
                             <Eye className="h-3 w-3" />
                           </Button>
                           {!complaint.assigned_to && (
-                            <Button 
+                            <Button
                               size="sm"
                               onClick={() => handleAssignClick(complaint)}
-                              className="bg-blue-600 hover:bg-blue-700 text-white"
+                              className="bg-blue-600 hover:bg-blue-700 text-black"
                             >
                               Assign
                             </Button>
@@ -468,7 +534,7 @@ const OfficialDashboard = () => {
           onAssign={handleAssignClick}
           userRole="admin"
         />
-        
+
         <AssignComplaintModal
           complaint={selectedComplaint}
           isOpen={showAssignModal}

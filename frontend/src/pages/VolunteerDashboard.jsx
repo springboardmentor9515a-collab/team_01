@@ -30,7 +30,7 @@ const VolunteerDashboard = () => {
   const [selectedComplaint, setSelectedComplaint] = useState(null);
   const [showComplaintModal, setShowComplaintModal] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
-  const [filters, setFilters] = useState({ status: '', category: '' });
+  const [filters, setFilters] = useState({ status: "", category: "" });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,17 +71,17 @@ const VolunteerDashboard = () => {
   const handleFilterChange = (key, value) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
-    
+
     // Remove empty filters
     const activeFilters = Object.fromEntries(
-      Object.entries(newFilters).filter(([_, v]) => v !== '')
+      Object.entries(newFilters).filter(([_, v]) => v !== "")
     );
-    
+
     fetchTasks(activeFilters);
   };
 
   const clearFilters = () => {
-    setFilters({ status: '', category: '' });
+    setFilters({ status: "", category: "" });
     fetchTasks();
   };
 
@@ -113,17 +113,21 @@ const VolunteerDashboard = () => {
 
   // Calculate stats from real data
   const activeProjects = tasks;
-  const completedTasks = tasks.filter(t => t.status === 'resolved');
-  const inProgressTasks = tasks.filter(t => t.status === 'in_review');
-  
-  const recentActivities = tasks.slice(0, 3).map(t => ({
+  const completedTasks = tasks.filter((t) => t.status === "resolved");
+  const inProgressTasks = tasks.filter((t) => t.status === "in_review");
+
+  const recentActivities = tasks.slice(0, 3).map((t) => ({
     action: `Updated "${t.title}" to ${t.status}`,
-    time: new Date(t.updatedAt || t.createdAt).toLocaleDateString()
+    time: new Date(t.updatedAt || t.createdAt).toLocaleDateString(),
   }));
-  
+
   const performanceStats = [
     { name: "Hours Contributed", value: tasks.length * 2, trend: "8%" },
-    { name: "Projects Completed", value: completedTasks.length, trend: completedTasks.length },
+    {
+      name: "Projects Completed",
+      value: completedTasks.length,
+      trend: completedTasks.length,
+    },
     { name: "Impact Score", value: "85%", trend: "12%" },
     { name: "Active Tasks", value: inProgressTasks.length, trend: "5%" },
   ];
@@ -165,7 +169,10 @@ const VolunteerDashboard = () => {
             subtitle="complaints assigned to you"
             icon={HeartHandshake}
             iconColor="bg-pink-100 text-pink-700"
-            trend={{ value: activeProjects.length.toString(), isPositive: true }}
+            trend={{
+              value: activeProjects.length.toString(),
+              isPositive: true,
+            }}
           />
           <StatCard
             title="Completed"
@@ -181,7 +188,10 @@ const VolunteerDashboard = () => {
             subtitle="currently working on"
             icon={Users}
             iconColor="bg-blue-100 text-blue-700"
-            trend={{ value: inProgressTasks.length.toString(), isPositive: true }}
+            trend={{
+              value: inProgressTasks.length.toString(),
+              isPositive: true,
+            }}
           />
         </div>
 
@@ -234,91 +244,123 @@ const VolunteerDashboard = () => {
                   Total: {activeProjects.length}
                 </Button>
               </div>
-              
+
               {/* Filter Buttons */}
               <div className="mb-4 space-y-2">
                 <div className="flex flex-wrap gap-2">
-                  <span className="text-xs font-medium text-gray-600 self-center">Status:</span>
+                  <span className="text-xs font-medium text-gray-600 self-center">
+                    Status:
+                  </span>
                   <button
-                    onClick={() => handleFilterChange('status', '')}
+                    onClick={() => handleFilterChange("status", "")}
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.status === '' ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.status === ""
+                        ? "bg-blue-500 text-white border-blue-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     All
                   </button>
                   <button
-                    onClick={() => handleFilterChange('status', 'in_review')}
+                    onClick={() => handleFilterChange("status", "in_review")}
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.status === 'in_review' ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.status === "in_review"
+                        ? "bg-blue-500 text-white border-blue-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     In Review
                   </button>
                   <button
-                    onClick={() => handleFilterChange('status', 'resolved')}
+                    onClick={() => handleFilterChange("status", "resolved")}
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.status === 'resolved' ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.status === "resolved"
+                        ? "bg-green-500 text-white border-green-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Resolved
                   </button>
                   <button
-                    onClick={() => handleFilterChange('status', 'rejected')}
+                    onClick={() => handleFilterChange("status", "rejected")}
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.status === 'rejected' ? 'bg-red-500 text-white border-red-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.status === "rejected"
+                        ? "bg-red-500 text-white border-red-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Rejected
                   </button>
                 </div>
-                
+
                 <div className="flex flex-wrap gap-2">
-                  <span className="text-xs font-medium text-gray-600 self-center">Category:</span>
+                  <span className="text-xs font-medium text-gray-600 self-center">
+                    Category:
+                  </span>
                   <button
-                    onClick={() => handleFilterChange('category', '')}
+                    onClick={() => handleFilterChange("category", "")}
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.category === '' ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.category === ""
+                        ? "bg-blue-500 text-white border-blue-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     All
                   </button>
                   <button
-                    onClick={() => handleFilterChange('category', 'infrastructure')}
+                    onClick={() =>
+                      handleFilterChange("category", "infrastructure")
+                    }
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.category === 'infrastructure' ? 'bg-purple-500 text-white border-purple-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.category === "infrastructure"
+                        ? "bg-purple-500 text-white border-purple-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Infrastructure
                   </button>
                   <button
-                    onClick={() => handleFilterChange('category', 'public_safety')}
+                    onClick={() =>
+                      handleFilterChange("category", "public_safety")
+                    }
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.category === 'public_safety' ? 'bg-red-500 text-white border-red-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.category === "public_safety"
+                        ? "bg-red-500 text-white border-red-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Public Safety
                   </button>
                   <button
-                    onClick={() => handleFilterChange('category', 'environment')}
+                    onClick={() =>
+                      handleFilterChange("category", "environment")
+                    }
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.category === 'environment' ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.category === "environment"
+                        ? "bg-green-500 text-white border-green-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Environment
                   </button>
                   <button
-                    onClick={() => handleFilterChange('category', 'transportation')}
+                    onClick={() =>
+                      handleFilterChange("category", "transportation")
+                    }
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.category === 'transportation' ? 'bg-indigo-500 text-white border-indigo-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.category === "transportation"
+                        ? "bg-indigo-500 text-white border-indigo-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Transportation
                   </button>
                   <button
-                    onClick={() => handleFilterChange('category', 'other')}
+                    onClick={() => handleFilterChange("category", "other")}
                     className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.category === 'other' ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      filters.category === "other"
+                        ? "bg-gray-500 text-white border-gray-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     Other
@@ -333,42 +375,54 @@ const VolunteerDashboard = () => {
               ) : activeProjects.length === 0 ? (
                 <div className="empty-state">
                   <p className="empty-text">
-                    {Object.values(filters).some(f => f !== '') 
-                      ? "No complaints match your filters." 
-                      : "🌱 No assigned complaints right now."
-                    }
+                    {Object.values(filters).some((f) => f !== "")
+                      ? "No complaints match your filters."
+                      : "🌱 No assigned complaints right now."}
                   </p>
                 </div>
               ) : (
                 <div className="space-y-3">
                   {activeProjects.map((complaint) => (
-                    <div key={complaint._id} className="p-4 border rounded-lg hover:bg-gray-50">
+                    <div
+                      key={complaint._id}
+                      className="p-4 border rounded-lg hover:bg-gray-50"
+                    >
                       <div className="flex justify-between items-start">
                         <div className="flex-1">
-                          <h4 className="font-medium text-sm">{complaint.title}</h4>
-                          <p className="text-xs text-gray-600 mt-1 line-clamp-2">{complaint.description}</p>
-                          <p className="text-xs text-gray-500 mt-1">{complaint.location}</p>
-                          <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium mt-2 ${
-                            complaint.status === 'resolved' ? 'bg-green-100 text-green-800' :
-                            complaint.status === 'in_review' ? 'bg-blue-100 text-blue-800' :
-                            'bg-yellow-100 text-yellow-800'
-                          }`}>
-                            {complaint.status?.replace('_', ' ').toUpperCase()}
+                          <h4 className="font-medium text-sm">
+                            {complaint.title}
+                          </h4>
+                          <p className="text-xs text-gray-600 mt-1 line-clamp-2">
+                            {complaint.description}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {complaint.location}
+                          </p>
+                          <span
+                            className={`inline-block px-2 py-1 rounded-full text-xs font-medium mt-2 ${
+                              complaint.status === "resolved"
+                                ? "bg-green-100 text-green-800"
+                                : complaint.status === "in_review"
+                                ? "bg-blue-100 text-blue-800"
+                                : "bg-yellow-100 text-yellow-800"
+                            }`}
+                          >
+                            {complaint.status?.replace("_", " ").toUpperCase()}
                           </span>
                         </div>
                         <div className="flex gap-2">
-                          <Button 
-                            size="sm" 
+                          <Button
+                            size="sm"
                             variant="outline"
                             onClick={() => handleViewComplaint(complaint)}
                           >
                             <Eye className="h-3 w-3" />
                           </Button>
-                          {complaint.status !== 'resolved' && (
-                            <Button 
+                          {complaint.status !== "resolved" && (
+                            <Button
                               size="sm"
                               onClick={() => handleStatusClick(complaint)}
-                              className="bg-green-600 hover:bg-green-700 text-white"
+                              className="bg-green-600 hover:bg-green-700 text-black"
                             >
                               <Edit className="h-3 w-3" />
                             </Button>
@@ -432,7 +486,7 @@ const VolunteerDashboard = () => {
           onUpdateStatus={handleStatusClick}
           userRole="volunteer"
         />
-        
+
         <StatusUpdateModal
           complaint={selectedComplaint}
           isOpen={showStatusModal}
