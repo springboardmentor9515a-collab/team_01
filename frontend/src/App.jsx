@@ -14,6 +14,7 @@ import UserInfo from "./pages/UserInfo.jsx";
 import CreatePoll from "./pages/CreatePoll.jsx";
 import Polls from "./pages/Polls.jsx";
 import PollDetail from "./pages/PollDetail.jsx";
+import ReportDashboard from "./pages/Report.jsx";
 
 
 export default function App() {
@@ -98,6 +99,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <PollDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute>
+                <ReportDashboard />
               </ProtectedRoute>
             }
           />
