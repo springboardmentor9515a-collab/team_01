@@ -1,5 +1,5 @@
 // API Service Layer - Centralized API calls
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 // Valid roles for client-side validation
 const VALID_ROLES = ["citizen", "admin", "volunteer"];

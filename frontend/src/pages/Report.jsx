@@ -5,7 +5,7 @@ import Layout from "../components/Layout";
 import { Button } from "../components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 import { Download, TrendingUp, ChevronDown, FileText, FileSpreadsheet } from "lucide-react";
-import { getMyComplaints, getAllComplaints, getAllPolls } from "../services/api";
+import { getMyComplaints, getAllComplaints } from "../services/api";
 
 const ReportDashboard = () => {
   const navigate = useNavigate();
@@ -18,25 +18,27 @@ const ReportDashboard = () => {
 
   // Stats from backend
   const [stats, setStats] = useState({
-    totalPetitions: 0,
-    petitionIncrease: "Loading...",
-    totalPolls: 0,
-    pollIncrease: "Loading...",
-    activeEngagement: 0,
-    engagementSubtitle: "Active petitions and polls"
+    totalComplaints: 0,
+    complaintIncrease: "Loading...",
+    successfulComplaints: 0,
+    successRate: "Loading...",
+    activeComplaints: 0,
+    engagementSubtitle: "Your complaint activity"
   });
 
-  // Petition status data from backend
-  const [petitionData, setPetitionData] = useState([
+  // Complaint status data from backend
+  const [complaintStatusData, setComplaintStatusData] = useState([
     { name: "Active", value: 0, color: "#0F4C5C" },
     { name: "Under Review", value: 0, color: "#FFA500" },
+    { name: "Resolved", value: 0, color: "#10B981" },
     { name: "Closed", value: 0, color: "#E74C3C" }
   ]);
 
-  // Poll status data from backend
-  const [pollData, setPollData] = useState([
-    { name: "Active", value: 0, color: "#0F4C5C" },
-    { name: "Closed", value: 0, color: "#6B7280" }
+  // Complaint success data
+  const [complaintSuccessData, setComplaintSuccessData] = useState([
+    { name: "Successful", value: 0, color: "#10B981" },
+    { name: "Unsuccessful", value: 0, color: "#E74C3C" },
+    { name: "Pending", value: 0, color: "#F59E0B" }
   ]);
 
   useEffect(() => {
@@ -73,138 +75,159 @@ const ReportDashboard = () => {
 
   const fetchReportData = async () => {
     setLoading(true);
+    
+    // Check if user is authenticated
+    const token = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
+    
+    console.log("=== DEBUGGING REPORT DATA ===");
+    console.log("Token exists:", !!token);
+    console.log("Token value:", token ? token.substring(0, 20) + '...' : 'null');
+    console.log("User exists:", !!storedUser);
+    
+    if (!token) {
+      console.error("❌ No authentication token found");
+      alert("Please log in again to view your data");
+      navigate("/login");
+      return;
+    }
+    
+    if (!storedUser) {
+      console.error("❌ No user data found");
+      alert("User data not found. Please log in again.");
+      navigate("/login");
+      return;
+    }
+    
     try {
-      console.log("Fetching report data from backend...");
+      console.log("🔄 Fetching report data from backend...");
+      const parsedUser = JSON.parse(storedUser);
+      console.log("👤 User data:", parsedUser);
+      console.log("🔑 Using token:", token ? 'YES' : 'NO');
       
-      // Fetch all user's petitions/complaints
+      // Fetch user's complaints
       let complaints = [];
+      
       try {
-        const complaintsResponse = await getMyComplaints({ page: 1, limit: 1000 });
-        console.log("Complaints API response:", complaintsResponse);
-        complaints = complaintsResponse?.complaints || [];
-      } catch (apiError) {
-        console.error("Error fetching my complaints:", apiError);
-        console.log("Trying to fetch from alternative endpoint...");
-        // Fallback: try to get all complaints and filter by user
-        try {
-          const allComplaintsResponse = await getAllComplaints({ page: 1, limit: 1000 });
-          const allComplaints = allComplaintsResponse?.complaints || [];
-          const storedUser = localStorage.getItem("user");
-          if (storedUser) {
-            const parsedUser = JSON.parse(storedUser);
-            const userId = parsedUser._id || parsedUser.id;
-            complaints = allComplaints.filter(c => {
-              const createdById = c.created_by?._id || c.created_by;
-              return createdById === userId;
-            });
-          }
-        } catch (fallbackError) {
-          console.error("Fallback also failed:", fallbackError);
+        console.log("📞 Making API call to getMyComplaints...");
+        const complaintsResponse = await getMyComplaints();
+        
+        console.log("📦 API Response received:");
+        console.log("- Response:", complaintsResponse);
+        console.log("- Type:", typeof complaintsResponse);
+        console.log("- Keys:", Object.keys(complaintsResponse || {}));
+        
+        if (complaintsResponse && complaintsResponse.complaints) {
+          complaints = complaintsResponse.complaints;
+          console.log("✅ Found complaints in response.complaints:", complaints.length);
+        } else {
+          console.log("❌ No complaints found in response");
+          complaints = [];
         }
+      } catch (apiError) {
+        console.error("❌ API call failed:", apiError);
+        console.log("🔄 API might not support query parameters, trying without...");
+        complaints = [];
       }
       
-      console.log("Total complaints fetched:", complaints.length);
+      console.log("📊 FINAL COMPLAINT COUNT:", complaints.length);
       
-      // Calculate total petitions
-      const totalPetitions = complaints.length;
+      if (complaints.length > 0) {
+        console.log("🔍 Sample complaint:", complaints[0]);
+      } else {
+        console.log("⚠️ No complaints found for this user - will show empty state");
+      }
       
-      // Calculate petition status breakdown
-      const activeCount = complaints.filter(c => c.status === "pending" || c.status === "in-progress").length;
-      const underReviewCount = complaints.filter(c => c.status === "under-review").length;
-      const closedCount = complaints.filter(c => c.status === "resolved" || c.status === "closed").length;
+      // ALWAYS process data even if empty to show proper UI
+      console.log("📊 Processing complaint data (even if empty)...");
       
-      console.log("Petition counts:", { activeCount, underReviewCount, closedCount, total: complaints.length });
+      // Log actual statuses to debug
+      const actualStatuses = complaints.map(c => c.status);
+      console.log("Actual complaint statuses from backend:", actualStatuses);
+      console.log("Unique statuses:", [...new Set(actualStatuses)]);
       
-      // Always update petition status data for pie chart
-      const newPetitionData = [
+      // Calculate complaint status breakdown using correct backend status values
+      const activeCount = complaints.filter(c => c.status === "received" || c.status === "active" || c.status === "assigned").length;
+      const underReviewCount = complaints.filter(c => c.status === "in_review" || c.status === "under_review").length;
+      const resolvedCount = complaints.filter(c => c.status === "resolved").length;
+      const closedCount = complaints.filter(c => c.status === "closed" || c.status === "responded").length;
+      
+      console.log("Complaint counts:", { activeCount, underReviewCount, resolvedCount, closedCount, total: complaints.length });
+      
+      // Calculate success metrics
+      const successfulCount = resolvedCount; // Resolved = Successful
+      const unsuccessfulCount = closedCount; // Closed/Responded without resolution = Unsuccessful
+      const pendingCount = activeCount + underReviewCount; // Active + Under Review = Pending
+      
+      // Update complaint status data for pie chart
+      const newComplaintStatusData = [
         { name: "Active", value: activeCount, color: "#0F4C5C" },
         { name: "Under Review", value: underReviewCount, color: "#FFA500" },
+        { name: "Resolved", value: resolvedCount, color: "#10B981" },
         { name: "Closed", value: closedCount, color: "#E74C3C" }
       ];
-      console.log("Setting petition data:", newPetitionData);
-      setPetitionData(newPetitionData);
+      console.log("📈 SETTING COMPLAINT STATUS DATA:", newComplaintStatusData);
+      setComplaintStatusData(newComplaintStatusData);
       
-      // Fetch polls data - get all polls created by this user
-      let totalPolls = 0;
-      let userPolls = [];
+      // Update complaint success data for pie chart
+      const newComplaintSuccessData = [
+        { name: "Successful", value: successfulCount, color: "#10B981" },
+        { name: "Unsuccessful", value: unsuccessfulCount, color: "#E74C3C" },
+        { name: "Pending", value: pendingCount, color: "#F59E0B" }
+      ];
+      console.log("📈 SETTING COMPLAINT SUCCESS DATA:", newComplaintSuccessData);
+      setComplaintSuccessData(newComplaintSuccessData);
       
-      try {
-        const pollsResponse = await getAllPolls({ page: 1, limit: 1000 });
-        const allPolls = pollsResponse?.polls || [];
-        
-        // Filter polls created by current user
-        const storedUser = localStorage.getItem("user");
-        let userId = null;
-        if (storedUser) {
-          const parsedUser = JSON.parse(storedUser);
-          userId = parsedUser._id || parsedUser.id;
-        }
-        
-        if (userId) {
-          userPolls = allPolls.filter(poll => {
-            const createdById = poll.created_by?._id || poll.created_by;
-            return createdById === userId;
-          });
-        }
-        
-        totalPolls = userPolls.length;
-        
-        console.log("Poll counts:", { totalPolls, userPolls });
-        
-        // For now, all polls are considered active since there's no status field
-        // You can add logic here if polls have expiry dates or status in the future
-        const activePolls = totalPolls;
-        const closedPolls = 0;
-        
-        // Always update poll status data for pie chart
-        const newPollData = [
-          { name: "Active", value: activePolls, color: "#0F4C5C" },
-          { name: "Closed", value: closedPolls, color: "#6B7280" }
-        ];
-        console.log("Setting poll data:", newPollData);
-        setPollData(newPollData);
-      } catch (pollError) {
-        console.error("Error fetching polls:", pollError);
-      }
-      
-      // Calculate active engagement (active petitions + under review + active polls)
-      const activeEngagement = activeCount + underReviewCount + totalPolls;
+      // Calculate success rate
+      const totalComplaintsCount = complaints.length;
+      const successRate = totalComplaintsCount > 0 ? Math.round((successfulCount / totalComplaintsCount) * 100) : 0;
       
       // Update stats
-      setStats({
-        totalPetitions: totalPetitions,
-        petitionIncrease: totalPetitions > 0 ? `${totalPetitions} total petitions` : "No petitions yet",
-        totalPolls: totalPolls,
-        pollIncrease: totalPolls > 0 ? `${totalPolls} total polls` : "No polls yet",
-        activeEngagement: activeEngagement,
-        engagementSubtitle: "Active petitions and polls"
-      });
+      // Update stats - ALWAYS update even if 0
+      const newStats = {
+        totalComplaints: totalComplaintsCount,
+        complaintIncrease: totalComplaintsCount > 0 ? `${totalComplaintsCount} total complaints` : "No complaints yet",
+        successfulComplaints: successfulCount,
+        successRate: `${successRate}% success rate`,
+        activeComplaints: pendingCount,
+        engagementSubtitle: "Your complaint activity"
+      };
+      
+      console.log("📊 SETTING STATS:", newStats);
+      setStats(newStats);
       
     } catch (error) {
-      console.error("Error fetching report data:", error);
-      console.error("Error details:", error.message);
+      console.error("❌ ERROR in fetchReportData:", error);
+      console.error("❌ Error message:", error.message);
+      console.error("❌ Error stack:", error.stack);
+      
+      // Show user-friendly error
+      alert(`Failed to load complaints: ${error.message}\n\nPlease check:\n1. Backend is running on http://localhost:5000\n2. You are logged in\n3. Network connection`);
       
       // Set default data even on error so charts show
-      setPetitionData([
+      setComplaintStatusData([
         { name: "Active", value: 0, color: "#0F4C5C" },
         { name: "Under Review", value: 0, color: "#FFA500" },
+        { name: "Resolved", value: 0, color: "#10B981" },
         { name: "Closed", value: 0, color: "#E74C3C" }
       ]);
       
-      setPollData([
-        { name: "Active", value: 0, color: "#0F4C5C" },
-        { name: "Closed", value: 0, color: "#6B7280" }
+      setComplaintSuccessData([
+        { name: "Successful", value: 0, color: "#10B981" },
+        { name: "Unsuccessful", value: 0, color: "#E74C3C" },
+        { name: "Pending", value: 0, color: "#F59E0B" }
       ]);
       
       setStats({
-        totalPetitions: 0,
-        petitionIncrease: "No petitions yet",
-        totalPolls: 0,
-        pollIncrease: "No polls yet",
-        activeEngagement: 0,
-        engagementSubtitle: "Create petitions and polls to see data"
+        totalComplaints: 0,
+        complaintIncrease: "Error loading data",
+        successfulComplaints: 0,
+        successRate: "Error loading data",
+        activeComplaints: 0,
+        engagementSubtitle: "Failed to load data - check backend connection"
       });
     } finally {
+      console.log("✅ Setting loading to false - UI should update now");
       setLoading(false);
     }
   };
@@ -222,22 +245,23 @@ const ReportDashboard = () => {
       
       // Statistics from current state
       csvContent += "STATISTICS\n";
-      csvContent += `Total Petitions,${stats.totalPetitions}\n`;
-      csvContent += `Total Polls,${stats.totalPolls}\n`;
-      csvContent += `Active Engagement,${stats.activeEngagement}\n\n`;
+      csvContent += `Total Complaints,${stats.totalComplaints}\n`;
+      csvContent += `Successful Complaints,${stats.successfulComplaints}\n`;
+      csvContent += `Success Rate,${stats.successRate}\n`;
+      csvContent += `Active Complaints,${stats.activeComplaints}\n\n`;
       
-      // Petition Status Breakdown from current state
-      csvContent += "PETITION STATUS BREAKDOWN\n";
+      // Complaint Status Breakdown from current state
+      csvContent += "COMPLAINT STATUS BREAKDOWN\n";
       csvContent += "Status,Count\n";
-      petitionData.forEach(item => {
+      complaintStatusData.forEach(item => {
         csvContent += `${item.name},${item.value}\n`;
       });
       csvContent += "\n";
       
-      // Poll Status Breakdown from current state
-      csvContent += "POLL STATUS BREAKDOWN\n";
-      csvContent += "Status,Count\n";
-      pollData.forEach(item => {
+      // Complaint Success Breakdown from current state
+      csvContent += "COMPLAINT SUCCESS BREAKDOWN\n";
+      csvContent += "Result,Count\n";
+      complaintSuccessData.forEach(item => {
         csvContent += `${item.name},${item.value}\n`;
       });
       
@@ -303,22 +327,26 @@ const ReportDashboard = () => {
           <h2>Summary Statistics</h2>
           <div class="stats-grid">
             <div class="stat-card">
-              <div class="stat-label">Total Petitions</div>
-              <div class="stat-value">${stats.totalPetitions}</div>
+              <div class="stat-label">Total Complaints</div>
+              <div class="stat-value">${stats.totalComplaints}</div>
             </div>
             <div class="stat-card">
-              <div class="stat-label">Total Polls</div>
-              <div class="stat-value">${stats.totalPolls}</div>
+              <div class="stat-label">Successful Complaints</div>
+              <div class="stat-value">${stats.successfulComplaints}</div>
             </div>
             <div class="stat-card">
-              <div class="stat-label">Active Engagement</div>
-              <div class="stat-value">${stats.activeEngagement}</div>
+              <div class="stat-label">Success Rate</div>
+              <div class="stat-value">${stats.successRate}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Active Complaints</div>
+              <div class="stat-value">${stats.activeComplaints}</div>
             </div>
           </div>
 
-          <h2>Petition Status Breakdown</h2>
+          <h2>Complaint Status Breakdown</h2>
           <div class="breakdown">
-            ${petitionData.map(item => `
+            ${complaintStatusData.map(item => `
               <div class="breakdown-item">
                 <div class="breakdown-label">${item.name}</div>
                 <div class="breakdown-value">${item.value}</div>
@@ -326,9 +354,9 @@ const ReportDashboard = () => {
             `).join('')}
           </div>
 
-          <h2>Poll Status Breakdown</h2>
+          <h2>Complaint Success Analysis</h2>
           <div class="breakdown">
-            ${pollData.map(item => `
+            ${complaintSuccessData.map(item => `
               <div class="breakdown-item">
                 <div class="breakdown-label">${item.name}</div>
                 <div class="breakdown-value">${item.value}</div>
@@ -448,9 +476,9 @@ const ReportDashboard = () => {
         {/* Main Content */}
         <div className="report-content">
           <div className="report-title-section">
-            <h1 className="report-main-title">Reports & Analytics</h1>
+            <h1 className="report-main-title">My Complaint Reports</h1>
             <p className="report-subtitle">
-              Track civic engagement and measure the impact of petitions and polls.
+              Track your complaint submissions and measure their success rate.
             </p>
           </div>
 
@@ -471,7 +499,7 @@ const ReportDashboard = () => {
             <div className="report-stats-grid">
               <div className="report-stat-card">
                 <div className="stat-header">
-                  <span className="stat-label">Total Petitions</span>
+                  <span className="stat-label">Total Complaints</span>
                   <div className="stat-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -479,36 +507,41 @@ const ReportDashboard = () => {
                     </svg>
                   </div>
                 </div>
-                <div className="stat-value">{stats.totalPetitions}</div>
+                <div className="stat-value">{stats.totalComplaints}</div>
                 <div className="stat-trend positive">
                   <TrendingUp size={14} />
-                  {stats.petitionIncrease}
+                  {stats.complaintIncrease}
                 </div>
               </div>
 
               <div className="report-stat-card">
                 <div className="stat-header">
-                  <span className="stat-label">Total Polls</span>
+                  <span className="stat-label">Successful Complaints</span>
                   <div className="stat-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <line x1="12" y1="20" x2="12" y2="10" />
-                      <line x1="18" y1="20" x2="18" y2="4" />
-                      <line x1="6" y1="20" x2="6" y2="16" />
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                      <polyline points="22 4 12 14.01 9 11.01" />
                     </svg>
                   </div>
                 </div>
-                <div className="stat-value">{stats.totalPolls}</div>
+                <div className="stat-value">{stats.successfulComplaints}</div>
                 <div className="stat-trend positive">
                   <TrendingUp size={14} />
-                  {stats.pollIncrease}
+                  {stats.successRate}
                 </div>
               </div>
 
               <div className="report-stat-card">
                 <div className="stat-header">
-                  <span className="stat-label">Active Engagement</span>
+                  <span className="stat-label">Active Complaints</span>
+                  <div className="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                  </div>
                 </div>
-                <div className="stat-value">{stats.activeEngagement}</div>
+                <div className="stat-value">{stats.activeComplaints}</div>
                 <div className="stat-subtitle">{stats.engagementSubtitle}</div>
               </div>
             </div>
@@ -532,67 +565,85 @@ const ReportDashboard = () => {
 
           {/* Charts Section */}
           <div className="charts-grid">
-            {/* Petition Status Breakdown */}
+            {/* Complaint Status Breakdown */}
             <div className="chart-card">
-              <h3 className="chart-title">Petition Status Breakdown</h3>
-              <p className="chart-subtitle">Distribution of petitions by current status</p>
+              <h3 className="chart-title">Complaint Status Breakdown</h3>
+              <p className="chart-subtitle">Distribution of complaints by current status</p>
               <div className="chart-container">
-                <ResponsiveContainer width="100%" height={300}>
-                    <PieChart>
-                      <Pie
-                        data={petitionData}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={true}
-                        label={CustomLabel}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {petitionData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                      <Legend 
-                        verticalAlign="bottom" 
-                        height={36}
-                        iconType="circle"
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
+                {stats.totalComplaints === 0 ? (
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '300px', color: '#6b7280' }}>
+                    <div style={{ textAlign: 'center' }}>
+                      <p>No complaints submitted yet</p>
+                      <p style={{ fontSize: '14px' }}>Submit your first complaint to see statistics</p>
+                    </div>
+                  </div>
+                ) : (
+                  <ResponsiveContainer width="100%" height={300}>
+                      <PieChart>
+                        <Pie
+                          data={complaintStatusData}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={true}
+                          label={CustomLabel}
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {complaintStatusData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend 
+                          verticalAlign="bottom" 
+                          height={36}
+                          iconType="circle"
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                )}
               </div>
             </div>
 
-            {/* Poll Status Breakdown */}
+            {/* Complaint Success Analysis */}
             <div className="chart-card">
-              <h3 className="chart-title">Poll Status Breakdown</h3>
-              <p className="chart-subtitle">Distribution of polls by current status</p>
+              <h3 className="chart-title">Complaint Success Analysis</h3>
+              <p className="chart-subtitle">Success rate of your submitted complaints</p>
               <div className="chart-container">
-                <ResponsiveContainer width="100%" height={300}>
-                    <PieChart>
-                      <Pie
-                        data={pollData}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={true}
-                        label={CustomLabel}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {pollData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                      <Legend 
-                        verticalAlign="bottom" 
-                        height={36}
-                        iconType="circle"
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
+                {stats.totalComplaints === 0 ? (
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '300px', color: '#6b7280' }}>
+                    <div style={{ textAlign: 'center' }}>
+                      <p>No complaints to analyze yet</p>
+                      <p style={{ fontSize: '14px' }}>Submit complaints to see success analysis</p>
+                    </div>
+                  </div>
+                ) : (
+                  <ResponsiveContainer width="100%" height={300}>
+                      <PieChart>
+                        <Pie
+                          data={complaintSuccessData}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={true}
+                          label={CustomLabel}
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {complaintSuccessData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend 
+                          verticalAlign="bottom" 
+                          height={36}
+                          iconType="circle"
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                )}
               </div>
             </div>
           </div>
