@@ -46,9 +46,25 @@ const complaintSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['received', 'in_review', 'resolved'],
+    enum: ['received', 'in_review', 'resolved', 'active', 'assigned', 'under_review', 'responded', 'closed'],
     default: 'received'
-  }
+  },
+  official_response: {
+    type: String,
+    default: null
+  },
+  status_history: [{
+    status: String,
+    updated_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    notes: String,
+    timestamp: {
+      type: Date,
+      default: Date.now
+    }
+  }]
 }, {
   timestamps: true
 });
