@@ -24,7 +24,7 @@ router.get('/', adminAuth, async (req, res) => {
     // Calculate metrics
     const totalPetitions = complaints.length;
     const assignedCount = complaints.filter(c => c.assigned_to).length;
-    const respondedCount = complaints.filter(c => c.status === 'responded' || c.status === 'closed').length;
+    const respondedCount = complaints.filter(c => c.status === 'responded' || c.status === 'closed' || c.official_response).length;
     
     // Calculate average response time
     const respondedComplaints = complaints.filter(c => c.official_response);
