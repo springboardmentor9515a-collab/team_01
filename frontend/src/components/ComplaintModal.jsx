@@ -70,6 +70,35 @@ const ComplaintModal = ({ complaint, isOpen, onClose, onAssign, onUpdateStatus, 
               <span>{complaint.assigned_to.name}</span>
             </div>
           )}
+
+          {complaint.official_response && (
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <FileText className="h-4 w-4" />
+                <span className="font-medium">Official Response</span>
+              </div>
+              <p className="text-gray-700 bg-blue-50 p-3 rounded border-l-4 border-blue-400">{complaint.official_response}</p>
+            </div>
+          )}
+
+          {complaint.status_history && complaint.status_history.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <FileText className="h-4 w-4" />
+                <span className="font-medium">Progress Updates</span>
+              </div>
+              <div className="space-y-2 max-h-32 overflow-y-auto">
+                {complaint.status_history.map((update, index) => (
+                  <div key={index} className="text-sm bg-purple-50 p-2 rounded border-l-4 border-purple-400">
+                    <p className="text-gray-700">{update.notes}</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Status: {update.status?.replace('_', ' ').toUpperCase()}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex gap-2 mt-6">

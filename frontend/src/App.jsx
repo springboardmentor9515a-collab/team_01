@@ -14,13 +14,15 @@ import UserInfo from "./pages/UserInfo.jsx";
 import CreatePoll from "./pages/CreatePoll.jsx";
 import Polls from "./pages/Polls.jsx";
 import PollDetail from "./pages/PollDetail.jsx";
-
+import LandingPage from "./pages/LandingPage.jsx";
+import ReportDashboard from "./pages/Report.jsx";
 
 export default function App() {
   return (
     <AuthProvider>
       <div>
         <Routes>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route
@@ -102,7 +104,16 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute>
+                <ReportDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </AuthProvider>

@@ -72,7 +72,7 @@ const CreatePoll = () => {
       console.log("Poll created:", response);
       alert("Poll created successfully!");
 
-      // Redirect to official dashboard after creating poll
+      // Redirect to official dashboard after poll creation
       navigate("/dashboard/official");
     } catch (error) {
       console.error("Error creating poll:", error);
