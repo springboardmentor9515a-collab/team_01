@@ -17,19 +17,28 @@ app.use('/civix/complaints', require('./routes/complaint_route/createComplaint')
 app.use('/civix/complaints/my-complaints', require('./routes/complaint_route/getMyComplaints'));//For Citizens to View Own Complaints
 app.use('/civix/upload', require('./routes/upload'));//For File Uploads
 
-// Admin Routes - Separated
+// Admin Routes
 app.use('/civix/admin/complaints', require('./routes/admin/getAllComplaints'));//Get All Complaints Basic
 app.use('/civix/admin/complaints/all', require('./routes/admin/getAllComplaintsAdvanced'));//Get All Complaints Advanced
 app.use('/civix/admin/complaints/assign', require('./routes/admin/assignComplaint'));//Assign Complaint
+app.use('/civix/admin/complaints/local', require('./routes/admin/getLocalComplaints'));//Get Local Complaints
+app.use('/civix/admin/complaints/respond', require('./routes/admin/respondComplaint'));//Admin Response
+app.use('/civix/admin/reports/engagement', require('./routes/admin/engagementReport'));//Engagement Report
+app.use('/civix/admin/reports/export', require('./routes/admin/exportReport'));//Export Report
 
-// Volunteer Routes - Separated
+// Volunteer Routes
 app.use('/civix/volunteer/complaints', require('./routes/volunteer/getAssignedComplaints'));//Get Assigned Complaints
 app.use('/civix/volunteer/complaints/update-status', require('./routes/volunteer/updateComplaintStatus'));//Update Complaint Status
+app.use('/civix/volunteer/complaints/update-progress', require('./routes/volunteer/updateProgress'));//Update Progress Notes
+
+// Admin Volunteer Management
+app.use('/civix/admin/volunteers', require('./routes/admin/getVolunteers'));//Get All Volunteers
 
 // Notification Logs Routes
 app.use('/civix/notifications', require('./routes/notificationLogs'));//Notification Logs
 
-
+// Poll Routes - Milestone 3
+app.use('/civix/polls', require('./routes/polls'));//Poll Management
 
 // For the database Connection -  @thesushpatil
 
