@@ -19,11 +19,12 @@
   gap: 0.25rem;
   align-items: center;
 }
-.logo-img {
-  max-width: 355px;
+.logos-img {
+  width: 180px;
   height: auto;
   display: block;
-  margin: -129px 0 -108px 0;
+  margin: -35px;
+
 }
 .sidebar-title {
   font-size: 1rem;
@@ -83,8 +84,6 @@
   line-height: 1;
   color: inherit;
 }
-
-
 
 /* Compact user card at bottom */
 .sidebar-user {

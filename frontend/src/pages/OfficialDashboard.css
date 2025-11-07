@@ -29,6 +29,16 @@
   color: #6b7280;
 }
 
+.reports-btn {
+  border-color: #004d40;
+  color: #004d40;
+}
+
+.reports-btn:hover {
+  background-color: #004d40;
+  color: white;
+}
+
 .logout-btn {
   border-color: #ef4444;
   color: #dc2626;
@@ -281,7 +291,8 @@
   color: #6b7280;
 }
 
-.stat-value {
+.stat-value1 {
+  font-size: 1rem;
   font-weight: bold;
 }
 

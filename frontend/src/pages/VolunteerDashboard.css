@@ -30,6 +30,21 @@
   font-size: 1rem;
 }
 
+.header-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.reports-btn {
+  border-color: #004d40;
+  color: #004d40;
+}
+
+.reports-btn:hover {
+  background-color: #004d40;
+  color: white;
+}
+
 .logout-btn {
   border-color: #ef4444;
   color: #dc2626;

@@ -10,12 +10,12 @@ const StatusUpdateModal = ({ complaint, isOpen, onClose, onUpdate }) => {
   const statusOptions = [
     { value: "in_review", label: "In Review" },
     { value: "resolved", label: "Resolved" },
-    { value: "rejected", label: "Rejected" }
+    // { value: "rejected", label: "Rejected" },
   ];
 
   const handleUpdate = async () => {
     if (!selectedStatus || selectedStatus === complaint.status) return;
-    
+
     setLoading(true);
     try {
       await onUpdate(complaint.complaint_id, selectedStatus);
@@ -42,7 +42,9 @@ const StatusUpdateModal = ({ complaint, isOpen, onClose, onUpdate }) => {
         <div className="space-y-4">
           <div>
             <h3 className="font-medium">{complaint.title}</h3>
-            <p className="text-sm text-gray-600">Current: {complaint.status?.replace('_', ' ').toUpperCase()}</p>
+            <p className="text-sm text-gray-600">
+              Current: {complaint.status?.replace("_", " ").toUpperCase()}
+            </p>
           </div>
 
           <div>
@@ -64,7 +66,9 @@ const StatusUpdateModal = ({ complaint, isOpen, onClose, onUpdate }) => {
         <div className="flex gap-2 mt-6">
           <Button
             onClick={handleUpdate}
-            disabled={!selectedStatus || selectedStatus === complaint.status || loading}
+            disabled={
+              !selectedStatus || selectedStatus === complaint.status || loading
+            }
             className="bg-green-600 hover:bg-green-700"
           >
             {loading ? "Updating..." : "Update Status"}
