@@ -16,6 +16,8 @@ import Polls from "./pages/Polls.jsx";
 import PollDetail from "./pages/PollDetail.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
 import ReportDashboard from "./pages/Report.jsx";
+import OfficialReports from "./pages/OfficialReports.jsx";
+
 
 export default function App() {
   return (
@@ -112,6 +114,15 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/official-reports"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "official"]}>
+                <OfficialReports />
+              </ProtectedRoute>
+            }
+          />
+
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

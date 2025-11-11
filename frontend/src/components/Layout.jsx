@@ -26,44 +26,19 @@ const Layout = ({ children, userType }) => {
   // Navigation items based on user type
   const citizenNavItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard/citizen" },
-    { icon: FileText, label: "Petitions", path: "/petitions" },
+    { icon: FileText, label: "Petitions", path: "/create-petition" },
     { icon: Vote, label: "Polls", path: "/polls" },
-    {
-      icon: BarChart3,
-      label: "Poll Results",
-      path: "/poll-results",
-      isSpecial: true,
-    },
     { icon: TrendingUp, label: "Reports", path: "/reports" },
-    { icon: Settings, label: "Settings", path: "/settings" },
   ];
 
   const officialNavItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard/official" },
-    { icon: FileText, label: "Review Petitions", path: "/review" },
-    {
-      icon: BarChart3,
-      label: "Poll Results",
-      path: "/poll-results",
-      isSpecial: true,
-    },
-    { icon: Users, label: "Community", path: "/community" },
-    { icon: TrendingUp, label: "Insights", path: "/insights" },
-    { icon: Settings, label: "Settings", path: "/settings" },
+    { icon: Vote, label: "Create Polls", path: "/create-poll" },
+    { icon: TrendingUp, label: "Reports", path: "/official-reports" },
   ];
 
   const volunteerNavItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard/volunteer" },
-    { icon: FileText, label: "Projects", path: "/projects" },
-    {
-      icon: BarChart3,
-      label: "Poll Results",
-      path: "/poll-results",
-      isSpecial: true,
-    },
-    { icon: Users, label: "Teams", path: "/teams" },
-    { icon: QrCode, label: "Volunteer Code", path: "/volunteer-code" },
-    { icon: Settings, label: "Settings", path: "/settings" },
   ];
 
   const navItems =
