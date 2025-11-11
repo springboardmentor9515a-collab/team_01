@@ -11,9 +11,11 @@ const Polls = () => {
   const [polls, setPolls] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState("All Locations");
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+  const locations = ["All Locations", ...new Set(polls.map(poll => poll.target_location))];
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -34,37 +36,37 @@ const Polls = () => {
     if (user) {
       fetchPolls();
     }
-  }, [user]);
+  }, [user, selectedLocation]);
 
   const fetchPolls = async () => {
     setLoading(true);
     setError(null);
     try {
       const params = { page: 1, limit: 50 };
-
+      
+      if (selectedLocation !== "All Locations") {
+        params.target_location = selectedLocation;
+      }
+      
       const response = await getAllPolls(params);
       setPolls(response.polls || []);
     } catch (err) {
       console.error("Error fetching polls:", err);
-
+      
       // Temporary fallback with mock data until backend route is fixed
       if (err.message.includes("404")) {
         console.warn("Backend polls route not working, showing demo data");
         setError("⚠️ Backend polls route not configured. Showing demo data.");
-
+        
         // Mock polls data for demonstration
         const mockPolls = [
           {
             _id: "demo1",
             title: "Should we build a new community park?",
-            options: [
-              "Yes, build it",
-              "No, not needed",
-              "Need more information",
-            ],
+            options: ["Yes, build it", "No, not needed", "Need more information"],
             created_by: { name: "City Council" },
             target_location: "Downtown",
-            createdAt: new Date().toISOString(),
+            createdAt: new Date().toISOString()
           },
           {
             _id: "demo2",
@@ -72,10 +74,10 @@ const Polls = () => {
             options: ["6 PM", "8 PM", "10 PM"],
             created_by: { name: "Library Committee" },
             target_location: "Central District",
-            createdAt: new Date(Date.now() - 86400000).toISOString(),
-          },
+            createdAt: new Date(Date.now() - 86400000).toISOString()
+          }
         ];
-
+        
         setPolls(mockPolls);
       } else if (err.message.includes("401") || err.message.includes("token")) {
         setError("Please login again. Your session has expired.");
@@ -92,45 +94,34 @@ const Polls = () => {
 
   const handleViewPoll = (pollId) => {
     if (pollId.startsWith("demo")) {
-      alert(
-        "This is demo data. Please fix the backend polls route to enable real voting."
-      );
+      alert("This is demo data. Please fix the backend polls route to enable real voting.");
       return;
     }
     navigate(`/polls/${pollId}`);
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     });
   };
 
-  const layoutUserType = (user?.role === "admin" || user?.role === "official")
-    ? "official"
-    : (user?.role === "volunteer" ? "volunteer" : "citizen");
-
   return (
-    <Layout userType={layoutUserType}>
+    <Layout userType={user?.role || "citizen"}>
       <div className="polls-container">
         {/* Alert Messages */}
         {error && (
           <div className="alert alert-error">
             {error}
-            {(error.includes("Backend server") ||
-              error.includes("port 5000")) && (
+            {(error.includes("Backend server") || error.includes("port 5000")) && (
               <div style={{ marginTop: "0.5rem", fontSize: "0.9rem" }}>
                 <strong>To fix this:</strong>
-                <br />
-                1. Open terminal in backend folder
-                <br />
-                2. Run: <code>npm start</code>
-                <br />
-                3. Make sure server runs on port 5000
-                <br />
-                4. Refresh this page
+                <br />1. Open terminal in backend folder
+                <br />2. Run: <code>npm start</code>
+                <br />3. Make sure server runs on port 5000
+                <br />4. Refresh this page
               </div>
             )}
           </div>
@@ -146,20 +137,19 @@ const Polls = () => {
           </div>
         </div>
 
-        {/* Search Section */}
+        {/* Location Filter */}
         <div className="filter-section">
-          <h3 className="filter-title">Search Polls</h3>
-          <div className="search-container">
-            <input
-              type="text"
-              placeholder="Search polls by title or location..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-            />
-            <Button onClick={() => fetchPolls()} className="search-button">
-              Search
-            </Button>
+          <h3 className="filter-title">Filter by Location</h3>
+          <div className="filter-badges">
+            {locations.map((location) => (
+              <button
+                key={location}
+                className={`filter-badge ${selectedLocation === location ? "active" : ""}`}
+                onClick={() => setSelectedLocation(location)}
+              >
+                {location}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -172,54 +162,43 @@ const Polls = () => {
             </div>
           ) : polls.length === 0 ? (
             <div className="state-message">
-              <p>No polls available.</p>
+              <p>No polls available for the selected location.</p>
             </div>
           ) : (
-            polls
-              .filter(
-                (poll) =>
-                  searchTerm === "" ||
-                  poll.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                  poll.target_location
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase())
-              )
-              .map((poll) => (
-                <div key={poll._id} className="poll-card-modern">
-                  <div className="poll-header-section">
-                    <h2 className="poll-question">{poll.title}</h2>
-                    <div className="poll-metadata">
-                      <div className="meta-item">
-                        <User size={16} />
-                        <span>{poll.created_by?.name || "Anonymous"}</span>
-                      </div>
-                      <div className="meta-item">
-                        <MapPin size={16} />
-                        <span>{poll.target_location}</span>
-                      </div>
-                      <div className="meta-item">
-                        <Calendar size={16} />
-                        <span>{formatDate(poll.createdAt)}</span>
-                      </div>
+            polls.map((poll) => (
+              <div key={poll._id} className="poll-card-modern">
+                <div className="poll-header-section">
+                  <h2 className="poll-question">{poll.title}</h2>
+                  <div className="poll-metadata">
+                    <div className="meta-item">
+                      <User size={16} />
+                      <span>{poll.created_by?.name || "Anonymous"}</span>
                     </div>
-                  </div>
-
-                  <div className="poll-actions">
-                    <div className="poll-stats">
-                      <span className="options-count">
-                        {poll.options?.length || 0} options
-                      </span>
+                    <div className="meta-item">
+                      <MapPin size={16} />
+                      <span>{poll.target_location}</span>
                     </div>
-                    <Button
-                      onClick={() => handleViewPoll(poll._id)}
-                      className="vote-button"
-                    >
-                      <Vote size={16} />
-                      Vote Now
-                    </Button>
+                    <div className="meta-item">
+                      <Calendar size={16} />
+                      <span>{formatDate(poll.createdAt)}</span>
+                    </div>
                   </div>
                 </div>
-              ))
+
+                <div className="poll-actions">
+                  <div className="poll-stats">
+                    <span className="options-count">{poll.options?.length || 0} options</span>
+                  </div>
+                  <Button 
+                    onClick={() => handleViewPoll(poll._id)}
+                    className="vote-button"
+                  >
+                    <Vote size={16} />
+                    Vote Now
+                  </Button>
+                </div>
+              </div>
+            ))
           )}
         </div>
       </div>

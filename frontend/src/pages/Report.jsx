@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import "./Report.css";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
-import { useAuth } from "../context/AuthContext";
 import { Button } from "../components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 import { Download, TrendingUp, ChevronDown, FileText, FileSpreadsheet } from "lucide-react";
@@ -10,9 +9,6 @@ import { getMyComplaints, getAllComplaints } from "../services/api";
 
 const ReportDashboard = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const role = user?.role;
-  const layoutUserType = role === "admin" || role === "official" ? "official" : role === "volunteer" ? "volunteer" : "citizen";
   const [userName, setUserName] = useState("Citizen");
   const [userEmail, setUserEmail] = useState("");
   const [location, setLocation] = useState("San Diego, CA");
@@ -370,7 +366,7 @@ const ReportDashboard = () => {
 
           <div class="footer">
             <p>This report was generated automatically from your civic engagement data.</p>
-            <p>  ${new Date().getFullYear()} Civic Engagement Platform. All rights reserved.</p>
+            <p>© ${new Date().getFullYear()} Civic Engagement Platform. All rights reserved.</p>
           </div>
         </body>
         </html>
@@ -436,7 +432,7 @@ const ReportDashboard = () => {
   };
 
   return (
-    <Layout userType={layoutUserType}>
+    <Layout userType="citizen">
       <div className="report-dashboard">
         {/* Header Section */}
         <div className="report-header">

@@ -18,9 +18,6 @@ const PollDetail = () => {
   const [user, setUser] = useState(null);
   const [hasVoted, setHasVoted] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const layoutUserType = (user?.role === "admin" || user?.role === "official")
-    ? "official"
-    : (user?.role === "volunteer" ? "volunteer" : "citizen");
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -130,7 +127,7 @@ const PollDetail = () => {
 
   if (loading) {
     return (
-      <Layout userType={layoutUserType}>
+      <Layout userType={user?.role || "citizen"}>
         <div className="poll-detail-container">
           <div className="loading-state">
             <div className="loading-spinner"></div>
@@ -143,7 +140,7 @@ const PollDetail = () => {
 
   if (error && !poll) {
     return (
-      <Layout userType={layoutUserType}>
+      <Layout userType={user?.role || "citizen"}>
         <div className="poll-detail-container">
           <div className="error-state">
             <p>Error: {error}</p>
@@ -158,7 +155,7 @@ const PollDetail = () => {
   }
 
   return (
-    <Layout userType={layoutUserType}>
+    <Layout userType={user?.role || "citizen"}>
       <div className="poll-detail-container">
         {/* Alert Messages */}
         {successMessage && (

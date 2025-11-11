@@ -48,7 +48,7 @@ const Layout = ({ children, userType }) => {
       isSpecial: true,
     },
     { icon: Users, label: "Community", path: "/community" },
-    { icon: TrendingUp, label: "Report", path: "/reports" },
+    { icon: TrendingUp, label: "Insights", path: "/insights" },
     { icon: Settings, label: "Settings", path: "/settings" },
   ];
 
