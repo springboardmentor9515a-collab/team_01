@@ -169,12 +169,6 @@ const OfficialDashboard = () => {
           </div>
           <div className="header-buttons">
             <Button
-              className="create-poll-btn"
-              onClick={() => navigate("/create-poll")}
-            >
-              📊 Create Poll
-            </Button>
-            <Button
               variant="outline"
               className="logout-btn"
               onClick={handleLogout}
@@ -520,19 +514,19 @@ const OfficialDashboard = () => {
                     <div className="department-stats">
                       <div className="department-stat">
                         <div className="stat-label">Pending</div>
-                        <div className="stat-value1 stat-value-pending">
+                        <div className="stat-value stat-value-pending">
                           {dept.pending}
                         </div>
                       </div>
                       <div className="department-stat">
                         <div className="stat-label">Approved</div>
-                        <div className="stat-value1 stat-value-approved">
+                        <div className="stat-value stat-value-approved">
                           {dept.approved}
                         </div>
                       </div>
                       <div className="department-stat">
                         <div className="stat-label">Avg Time</div>
-                        <div className="stat-value1">{dept.avgTime}</div>
+                        <div className="stat-value">{dept.avgTime}</div>
                       </div>
                     </div>
                   </div>

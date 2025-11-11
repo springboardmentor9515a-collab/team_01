@@ -16,100 +16,117 @@ import Polls from "./pages/Polls.jsx";
 import PollDetail from "./pages/PollDetail.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
 import ReportDashboard from "./pages/Report.jsx";
+import OfficialReports from "./pages/OfficialReports.jsx";
+
 
 export default function App() {
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardRedirect />
-            </ProtectedRoute>
-          }
-        />
-        {/* Role-specific dashboards */}
-        <Route
-          path="/dashboard/citizen"
-          element={
-            <ProtectedRoute allowedRoles={["citizen"]}>
-              <CitizenDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/volunteer"
-          element={
-            <ProtectedRoute allowedRoles={["volunteer"]}>
-              <VolunteerDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/official"
-          element={
-            <ProtectedRoute allowedRoles={["admin", "official"]}>
-              <OfficialDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/create-petition"
-          element={
-            <ProtectedRoute>
-              <CreatePetition />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/user-info"
-          element={
-            <ProtectedRoute>
-              <UserInfo />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route
-          path="/polls"
-          element={
-            <ProtectedRoute>
-              <Polls />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/create-poll"
-          element={
-            <ProtectedRoute allowedRoles={["admin", "official"]}>
-              <CreatePoll />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/polls/new" element={<Navigate to="/create-poll" replace />} />
-        <Route
-          path="/polls/:id"
-          element={
-            <ProtectedRoute>
-              <PollDetail />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/reports"
-          element={
-            <ProtectedRoute>
-              <ReportDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </div>
+    <AuthProvider>
+      <div>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardRedirect />
+              </ProtectedRoute>
+            }
+          />
+          {/* Role-specific dashboards */}
+          <Route
+            path="/dashboard/citizen"
+            element={
+              <ProtectedRoute allowedRoles={["citizen"]}>
+                <CitizenDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/volunteer"
+            element={
+              <ProtectedRoute allowedRoles={["volunteer"]}>
+                <VolunteerDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/official"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "official"]}>
+                <OfficialDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create-petition"
+            element={
+              <ProtectedRoute>
+                <CreatePetition />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user-info"
+            element={
+              <ProtectedRoute>
+                <UserInfo />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route
+            path="/polls"
+            element={
+              <ProtectedRoute>
+                <Polls />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create-poll"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "official"]}>
+                <CreatePoll />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/polls/new"
+            element={<Navigate to="/create-poll" replace />}
+          />
+          <Route
+            path="/polls/:id"
+            element={
+              <ProtectedRoute>
+                <PollDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute>
+                <ReportDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/official-reports"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "official"]}>
+                <OfficialReports />
+              </ProtectedRoute>
+            }
+          />
+
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </AuthProvider>
   );
 }

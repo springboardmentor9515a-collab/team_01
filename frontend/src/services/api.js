@@ -182,6 +182,11 @@ export const getAllPolls = async (params = {}) => {
   return apiCallWithAuth(`/civix/polls${queryString ? "?" + queryString : ""}`);
 };
 
+export const getMyPolls = async (params = {}) => {
+  const queryString = new URLSearchParams(params).toString();
+  return apiCallWithAuth(`/civix/polls/my-polls${queryString ? "?" + queryString : ""}`);
+};
+
 export const votePoll = async (pollId, option) => {
   return apiCallWithAuth(`/civix/polls/${pollId}/vote`, {
     method: "POST",
@@ -209,6 +214,7 @@ export default {
   respondToComplaint,
   createPoll,
   getAllPolls,
+  getMyPolls,
   votePoll,
   getPollResults,
   isValidRole,
