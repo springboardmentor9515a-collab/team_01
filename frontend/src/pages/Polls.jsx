@@ -12,10 +12,9 @@ const Polls = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState("All Locations");
+  const [searchLocation, setSearchLocation] = useState("");
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
-  const locations = ["All Locations", ...new Set(polls.map(poll => poll.target_location))];
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -37,6 +36,11 @@ const Polls = () => {
       fetchPolls();
     }
   }, [user, selectedLocation]);
+
+  const filteredPolls = polls.filter(poll => {
+    if (selectedLocation === "All Locations") return true;
+    return poll.target_location?.toLowerCase().includes(selectedLocation.toLowerCase());
+  });
 
   const fetchPolls = async () => {
     setLoading(true);
@@ -140,16 +144,26 @@ const Polls = () => {
         {/* Location Filter */}
         <div className="filter-section">
           <h3 className="filter-title">Filter by Location</h3>
-          <div className="filter-badges">
-            {locations.map((location) => (
-              <button
-                key={location}
-                className={`filter-badge ${selectedLocation === location ? "active" : ""}`}
-                onClick={() => setSelectedLocation(location)}
-              >
-                {location}
-              </button>
-            ))}
+          <div className="location-filter-controls">
+            <button
+              className={`filter-badge ${selectedLocation === "All Locations" ? "active" : ""}`}
+              onClick={() => {
+                setSelectedLocation("All Locations");
+                setSearchLocation("");
+              }}
+            >
+              All Locations
+            </button>
+            <input
+              type="text"
+              placeholder="Search location..."
+              value={searchLocation}
+              onChange={(e) => {
+                setSearchLocation(e.target.value);
+                setSelectedLocation(e.target.value || "All Locations");
+              }}
+              className="location-search-input"
+            />
           </div>
         </div>
 
@@ -160,12 +174,12 @@ const Polls = () => {
               <div className="loading-spinner"></div>
               <p>Loading polls...</p>
             </div>
-          ) : polls.length === 0 ? (
+          ) : filteredPolls.length === 0 ? (
             <div className="state-message">
               <p>No polls available for the selected location.</p>
             </div>
           ) : (
-            polls.map((poll) => (
+            filteredPolls.map((poll) => (
               <div key={poll._id} className="poll-card-modern">
                 <div className="poll-header-section">
                   <h2 className="poll-question">{poll.title}</h2>
