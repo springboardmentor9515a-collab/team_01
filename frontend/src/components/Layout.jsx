@@ -38,7 +38,7 @@ const Layout = ({ children, userType }) => {
     { icon: FileText, label: "Review Petitions", path: "/review" },
     { icon: BarChart3, label: "Poll Results", path: "/poll-results", isSpecial: true },
     { icon: Users, label: "Community", path: "/community" },
-    { icon: TrendingUp, label: "Insights", path: "/insights" },
+    { icon: TrendingUp, label: "Report", path: "/reports" },
     { icon: Settings, label: "Settings", path: "/settings" },
   ];
 
