@@ -86,9 +86,7 @@
 .social-btn:hover {
   background: rgba(43,108,99,0.2);
 }
-.google-btn { left: 704px; top: 693px; }
-.facebook-btn { left: 845px; top: 693px; }
-.twitter-btn { left: 986px; top: 693px; }
+.google-btn { left: 845px; top: 693px; }
 .social-btn-img { 
   width: 24px; 
   height: 24px;
@@ -99,6 +97,6 @@
   font-size: 14px;
   color: #2B4D4A;
 }
-.create-account { position: absolute; left: 775px; top: 761px; height: 20px; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+.create-account { position: absolute; left: 775px; top: 750px; height: 20px; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
 .create-account-text { font-size: 17px; line-height: 19px; color: #000; }
 .create-account-link { font-size: 17px; line-height: 19px; color: #2B4D4A; text-decoration: underline; }
