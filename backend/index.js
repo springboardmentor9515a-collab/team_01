@@ -13,6 +13,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use('/civix/auth', require('./routes/auth'));//For Authentication
+app.use('/api/auth', require('./routes/googleAuth'));//For Google OAuth
 app.use('/civix/complaints', require('./routes/complaint_route/createComplaint'));//For Creating Complaints
 app.use('/civix/complaints/my-complaints', require('./routes/complaint_route/getMyComplaints'));//For Citizens to View Own Complaints
 app.use('/civix/upload', require('./routes/upload'));//For File Uploads
