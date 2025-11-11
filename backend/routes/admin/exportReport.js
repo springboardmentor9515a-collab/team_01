@@ -21,9 +21,20 @@ router.get('/', adminAuth, async (req, res) => {
     
     if (format === 'csv') {
       const csvHeader = 'ID,Title,Category,Status,Location,Created By,Assigned To,Created Date,Response\n';
-      const csvData = complaints.map(c => 
-        `${c.complaint_id},"${c.title}",${c.category},${c.status},"${c.location}","${c.created_by?.name || 'N/A'}","${c.assigned_to?.name || 'Unassigned'}",${c.createdAt.toISOString().split('T')[0]},"${c.official_response || 'No response'}"`
-      ).join('\n');
+      const csvData = complaints.map(c => {
+        const escapeCSV = (str) => str ? `"${str.replace(/"/g, '""')}"` : '"N/A"';
+        return [
+          c.complaint_id,
+          escapeCSV(c.title),
+          c.category,
+          c.status,
+          escapeCSV(c.location),
+          escapeCSV(c.created_by?.name || 'N/A'),
+          escapeCSV(c.assigned_to?.name || 'Unassigned'),
+          c.createdAt.toISOString().split('T')[0],
+          escapeCSV(c.official_response || 'No response')
+        ].join(',');
+      }).join('\n');
       
       res.setHeader('Content-Type', 'text/csv');
       res.setHeader('Content-Disposition', `attachment; filename="complaints_${targetYear}_${targetMonth + 1}.csv"`);

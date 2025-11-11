@@ -25,30 +25,26 @@ const CitizenDashboard = () => {
   const [totalPetitions, setTotalPetitions] = useState(0);
   const [error, setError] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
+  const [expandedResponses, setExpandedResponses] = useState(new Set());
   const navigate = useNavigate();
 
   const categories = [
     "All Categories",
-    "Infrastructure", 
-    "Sanitation", 
-    "Water Supply", 
-    "Electricity", 
-    "Roads", 
-    "Public Safety", 
-    "Education", 
-    "Healthcare", 
-    "Environment", 
-    "Transportation", 
-    "Safety", 
-    "Other"
+    "Infrastructure",
+    "Sanitation",
+    "Water Supply",
+    "Electricity",
+    "Roads",
+    "Public Safety",
+    "Education",
+    "Healthcare",
+    "Environment",
+    "Transportation",
+    "Safety",
+    "Other",
   ];
 
-  const statusOptions = [
-    "All Status",
-    "Received",
-    "In Review", 
-    "Resolved"
-  ];
+  const statusOptions = ["All Status", "Received", "In Review", "Resolved"];
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -69,29 +65,28 @@ const CitizenDashboard = () => {
 
   // Refetch when filters change
   useEffect(() => {
-    if (userName !== "Citizen") { // Only fetch if user is loaded
+    if (userName !== "Citizen") {
+      // Only fetch if user is loaded
       fetchMyPetitions();
     }
   }, [selectedCategory, selectedStatus]);
-
-
 
   const fetchMyPetitions = async () => {
     setLoading(true);
     setError(null);
     try {
       const params = { page: 1, limit: 20 };
-      
+
       // Add category filter if not "All Categories"
       if (selectedCategory !== "All Categories") {
-        params.category = selectedCategory.toLowerCase().replace(/ /g, '_');
+        params.category = selectedCategory.toLowerCase().replace(/ /g, "_");
       }
-      
+
       // Add status filter if not "All Status"
       if (selectedStatus !== "All Status") {
-        params.status = selectedStatus.toLowerCase().replace(/ /g, '_');
+        params.status = selectedStatus.toLowerCase().replace(/ /g, "_");
       }
-      
+
       const resp = await getMyComplaints(params);
       const complaints = resp && resp.complaints ? resp.complaints : [];
       const pagination = resp && resp.pagination ? resp.pagination : null;
@@ -120,7 +115,18 @@ const CitizenDashboard = () => {
     setSelectedStatus("All Status");
   };
 
-  const hasActiveFilters = selectedCategory !== "All Categories" || selectedStatus !== "All Status";
+  const hasActiveFilters =
+    selectedCategory !== "All Categories" || selectedStatus !== "All Status";
+
+  const toggleResponse = (petitionId) => {
+    const newExpanded = new Set(expandedResponses);
+    if (newExpanded.has(petitionId)) {
+      newExpanded.delete(petitionId);
+    } else {
+      newExpanded.add(petitionId);
+    }
+    setExpandedResponses(newExpanded);
+  };
 
   return (
     <Layout userType="citizen">
@@ -182,9 +188,7 @@ const CitizenDashboard = () => {
         <div className="citizen-active-petitions">
           <div className="citizen-active-petitions-header">
             <div>
-              <h2 className="active-petitions-title">
-                My Complaints
-              </h2>
+              <h2 className="active-petitions-title">My Complaints</h2>
             </div>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
               <Button
@@ -194,14 +198,20 @@ const CitizenDashboard = () => {
               >
                 Refresh
               </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className={`filter-btn ${showFilters ? 'active' : ''}`}
+              <Button
+                variant="outline"
+                size="sm"
+                className={`filter-btn ${showFilters ? "active" : ""}`}
                 onClick={() => setShowFilters(!showFilters)}
               >
                 <Filter className="filter-icon" />
-                Filters {hasActiveFilters && `(${(selectedCategory !== "All Categories" ? 1 : 0) + (selectedStatus !== "All Status" ? 1 : 0)})`} {showFilters ? '▲' : '▼'}
+                Filters{" "}
+                {hasActiveFilters &&
+                  `(${
+                    (selectedCategory !== "All Categories" ? 1 : 0) +
+                    (selectedStatus !== "All Status" ? 1 : 0)
+                  })`}{" "}
+                {showFilters ? "▲" : "▼"}
               </Button>
             </div>
           </div>
@@ -225,15 +235,34 @@ const CitizenDashboard = () => {
 
           {/* Status Filter - Show when filters are toggled */}
           {showFilters && (
-            <div className="citizen-status-filter" style={{ marginTop: '1rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                <h4 style={{ color: '#374151', fontSize: '0.9rem', fontWeight: '600', margin: 0 }}>Filter by Status:</h4>
+            <div
+              className="citizen-status-filter"
+              style={{ marginTop: "1rem" }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "0.5rem",
+                }}
+              >
+                <h4
+                  style={{
+                    color: "#374151",
+                    fontSize: "0.9rem",
+                    fontWeight: "600",
+                    margin: 0,
+                  }}
+                >
+                  Filter by Status:
+                </h4>
                 {hasActiveFilters && (
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={clearFilters}
-                    style={{ fontSize: '0.8rem', padding: '0.25rem 0.5rem' }}
+                    style={{ fontSize: "0.8rem", padding: "0.25rem 0.5rem" }}
                   >
                     Clear Filters
                   </Button>
@@ -292,22 +321,45 @@ const CitizenDashboard = () => {
                     <p className="petition-desc">{petition.description}</p>
                     <div className="petition-meta">
                       <span className="meta-item">
-                        Category: {petition.category?.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                        Category:{" "}
+                        {petition.category
+                          ?.replace(/_/g, " ")
+                          .replace(/\b\w/g, (l) => l.toUpperCase())}
                       </span>
                       <span className="meta-item">📍 {petition.location}</span>
                       <span className="meta-item">
-                        Status: <Badge 
-                          variant="outline" 
+                        Status:{" "}
+                        <Badge
+                          variant="outline"
                           className={`status-badge status-${petition.status}`}
                         >
-                          {petition.status?.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                          {petition.status
+                            ?.replace(/_/g, " ")
+                            .replace(/\b\w/g, (l) => l.toUpperCase())}
                         </Badge>
                       </span>
                       <span className="meta-item">
-                        Assigned To: {petition.assigned_to?.name || "Unassigned"}
+                        Assigned To:{" "}
+                        {petition.assigned_to?.name || "Unassigned"}
                       </span>
+                      {petition.official_response && (
+                        <div className="official-response-section">
+                          <button
+                            className="response-toggle-btn"
+                            onClick={() => toggleResponse(petition._id)}
+                          >
+                            📋 Official Response {expandedResponses.has(petition._id) ? '▲' : '▼'}
+                          </button>
+                          {expandedResponses.has(petition._id) && (
+                            <div className="official-response">
+                              <div className="response-content">
+                                {petition.official_response}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -320,15 +372,28 @@ const CitizenDashboard = () => {
           <h3 className="community-insights-title">My Impact</h3>
           <div className="community-insights-grid">
             <div className="insight-item">
-              <div className="insight-value insight-value-primary">{totalPetitions}</div>
+              <div className="insight-value insight-value-primary">
+                {totalPetitions}
+              </div>
               <div className="insight-label">Total Complaints Submitted</div>
             </div>
             <div className="insight-item">
-              <div className="insight-value insight-value-success">{petitions.filter(p => p.status === 'resolved').length}</div>
+              <div className="insight-value insight-value-success">
+                {petitions.filter((p) => p.status === "resolved").length}
+              </div>
               <div className="insight-label">Complaints Resolved</div>
             </div>
             <div className="insight-item">
-              <div className="insight-value insight-value-teal">{totalPetitions > 0 ? Math.round((petitions.filter(p => p.status === 'resolved').length / totalPetitions) * 100) : 0}%</div>
+              <div className="insight-value insight-value-teal">
+                {totalPetitions > 0
+                  ? Math.round(
+                      (petitions.filter((p) => p.status === "resolved").length /
+                        totalPetitions) *
+                        100
+                    )
+                  : 0}
+                %
+              </div>
               <div className="insight-label">Success Rate</div>
             </div>
           </div>

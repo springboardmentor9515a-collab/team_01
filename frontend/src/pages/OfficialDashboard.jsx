@@ -6,8 +6,13 @@ import Layout from "../components/Layout";
 import StatCard from "../components/StatCard";
 import ComplaintModal from "../components/ComplaintModal";
 import AssignComplaintModal from "../components/AssignComplaintModal";
+import ResponseModal from "../components/ResponseModal";
 import { Button } from "../components/ui/button";
-import { getAllComplaints, assignComplaint } from "../services/api";
+import {
+  getAllComplaints,
+  assignComplaint,
+  respondToComplaint,
+} from "../services/api";
 import {
   FileText,
   CheckCircle2,
@@ -18,6 +23,7 @@ import {
   Calendar,
   Building2,
   Eye,
+  MessageSquare,
 } from "lucide-react";
 
 const OfficialDashboard = () => {
@@ -27,6 +33,7 @@ const OfficialDashboard = () => {
   const [selectedComplaint, setSelectedComplaint] = useState(null);
   const [showComplaintModal, setShowComplaintModal] = useState(false);
   const [showAssignModal, setShowAssignModal] = useState(false);
+  const [showResponseModal, setShowResponseModal] = useState(false);
   const [filters, setFilters] = useState({
     status: "",
     category: "",
@@ -103,6 +110,21 @@ const OfficialDashboard = () => {
   const handleAssignClick = (complaint) => {
     setSelectedComplaint(complaint);
     setShowAssignModal(true);
+  };
+
+  const handleAddResponse = (complaint) => {
+    setSelectedComplaint(complaint);
+    setShowResponseModal(true);
+  };
+
+  const handleSubmitResponse = async (complaintId, response) => {
+    try {
+      await respondToComplaint(complaintId, response);
+      await fetchComplaints();
+      setShowResponseModal(false);
+    } catch (error) {
+      console.error("Error submitting response:", error);
+    }
   };
 
   const handleLogout = () => {
@@ -262,16 +284,6 @@ const OfficialDashboard = () => {
                     All
                   </button>
                   <button
-                    onClick={() => handleFilterChange("status", "pending")}
-                    className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.status === "pending"
-                        ? "bg-yellow-500 text-white border-yellow-500"
-                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-                    }`}
-                  >
-                    Pending
-                  </button>
-                  <button
                     onClick={() => handleFilterChange("status", "in_review")}
                     className={`px-3 py-1 text-xs rounded-full border ${
                       filters.status === "in_review"
@@ -290,16 +302,6 @@ const OfficialDashboard = () => {
                     }`}
                   >
                     Resolved
-                  </button>
-                  <button
-                    onClick={() => handleFilterChange("status", "rejected")}
-                    className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.status === "rejected"
-                        ? "bg-red-500 text-white border-red-500"
-                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-                    }`}
-                  >
-                    Rejected
                   </button>
                 </div>
 
@@ -376,6 +378,30 @@ const OfficialDashboard = () => {
                     Other
                   </button>
                 </div>
+
+                <div className="flex flex-wrap gap-2 items-center">
+                  <span className="text-xs font-medium text-gray-600">
+                    Location:
+                  </span>
+                  <button
+                    onClick={() => handleFilterChange("location", "")}
+                    className={`px-3 py-1 text-xs rounded-full border ${
+                      filters.location === ""
+                        ? "bg-blue-500 text-white border-blue-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    All Locations
+                  </button>
+                  <input
+                    type="text"
+                    placeholder="Search by location..."
+                    value={filters.location}
+                    onChange={(e) => handleFilterChange("location", e.target.value)}
+                    className="px-3 py-1 text-xs border border-gray-300 rounded-full focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                    style={{ minWidth: "150px" }}
+                  />
+                </div>
               </div>
               {loading ? (
                 <div className="empty-state">
@@ -408,6 +434,23 @@ const OfficialDashboard = () => {
                             Status:{" "}
                             {complaint.status?.replace("_", " ").toUpperCase()}
                           </p>
+                          {complaint.official_response && (
+                            <p className="text-xs text-green-600 mt-1 font-medium">
+                              ✓ Response Added
+                            </p>
+                          )}
+                          {complaint.assigned_to && (
+                            <p className="text-xs text-blue-600 mt-1">
+                              Assigned to: {complaint.assigned_to.name}
+                            </p>
+                          )}
+                          {complaint.status_history &&
+                            complaint.status_history.length > 0 && (
+                              <p className="text-xs text-purple-600 mt-1">
+                                Progress Updates:{" "}
+                                {complaint.status_history.length}
+                              </p>
+                            )}
                         </div>
                         <div className="flex gap-2">
                           <Button
@@ -416,6 +459,14 @@ const OfficialDashboard = () => {
                             onClick={() => handleViewComplaint(complaint)}
                           >
                             <Eye className="h-3 w-3" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleAddResponse(complaint)}
+                            className="bg-green-50 hover:bg-green-100 text-green-700 border-green-200"
+                          >
+                            <MessageSquare className="h-3 w-3" />
                           </Button>
                           {!complaint.assigned_to && (
                             <Button
@@ -469,19 +520,19 @@ const OfficialDashboard = () => {
                     <div className="department-stats">
                       <div className="department-stat">
                         <div className="stat-label">Pending</div>
-                        <div className="stat-value stat-value-pending">
+                        <div className="stat-value1 stat-value-pending">
                           {dept.pending}
                         </div>
                       </div>
                       <div className="department-stat">
                         <div className="stat-label">Approved</div>
-                        <div className="stat-value stat-value-approved">
+                        <div className="stat-value1 stat-value-approved">
                           {dept.approved}
                         </div>
                       </div>
                       <div className="department-stat">
                         <div className="stat-label">Avg Time</div>
-                        <div className="stat-value">{dept.avgTime}</div>
+                        <div className="stat-value1">{dept.avgTime}</div>
                       </div>
                     </div>
                   </div>
@@ -540,6 +591,13 @@ const OfficialDashboard = () => {
           isOpen={showAssignModal}
           onClose={() => setShowAssignModal(false)}
           onAssign={handleAssignComplaint}
+        />
+
+        <ResponseModal
+          complaint={selectedComplaint}
+          isOpen={showResponseModal}
+          onClose={() => setShowResponseModal(false)}
+          onSubmit={handleSubmitResponse}
         />
       </div>
     </Layout>

@@ -144,13 +144,15 @@ const VolunteerDashboard = () => {
               efficiently.
             </p>
           </div>
-          <Button
-            variant="outline"
-            className="logout-btn"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
+          <div className="header-buttons">
+            <Button
+              variant="outline"
+              className="logout-btn"
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          </div>
         </div>
 
         {/* Stats Grid */}
@@ -280,16 +282,6 @@ const VolunteerDashboard = () => {
                     }`}
                   >
                     Resolved
-                  </button>
-                  <button
-                    onClick={() => handleFilterChange("status", "rejected")}
-                    className={`px-3 py-1 text-xs rounded-full border ${
-                      filters.status === "rejected"
-                        ? "bg-red-500 text-white border-red-500"
-                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-                    }`}
-                  >
-                    Rejected
                   </button>
                 </div>
 

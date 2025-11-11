@@ -5,6 +5,7 @@ import "./index.css"; // <-- make sure this is here
 import civixLogo from "./assets/Civix Technology Consultancy Logo.png";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 // Set favicon to CIVIX logo
 (() => {
@@ -24,10 +25,12 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </BrowserRouter>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+      <BrowserRouter>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </BrowserRouter>
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );
