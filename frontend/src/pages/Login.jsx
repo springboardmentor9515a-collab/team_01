@@ -2,10 +2,9 @@ import { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { loginUser } from '../services/api.js';
+import { GoogleLogin } from '@react-oauth/google';
 import communityImg from "../assets/community2-removebg-preview.png";
-import twitterIcon from "../assets/twitter.svg";
 import googleIcon from "../assets/google.svg";
-import facebookIcon from "../assets/facebook.svg";
 import eyeOpenIcon from "../assets/eye-open.svg";
 import eyeClosedIcon from "../assets/eye-closed.svg";
 import mailIcon from "../assets/mail.svg";
@@ -50,6 +49,42 @@ export default function Login() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      setLoading(true);
+      setMessage('Logging in with Google...');
+      
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/google`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          googleToken: credentialResponse.credential
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success && data.token) {
+        login(data.user, data.token);
+        setMessage('Google login successful!');
+        setTimeout(() => navigate('/dashboard'), 1000);
+      } else {
+        setMessage(data.message || 'Google login failed');
+      }
+    } catch (error) {
+      setMessage('Google login failed');
+      console.error('Google login error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setMessage('Google login failed');
   };
 
   return (
@@ -222,29 +257,24 @@ export default function Login() {
         type="button"
         className="social-btn google-btn"
         aria-label="Continue with Google"
-        onClick={() => alert('Continue with Google')}
+        onClick={() => {
+          const googleLoginDiv = document.querySelector('.hidden-google-login');
+          if (googleLoginDiv) {
+            googleLoginDiv.querySelector('div[role="button"]')?.click();
+          }
+        }}
       >
         <img src={googleIcon} alt="Google" className="social-btn-img" />
         <span className="social-btn-text">Google</span>
       </button>
-      <button
-        type="button"
-        className="social-btn facebook-btn"
-        aria-label="Continue with Facebook"
-        onClick={() => alert('Continue with Facebook')}
-      >
-        <img src={facebookIcon} alt="Facebook" className="social-btn-img" />
-        <span className="social-btn-text">Facebook</span>
-      </button>
-      <button
-        type="button"
-        className="social-btn twitter-btn"
-        aria-label="Continue with Twitter"
-        onClick={() => alert('Continue with Twitter')}
-      >
-        <img src={twitterIcon} alt="Twitter" className="social-btn-img" />
-        <span className="social-btn-text">Twitter</span>
-      </button>
+      
+      <div className="hidden-google-login" style={{ display: 'none' }}>
+        <GoogleLogin
+          onSuccess={handleGoogleSuccess}
+          onError={handleGoogleError}
+        />
+      </div>
+
 
       {/* Create account */}
       <div
