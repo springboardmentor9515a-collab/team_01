@@ -260,9 +260,7 @@
 .signup-social-btn:hover {
   background: rgba(43,108,99,0.2);
 }
-.signup-social-google { left: 50px; }
-.signup-social-facebook { left: 190px; }
-.signup-social-twitter { left: 330px; }
+.signup-social-google { left: 170px; }
 .signup-social-img {
   width: 24px;
   height: 24px;
@@ -292,4 +290,12 @@
   font-weight: bold;
   cursor: pointer;
   text-decoration: underline;
+}
+
+/* Hidden Google signup */
+.hidden-google-signup {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }

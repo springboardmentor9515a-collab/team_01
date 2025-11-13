@@ -14,8 +14,16 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: function() { return !this.googleId; },
     maxlength: 255
+  },
+  googleId: {
+    type: String,
+    default: null
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
   },
   role: {
     type: String,
@@ -25,7 +33,7 @@ const userSchema = new mongoose.Schema({
   location: {
     type: String,
     maxlength: 100,
-    required:true
+    default: ''
   },
   verifiedLocation: {
     latitude: {
