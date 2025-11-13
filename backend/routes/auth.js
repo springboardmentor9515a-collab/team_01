@@ -7,6 +7,7 @@ router.use('/login', require('./login'));
 router.use('/logout', require('./logout'));
 router.use('/me', require('./me'));
 router.use('/delete', require('./deleteUser'));
+router.use('/', require('./checkUser'));
 router.use('/', require('./locationVerification'));
 router.use('/', require('./passwordReset'));
 

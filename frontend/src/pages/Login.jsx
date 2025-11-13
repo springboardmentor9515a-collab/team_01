@@ -72,6 +72,9 @@ export default function Login() {
         login(data.user, data.token);
         setMessage('Google login successful!');
         setTimeout(() => navigate('/dashboard'), 1000);
+      } else if (data.needsSignup) {
+        setMessage('Account not found. Please sign up first.');
+        setTimeout(() => navigate('/signup'), 2000);
       } else {
         setMessage(data.message || 'Google login failed');
       }

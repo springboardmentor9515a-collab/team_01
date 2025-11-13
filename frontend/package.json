@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.12.2",
     "axios": "^1.12.2",
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
@@ -17,7 +18,7 @@
     "react-dom": "^19.1.1",
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.9.3",
-    "recharts": "^3.3.0",
+    "recharts": "^3.4.1",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {

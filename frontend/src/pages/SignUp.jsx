@@ -1,6 +1,8 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { signupUser, isValidRole } from '../services/api.js';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import { useAuth } from '../context/AuthContext.jsx';
 import civixLogo from '../assets/civix-logo.png';
 import communityImg from '../assets/community.png';
 import mailIcon from '../assets/mail.svg';
@@ -8,8 +10,6 @@ import userIcon from '../assets/user.svg';
 import eyeOpenIcon from '../assets/eye-open.svg';
 import eyeClosedIcon from '../assets/eye-closed.svg';
 import googleIcon from '../assets/google.svg';
-import facebookIcon from '../assets/facebook.svg';
-import twitterIcon from '../assets/twitter.svg';
 import locationIcon from '../assets/location.svg';
 import './SignUp.css'; // <-- Import the CSS file
 
@@ -28,9 +28,21 @@ export default function SignUp() {
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
   const passwordInputRef = useRef(null);
   const confirmPasswordInputRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
 
   const togglePasswordVisibility = () => setIsPasswordVisible(v => !v);
   const toggleConfirmPasswordVisibility = () => setIsConfirmPasswordVisible(v => !v);
+
+  // Pre-fill form with Google data if available
+  useEffect(() => {
+    if (location.state?.googleData) {
+      const { name, email } = location.state.googleData;
+      setFormData(prev => ({ ...prev, name, email }));
+      setMessage('Complete your signup with the information from Google');
+    }
+  }, [location.state]);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -54,16 +66,41 @@ export default function SignUp() {
 
     setLoading(true);
     try {
-      // Build payload matching backend expected shape (include optional fields)
-      const payload = {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-      };
-      if (formData.location) payload.location = formData.location;
-      if (formData.role) payload.role = formData.role;
+      let data;
+      
+      // Check if this is a Google OAuth signup
+      if (location.state?.googleData) {
+        // Google OAuth signup
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/google`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            googleToken: location.state.googleData.token,
+            role: formData.role,
+            location: formData.location,
+            password: formData.password
+          })
+        });
+        data = await response.json();
+        
+        if (data.success && data.token) {
+          login(data.user, data.token);
+          setMessage('Account created successfully!');
+          setTimeout(() => navigate('/dashboard'), 1000);
+          return;
+        }
+      } else {
+        // Regular email signup
+        const payload = {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        };
+        if (formData.location) payload.location = formData.location;
+        if (formData.role) payload.role = formData.role;
 
-      const data = await signupUser(payload);
+        data = await signupUser(payload);
+      }
       if (data && (data.message || data.user)) {
         setMessage(data.message || 'Account created successfully!');
         setFormData({ name: '', email: '', password: '', confirmPassword: '', location: '', role: '' });
@@ -81,6 +118,52 @@ export default function SignUp() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      setLoading(true);
+      setMessage('Processing Google authentication...');
+      
+      // Try to login first
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/google`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ googleToken: credentialResponse.credential })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success && data.token) {
+        // User exists, login successful
+        login(data.user, data.token);
+        setMessage('Login successful!');
+        setTimeout(() => navigate('/dashboard'), 1000);
+      } else if (data.needsProfile || data.needsSignup) {
+        // New user, navigate to signup with Google data
+        const decoded = JSON.parse(atob(credentialResponse.credential.split('.')[1]));
+        navigate('/signup', { 
+          state: { 
+            googleData: {
+              token: credentialResponse.credential,
+              name: decoded.name,
+              email: decoded.email
+            }
+          }
+        });
+      } else {
+        setMessage(data.error || 'Google authentication failed');
+      }
+    } catch (error) {
+      setMessage('Google authentication failed');
+      console.error('Google auth error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setMessage('Google signup failed');
   };
 
   return (
@@ -189,20 +272,22 @@ export default function SignUp() {
 
         {/* Social Icons */}
         <button className="signup-social-btn signup-social-google"
-          onClick={() => alert('Continue with Google')}>
+          onClick={() => {
+            const googleLoginDiv = document.querySelector('.hidden-google-signup');
+            if (googleLoginDiv) {
+              googleLoginDiv.querySelector('div[role="button"]')?.click();
+            }
+          }}>
           <img src={googleIcon} alt="Google" className="signup-social-img" />
           <span className="signup-social-text">Google</span>
         </button>
-        <button className="signup-social-btn signup-social-facebook"
-          onClick={() => alert('Continue with Facebook')}>
-          <img src={facebookIcon} alt="Facebook" className="signup-social-img" />
-          <span className="signup-social-text">Facebook</span>
-        </button>
-        <button className="signup-social-btn signup-social-twitter"
-          onClick={() => alert('Continue with Twitter')}>
-          <img src={twitterIcon} alt="Twitter" className="signup-social-img" />
-          <span className="signup-social-text">Twitter</span>
-        </button>
+        
+        <div className="hidden-google-signup" style={{ display: 'none' }}>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+          />
+        </div>
       </div>
 
       {/* Already have account */}

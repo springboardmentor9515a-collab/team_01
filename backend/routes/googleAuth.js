@@ -1,11 +1,12 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const router = express.Router();
 
 router.post('/google', async (req, res) => {
   try {
-    const { googleToken } = req.body;
+    const { googleToken, role, location, password } = req.body;
     
     // Decode Google JWT token
     const decoded = JSON.parse(Buffer.from(googleToken.split('.')[1], 'base64').toString());
@@ -14,14 +15,28 @@ router.post('/google', async (req, res) => {
     let user = await User.findOne({ email: decoded.email });
     
     if (!user) {
-      // Create new user with default citizen role
-      user = new User({
+      if (!role || !password) {
+        // New user without role/password, return message to show form
+        return res.json({ 
+          success: false, 
+          message: 'Account not found. Please sign up first.', 
+          needsSignup: true 
+        });
+      }
+      // Create new user with provided role
+      const userData = {
         name: decoded.name,
         email: decoded.email,
-        role: 'citizen',
+        role: role,
+        location: location || '',
         isVerified: true,
         googleId: decoded.sub
-      });
+      };
+      
+      // Hash password
+      userData.password = await bcrypt.hash(password, 10);
+      
+      user = new User(userData);
       await user.save();
     }
     
@@ -44,7 +59,12 @@ router.post('/google', async (req, res) => {
     });
   } catch (error) {
     console.error('Google auth error:', error);
-    res.status(500).json({ success: false, message: 'Google authentication failed' });
+    console.error('Error details:', error.message);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Google authentication failed',
+      error: error.message 
+    });
   }
 });
 

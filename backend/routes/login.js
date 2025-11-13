@@ -16,7 +16,12 @@ router.post('/', authLimiter, loginValidation, handleValidationErrors, async (re
       return res.status(400).json({ error: 'Invalid credentials' });
     }
     
-
+    // Check if user signed up with Google OAuth
+    if (user.googleId && !user.password) {
+      return res.status(400).json({ 
+        error: 'This account was created with Google. Please use Google Sign-In to login.' 
+      });
+    }
     
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
