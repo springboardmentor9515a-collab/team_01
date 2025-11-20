@@ -11,6 +11,7 @@ import {
   Home,
   QrCode,
   Vote,
+  Eye,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import civixLogo from "@/assets/civix-logo.png";
@@ -26,7 +27,8 @@ const Layout = ({ children, userType }) => {
   // Navigation items based on user type
   const citizenNavItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard/citizen" },
-    { icon: FileText, label: "Petitions", path: "/create-petition" },
+    { icon: FileText, label: "Create Petition", path: "/create-petition" },
+    { icon: Eye, label: "All Petitions", path: "/all-petitions" },
     { icon: Vote, label: "Polls", path: "/polls" },
     { icon: TrendingUp, label: "Reports", path: "/reports" },
   ];

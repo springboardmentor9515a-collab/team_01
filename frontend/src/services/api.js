@@ -138,6 +138,13 @@ export const getAllComplaints = async (params = {}) => {
   );
 };
 
+export const getAllPublicComplaints = async (params = {}) => {
+  const queryString = new URLSearchParams(params).toString();
+  return apiCallWithAuth(
+    `/civix/complaints/all${queryString ? "?" + queryString : ""}`
+  );
+};
+
 export const assignComplaint = async (complaintId, officialId) => {
   return apiCallWithAuth("/civix/admin/complaints/assign", {
     method: "PUT",

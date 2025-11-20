@@ -17,6 +17,7 @@ import PollDetail from "./pages/PollDetail.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
 import ReportDashboard from "./pages/Report.jsx";
 import OfficialReports from "./pages/OfficialReports.jsx";
+import AllPetitions from "./pages/AllPetitions.jsx";
 
 
 export default function App() {
@@ -122,7 +123,14 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+            path="/all-petitions"
+            element={
+              <ProtectedRoute>
+                <AllPetitions />
+              </ProtectedRoute>
+            }
+          />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
