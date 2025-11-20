@@ -1,0 +1,44 @@
+/* Prevent background text on AllPetitions page only */
+.citizen-page *::before,
+.citizen-page *::after {
+  content: none !important;
+  display: none !important;
+}
+
+.official-response-section {
+  margin-top: 0.75rem;
+}
+
+.response-toggle-btn {
+  background: none;
+  border: none;
+  color: #0ea5e9;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  text-decoration: underline;
+}
+
+.official-response {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 0.5rem;
+  border-left: 4px solid #0ea5e9;
+}
+
+.response-content {
+  font-size: 0.875rem;
+  color: #374151;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.citizen-status-filter {
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
